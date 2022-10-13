@@ -15,4 +15,10 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
+
+
+}
+.app {
+  max-width: 100vw;
+
 }

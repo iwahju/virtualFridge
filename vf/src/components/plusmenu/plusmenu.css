@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@500&display=swap');
+
+.plusmenu-outer-container {
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+.plusmenu-inner-container {
+    background-color: #474B3C;
+    border-radius: 10px;
+    width: 25%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid red;
+
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    
+}
+.form-title {
+    
+    width: 100%;
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    border: 1px solid red;
+}
+.form-title input {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    text-align: center;
+    width: 100%;
+}
+.form-quan-date input{
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    text-align: center;
+    width: 48%;
+    border: 1px solid red;
+    backdrop-filter: blur(0px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+
+}
+.form-quan-date {
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+    
+}
+

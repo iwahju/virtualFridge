@@ -1,3 +1,5 @@
+
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -7,7 +9,9 @@ const User = require('./models/user.model')
 app.use(cors());
 app.use(express.json());
 //123
-mongoose.connect("mongodb+srv://test:123@cluster0.rzqbkgt.mongodb.net/?retryWrites=true&w=majority");
+//mongoose.connect("mongodb+srv://test:123@cluster0.rzqbkgt.mongodb.net/?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://andrewg3:Sshdwrnd1@cluster0.sx6hgc8.mongodb.net/test");
+
 
 app.post("/api/register", async (req, res) => {
   console.log(req.body);

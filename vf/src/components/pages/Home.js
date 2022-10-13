@@ -1,5 +1,7 @@
 import "./home.css";
 import React from "react";
+import PlusButton from "../plusbutton/Plusbutton";
+import Demo from "../../demo/demo";
 
 function Home() {
   return (
@@ -7,18 +9,19 @@ function Home() {
       <div className="storagebox-container">
         <div className="storagebox">
           <div className="storagebox-title">
-            <p>My fridge</p>
+            My fridge
           </div>
           <div className="storagebox-content"></div>
         </div>
         <div className="storagebox">
           <div className="storagebox">
             <div className="storagebox-title">
-              <p>My Pantry</p>
+              My Pantry
             </div>
             <div className="storagebox-content"></div>
           </div>
         </div>
+        <PlusButton />
       </div>
     </div>
   );

@@ -1,32 +1,38 @@
-/* import foodbackground from './foodbackground.png'; */
-.home{
-    font-size: 1rem;
-    height: 100vh;
-    width: 100vw;
-    /* background-image: url(${foodbackground}); */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@500&display=swap");
+
+.home {
+  font-size: 1rem;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* background-image: url(${foodbackground}); */
 }
 
 .storagebox-container {
-    display:flex;
-    width: 100vw;
-    justify-content: center;
+  display: flex;
+  width: 100vw;
+  justify-content: center;
 }
-.storagebox{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-
+.storagebox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .storagebox-title {
-    background-color: grey;
-    padding: 1rem 2.5rem;
-    border-radius: 15px;
-
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  background-color: #d9d9d9;
+  padding: 1rem 7rem;
+  border-radius: 35px;
+  border: 1px solid greenyellow;
+  font-size: 22px;
 }
 .storagebox-content {
-    height: 30rem;
-    background-color: grey;
-    border-radius: 15px;
-    width: 25rem;
-    margin: 2.5rem;
+  border: greenyellow 1px solid;
+  height: 30rem;
+  background-color: #d9d9d9;
+  border-radius: 15px;
+  width: 25rem;
+  margin: 2.5rem;
+  max-width: 33vw;
 }

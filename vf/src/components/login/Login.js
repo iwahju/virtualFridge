@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../feature/userSlice";
 import "./Login.css";
 import Error from "../error/Error";
+import * as FaIcons from "react-icons/fa";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -13,6 +14,11 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
+  //add password validation
+  // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
+  // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+
+  
   const registerUser = async (data) => {
     const reponse = await fetch("http://localhost:1337/api/login", {
       method: "POST",
@@ -58,6 +64,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
+            icon={<FaIcons.FaBars/>}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

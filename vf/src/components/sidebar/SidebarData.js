@@ -6,6 +6,7 @@ import * as IoIcons from "react-icons/io"
 
 export const SidebarData = [
 {
+    
     title: 'Virutal Fridge!',
     path: '/',
     cName: 'nav-text'
