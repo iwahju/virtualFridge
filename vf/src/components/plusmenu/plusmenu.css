@@ -20,7 +20,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    border: 1px solid red;
 
 }
 .form {
@@ -38,7 +37,6 @@
     color: white;
     font-size: 1.5rem;
     margin-bottom: 10px;
-    border: 1px solid red;
 }
 .form-title input {
     font-family: 'Fira Sans Extra Condensed', sans-serif;
@@ -49,7 +47,6 @@
     font-family: 'Fira Sans Extra Condensed', sans-serif;
     text-align: center;
     width: 48%;
-    border: 1px solid red;
     backdrop-filter: blur(0px);
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
