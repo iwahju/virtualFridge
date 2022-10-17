@@ -60,7 +60,7 @@ export default function MenuAppBar() {
             <SwipeableDrawer
               sx={{
                 "& .MuiDrawer-paper":{
-                  backgroundColor:"green",
+                  backgroundColor:"#123D35",
                 }
               }}
               className="drawer"
@@ -88,7 +88,7 @@ export default function MenuAppBar() {
             </SwipeableDrawer>
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Photos
+            Virtual Fridge
           </Typography>
           {auth && (
             <div>

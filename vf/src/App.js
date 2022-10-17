@@ -31,6 +31,7 @@ function App() {
         updateFridge,
       }}
     >
+      <div className="background-image">
       <div className="app">
         {" "}
         {user || true ? (
@@ -46,6 +47,7 @@ function App() {
         ) : (
           <Login />
         )}
+      </div>
       </div>
     </FridgeProvider>
   );

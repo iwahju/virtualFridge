@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import "./plusmenu.css";
-import {fridgeContext} from "../../context"
+import { fridgeContext } from "../../context";
+import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Box from "@mui/material/Box";
 
 function Plusmenu() {
   const defaultformstate = {
@@ -10,8 +13,8 @@ function Plusmenu() {
     location: "fridge",
   };
   const [formstate, setFormstate] = useState(defaultformstate);
-  const context = useContext(fridgeContext)
-  console.log(context)
+  const context = useContext(fridgeContext);
+  console.log(context);
   const handleInputChange = (e) => {
     setFormstate({
       ...formstate,
@@ -19,8 +22,8 @@ function Plusmenu() {
     });
   };
   //location = fridge, pantry
-  const handleFridgeClick = (location,e) => {
-    e.preventDefault()
+  const handleFridgeClick = (location, e) => {
+    e.preventDefault();
     setFormstate({
       ...formstate,
       location,
@@ -66,12 +69,35 @@ function Plusmenu() {
               />
             </div>
             <div>
-              <button onClick={(e) => handleFridgeClick("fridge",e)}>
-                Fridge
-              </button>
-              <button onClick={(e) => handleFridgeClick("pantry",e)}>
-                Pantry
-              </button>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  "& > *": {
+                    m: 1,
+                  },
+                }}
+              >
+                <ButtonGroup
+                  variant="outlined"
+                  aria-label="outlined button group"
+                >
+                  <Button
+                    sx={{
+                      "& .MuiDrawer-paper": {
+                        backgroundColor: "#123D35",
+                      },
+                    }}
+                    onClick={(e) => handleFridgeClick("fridge", e)}
+                  >
+                    Fridge
+                  </Button>
+                  <Button onClick={(e) => handleFridgeClick("pantry", e)}>
+                    Pantry
+                  </Button>
+                </ButtonGroup>
+              </Box>
             </div>
             <button type="submit">Add</button>
           </form>
