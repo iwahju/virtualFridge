@@ -11,6 +11,7 @@ import Login from "./components/login/Login";
 import Logout from "./components/logout/Logout";
 // import Userbutton from "./components/userbutton/Userbutton";
 import { FridgeProvider } from "./context";
+import GroceryList from "./components/pages/GroceryList";
 
 function App() {
   const [fridgestate, setfridgestate] = useState({
@@ -40,6 +41,7 @@ function App() {
             <Routes>
               <Route path="/" exact element={<Home />} />
               <Route path="/myrecipe" element={<MyRecipe />} />
+              <Route path="/grocerylist" element={<GroceryList />} />
               {/* <Route path='/myrecipe' components = {MyRecipe}/>
         <Route path='/myrecipe' components = {MyRecipe}/> */}
             </Routes>

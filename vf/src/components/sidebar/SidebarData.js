@@ -24,8 +24,8 @@ export const SidebarData = [
     cName: 'nav-text'
 },
 {
-    title: 'View Grocery List',
-    path: '/viewlist',
+    title: 'Grocery List',
+    path: '/grocerylist',
     // icon: <IoIcons.IoIosPaper/>,
     cName: 'nav-text'
 },
