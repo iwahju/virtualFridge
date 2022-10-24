@@ -11,7 +11,7 @@ function GroceryList() {
         <div className="storagebox-title">
           Grocery List
           </div>
-        <div className="storagebox-content">
+        <div className="grocerylist-content">
             <GroceryListButton />
         </div>
         </div>

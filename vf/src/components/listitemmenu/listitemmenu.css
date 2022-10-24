@@ -1,6 +1,6 @@
 
 .listitemmenu-outer-container {
-    position:fixed;
+    position: fixed;
     top: 0px;
     left: 150px;
     width: 80vw;
@@ -28,7 +28,7 @@
 .submit-button {
     background-color: rgb(147, 180, 147);
     position: relative;
-    top: 55%;
+    top: 50%;
     font-size: 20px;
     align-items: flex-end;
     justify-content: center;
@@ -42,6 +42,7 @@
     position: relative;
     width: 200%;
     top: 10%;
+    left: 20%;
     border: none;
     display: flex;
     
@@ -78,7 +79,8 @@
 .quantity-container {
     position: relative;
     width: 200%;
-    top: 35%;
+    top: 20%;
+    left: 20%;
     border: none;
     display: flex;
 }
