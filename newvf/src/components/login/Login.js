@@ -18,7 +18,6 @@ const Login = () => {
   // const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
   // const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
-  
   const registerUser = async (data) => {
     const reponse = await fetch("http://localhost:1337/api/login", {
       method: "POST",
@@ -64,7 +63,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
-            icon={<FaIcons.FaBars/>}
+            icon={<FaIcons.FaBars />}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />

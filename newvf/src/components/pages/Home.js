@@ -11,7 +11,9 @@ function Home() {
           <div className="storagebox-title">
             My fridge
           </div>
-          <div className="storagebox-content"></div>
+          <div className="storagebox-content">
+            
+          </div>
         </div>
         <div className="storagebox">
           <div className="storagebox">

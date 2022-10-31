@@ -26,6 +26,7 @@
   padding: 1rem 7rem;
   border-radius: 35px;
   border: 1px solid greenyellow;
+  box-shadow: 5px 10px #123d35;
   font-size: 22px;
 }
 .storagebox-content {
@@ -36,4 +37,5 @@
   width: 25rem;
   margin: 2.5rem;
   max-width: 33vw;
+  box-shadow: 10px 10px #123d35;
 }
