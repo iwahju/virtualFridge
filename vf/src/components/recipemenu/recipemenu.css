@@ -1,0 +1,204 @@
+
+.recipemenu-outer-container {
+    position:fixed;
+    top: 0px;
+    left: 150px;
+    width: 70vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    
+    
+}
+
+.recipemenu-inner-container {
+    background-color: #eaf4ea;
+    border-radius: 10px;
+    width: 200%;
+    height: 75%;
+    padding: 10px;
+    display: flex;
+    align-items: initial;
+    flex-direction: column;
+    color: rgb(24, 71, 24);
+    font-size: 30px;
+   
+    
+   
+
+}
+
+.create-recipe {
+    position: relative;
+    margin: auto;
+    
+}
+
+.recipe-info{
+   position: relative;
+   display:inline;
+   background-color: #c1d6c1;
+   margin-right: 700px;
+   margin-left: -10px;
+   border-radius: 10px;
+   height: 75vh;
+   width: 30vw;
+   top: -10px;
+   box-shadow: 0 0 20px rgb(39, 37, 37);
+    
+}
+
+.submit-button {
+    background-color: rgb(124, 192, 124);
+    position: fixed;
+    top: 80%;
+    font-size: 20px;
+    align-items: baseline;
+    justify-content: center;
+    border: none;
+    height: 2.5rem;
+    width: 10%;
+    border-radius: 25px;
+}
+
+.recipename-container {
+    position: relative;
+    width: 80%;
+    border: none;
+    display:inline;
+    
+   
+    
+}
+
+.text-container {
+    background-color: transparent ;
+    position: relative;
+    font-size: 15px;
+    text-align:left;
+    top: 5%;
+    width: 30%;
+    border-radius: 15px;
+    padding: 5px;
+    margin-left: 40px;
+    
+}
+
+.form-recipetitle {
+    color: transparent;
+    position: relative;
+    width: 200%;
+    top: 5%;
+    border: none;
+    display: flex;
+    margin-left: 40px;
+
+}
+    
+.form-recipetitle input {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    text-align: center;
+    width: 50%;
+    font-size: 15px;
+}
+
+.time-container {
+    position: relative;
+    width: 80%;
+    top: 5%;
+    border: none;
+    display: inline;
+   
+
+}
+
+.form-time {
+    color: white;
+    position: relative;
+    width: 200%;
+    top: 5%;
+    border: none;
+    display: flex;
+    font-size: 10px;
+    text-align: center;
+    margin-left: 40px;
+}
+
+.difficulty {
+    position: relative;
+    width: 80%;
+    top: 10%;
+    border: none;
+    display: inline;
+    
+}
+
+
+.rating {
+    color: white;
+    position: relative;
+    width: 200%;
+    top: 7%;
+    border: none;
+    display: flex;
+    margin-left: 40px;
+}
+
+.tags {
+    position: relative;
+    width: 80%;
+    top: 20%;
+    border: none;
+    display: inline;
+}
+
+.check-box {
+    position: relative;
+    margin-left: 40px;
+    display: flex;
+    top: 7%;
+    
+
+}
+.spice {
+    position:relative;
+    top: 15%;
+    width: 80%;
+    border: none;
+    display: inline;
+}
+.spice-rating {
+    position: relative;
+    top: 8%;
+    color: white;
+    width: 50%;
+    border: none;
+    display: flex;
+    margin-left: 30px;
+
+    
+}
+.ingredientsteps-container {
+    background-color: transparent;
+    display: inline;
+    top: 140px;
+    position: fixed;
+    margin-left: 475px;
+    
+}
+.ingredients-container {
+    margin-right: 40px;
+    display: inline;
+    position: relative;
+   
+
+   
+}
+
+.steps-container {
+    position: relative;
+    top: 15px;
+}
+
