@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import "./App.css";
 import MenuAppBar from "./components/appbar/Appbar";
 import Navbar from "./components/navbar/Navbar";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
+import { HashRouter as  NavLink } from "react-router-dom";
+import LoginForm from "./components/login/LoginForm";
+import SignupForm from "./components/login/SignupForm";
+import Toggle from "./components/login/Toggle";
 import Home from "./components/pages/Home";
 import MyRecipe from "./components/pages/MyRecipe";
 import { useSelector } from "react-redux";
 import { selectUser } from "./components/feature/userSlice";
-import Login from "./components/login/Login";
+
 import Logout from "./components/logout/Logout";
 // import Userbutton from "./components/userbutton/Userbutton";
 import { FridgeProvider } from "./context";
 
-function App() {
+function App() {  
   const [fridgestate, setfridgestate] = useState({
     items: [],
   });
@@ -25,27 +29,31 @@ function App() {
     });
   };
   return (
+    
+    
     <FridgeProvider
       value={{
         data: fridgestate,
         updateFridge,
       }}
     >
-      
       <div className="app">
         {" "}
-        {user || true ? (
+        {user || true ? ( 
           <Router>
-            <MenuAppBar />
+            <MenuAppBar/>
             <Routes>
-              <Route path="/" exact element={<Home />} />
+              <Route path="/" exact element={<LoginForm/>} />
+              <Route path="/sign-up" element={<SignupForm/>} />  
+              <Route path="/home"  element={<Home />} />
               <Route path="/myrecipe" element={<MyRecipe />} />
+              
               {/* <Route path='/myrecipe' components = {MyRecipe}/>
         <Route path='/myrecipe' components = {MyRecipe}/> */}
             </Routes>
           </Router>
         ) : (
-          <Login />
+          <LoginForm/>
         )}
       </div>
      

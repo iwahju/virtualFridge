@@ -8,7 +8,7 @@ export const SidebarData = [
 {
     
     title: 'Virutal Fridge!',
-    path: '/',
+    path: '/home',
     cName: 'nav-text'
 },
 {

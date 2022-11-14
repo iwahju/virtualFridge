@@ -13,14 +13,14 @@ import { green } from "@mui/material/colors";
 import { FaThLarge } from "react-icons/fa";
 import { CheckBox } from "@mui/icons-material";
 import Select from '@mui/material/Select';
-
+import Time from "./Time";
 
 const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
-      color: 'red',
+      color: 'white',
     },
     '& .MuiRating-iconHover': {
-      color: 'red',
+      color: 'white',
     },
   });
 
@@ -66,20 +66,15 @@ function Recipemenu() {
                 
             <div className="recipe-info">
                 <div className='recipename-container'>
-                    <div className='text-container'>
+                    <label className="text-container" htmlFor="recipename">
                         Recipe Name
-                    </div>
-                
-                    <div className='form-recipetitle'> 
-                    <TextField 
-                    color="success" focused 
-                    sx={{width: 300}}
-                    InputProps={{ sx: { height: 45 } }}
+                    </label>
+                    <input
                     name="recipeName"
-                    id="outlined-name"
+                    className="formFieldInput"
+                    placeholder="Enter the Recipe Name"
                     onChange={handleInputChange}
-                        />
-                    </div>
+                    />
                 </div>
                 
                 <div className='time-container'>
@@ -89,12 +84,19 @@ function Recipemenu() {
                     <div className='form-time'> 
                     <TextField
                         color="success" focused 
-                        sx={{width: 80}}
-                        InputProps={{ sx: { height: 45 } }}
+                        sx={{width: 80 }}
+                        InputProps={{ 
+                            sx: { height: 45 },
+                            inputProps: { 
+                                max: 60, min: 5 
+                            }
+                        } }
                         name="time"
-                        id="outlined-number"
+                        id="standard-number"
+                        variant="standard"
                         type="number"
                         onChange={handleInputChange}
+                        
                     />
                     
                     </div>
