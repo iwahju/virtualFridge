@@ -9,7 +9,7 @@ function Home() {
       <div className="storagebox-container">
         <div className="storagebox">
           <div className="storagebox-title">
-            My fridge
+            My Fridge
           </div>
           <div className="storagebox-content">
             
