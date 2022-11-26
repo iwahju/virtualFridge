@@ -56,7 +56,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
             My fridge, items: {fridgeItems.length}
           </div>
           <Stack className="storagebox-content">
-            <List>{pantryItems.map(inventoryItem)}</List>
+            <List>{fridgeItems.map(inventoryItem)}</List>
           </Stack>
         </div>
         <div className="storagebox">

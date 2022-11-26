@@ -10,7 +10,7 @@ function Plusmenu() {
     name: "",
     quantity: 0,
     unit: "",
-    "exp-date": "",
+    date: "",
     location: "fridge",
   };
   const [formstate, setFormstate] = useState(defaultformstate);
@@ -47,7 +47,7 @@ function Plusmenu() {
             <div className="form-title">
               <input
                 name="name"
-                value={formstate.name}
+                value={formstate.item.name}
                 type="text"
                 placeholder="Item Name"
                 onChange={handleInputChange}
@@ -56,21 +56,21 @@ function Plusmenu() {
             <div className="form-quan-date">
               <input
                 name="quantity"
-                value={formstate.quantity}
+                value={formstate.item.quantity}
                 type="text"
                 placeholder="quantity"
                 onChange={handleInputChange}
               />
               <input
                 name="unit"
-                value={formstate.unit}
+                value={formstate.item.unit}
                 type="text"
                 placeholder="unit"
                 onChange={handleInputChange}
               />
               <input
                 name="exp-date"
-                value={formstate["exp-date"]}
+                value={formstate.item.date}
                 type="text"
                 placeholder="Exp. Date"
                 onChange={handleInputChange}
