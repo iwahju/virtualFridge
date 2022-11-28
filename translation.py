@@ -8,6 +8,7 @@ fridge = [{"date":"Wed, 22 Nov 2023 05:00:00 GMT","fridge":False,"ingredient":"m
 
 recipeDict = {0:{"author":"admin","difficulty":1,"ingredients":[{"name":"Peanut Butter","quantity":2.0,"unit":"tablespoon"},{"name":"Jelly","quantity":2.0,"unit":"tablespoon"},{"name":"Bread","quantity":2.0,"unit":"slice"}],"name":"Peanut Butter and Jelly Sandwich","price":1,"spiceLevel":0,"steps":["Spread peanut butter evenly on 1 slice of bread.","Spread jelly on another slice of bread.","Put slices together so that the peanut butter and jelly are aligned."],"tags":["Vegan","Vegetarian"],"time":5},
 
+
 1:{"author":"admin","difficulty":2,"ingredients":[{"name":"Rice","quantity":1.0,"unit":"cup"},{"name":"Egg","quantity":1.0,"unit":'Null'},{"name":"Shallot","quantity":1.0,"unit":'Null'},{"name":"Red Thai Chile","quantity":1.0,"unit":'Null'},{"name":"Spring Onion","quantity":2.0,"unit":'Null'},{"name":"Garlic","quantity":4.0,"unit":"piece"},{"name":"Soy Sauce","quantity":2.0,"unit":"tablespoon"},{"name":"Sugar","quantity":1.0,"unit":"tablespoon"},{"name":"Seasame Oil","quantity":2.0,"unit":"tablespoon"}],"name":"Egg Fried Rice","price":1,"spiceLevel":1,"steps":["Mince garlic and shallot, rough chop spring onion and red chile, and set aside.","Crack and wisk the egg.","Heat wok and add seasame oil when hot.","Fry garlic and shallot until fragrent.","Add whisked egg into the wok and stir until almost cooked through","Add rice, stiring and flattening it constantly","Add soy sauce, spring onion, chilie, and stir constantly when rice is almost done."],"tags":["Wok"],"time":15},
 
 2:{"author":"admin","difficulty":2,"ingredients":[{"name":"Pasta","quantity":1.0,"unit":"pound"},{"name":"Cheese","quantity":1.0,"unit":"pound"},{"name":"Milk","quantity":3.0,"unit":"cup"},{"name":"Butter","quantity":4.0,"unit":"tablespoon"},{"name":"Flour","quantity":0.25,"unit":"cup"}],"name":"Mac & Cheese","price":2,"spiceLevel":0,"steps":["Preheat oven to 350 degrees.","Bring pot of salted water to a boil.","Grate cheese and set aside.","Add pasta and boil. Remove from heat and drain 1 minute before its suggested cooking time.","Grate pepper into milk, then microwave on low for 5 minutes.","Add butter to pan on low heat until fully melted. Gradually add flour in small quantities to butter, whisking as you add.","Slowly pour warm milk into pan in small quantities each time. Then stir in grated cheese.","Turn off head, add pasta to pan and stir.","Pour pasta and cheese into a baking pan, bake for 30 minutes."],"tags":["Oven","Vegetarian"],"time":60},
@@ -22,7 +23,7 @@ recipeDict = {0:{"author":"admin","difficulty":1,"ingredients":[{"name":"Peanut 
 def allFridgeIngredients(Fridge):
     fridgeIngredients = []
     for i in Fridge:
-        fridgeIngredients.append({'name':i['ingredient'],'quantity':i['quantity'],'unit':i['unit']})
+        fridgeIngredients.append({'name':i['ingredient'],'quantity':i['quantity'],'unit':i['unit'],'date':i['date']})
     return fridgeIngredients
 
 def allFridgeIngredientsNames(Fridge):
@@ -112,16 +113,50 @@ print(date7)
 
 print(date1.date()-date.date())
 
+print('end of dates\n\n')
+
+
+fridgeDate = [{"date":date,"fridge":False,"ingredient":"milk","quantity":1,"unit":"gallon"},
+{"date":date1,"fridge":False,"ingredient":"salt","quantity":400,"unit":"grams"},
+{"date":date2,"fridge":True,"ingredient":"jelly","quantity":20,"unit":"tablespoon"},
+{"date":date3,"fridge":True,"ingredient":"peanut butter","quantity":20,"unit":"tablespoon"},
+{"date":date4,"fridge":True,"ingredient":"bread","quantity":12,"unit":"Null"}]
+
 def calcTimeDiff(date):
    today = datetime.today().date()
    date = date.date()
    timeDiff = date - today
-   return timeDiff
+   return int(timeDiff.days)
+
+
+def experationWarningF(aFridge):
+    ingredients = allFridgeIngredients(aFridge)
+    ingredientScores = []
+    for i in ingredients:
+        ing = i['date']
+        print(ing)
+        diff = calcTimeDiff(ing)
+        if diff > 3:
+            ingredientScores.append(4)
+        elif diff == 3:
+            ingredientScores.append(3)
+        elif diff == 2:
+            ingredientScores.append(2)
+        elif diff == 1:
+            ingredientScores.append(1)
+        elif diff == 0:
+            ingredientScores.append(1)
+        else:
+            ingredientScores.append(0)
+    return ingredientScores
+
+scoresD = experationWarningF(fridgeDate)
+print(scoresD)
 
 
 
-def experationWarning(anIngredient):
-    ing = dictOfAllIngredients[i]['date']
+def experationWarningIng(anIngredient):
+    ing = anIngredient['date']
     diff = calcTimeDiff(ing)
     if diff > 3:
         return 4
@@ -136,6 +171,12 @@ def experationWarning(anIngredient):
     else:
         return 0
 
+print(len(fridgeDate))
+print(experationWarningIng(fridgeDate[0]))
+print(experationWarningIng(fridgeDate[1]))
+print(experationWarningIng(fridgeDate[2]))
+print(experationWarningIng(fridgeDate[3]))
+print(experationWarningIng(fridgeDate[4]))
 
 #print(type(fridge[1]['date']))
 
