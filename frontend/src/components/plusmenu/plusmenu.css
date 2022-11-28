@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Extra+Condensed:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Exo");
 
 .plusmenu-outer-container {
     position: absolute;
@@ -9,18 +9,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
+   
 
 
 }
 .plusmenu-inner-container {
-    background-color: #474B3C;
-    border-radius: 10px;
-    width: 25%;
+    background-color: #171a17;
+    border: 2px solid;
+    border-color: rgb(144, 175, 144);
+    margin-top: 24%;
+    border-radius: 5px;
+    width: 35%;
+    height: 40%;
     padding: 10px;
     display: flex;
     align-items: center;
     flex-direction: column;
+   
 
+}
+.additem-title{
+    font-family: "Exo";
+    color: rgb(79, 193, 91);
+    margin-top: 2%;
+    font-size: 22px;
 }
 .form {
     display: flex;
@@ -29,6 +41,8 @@
     justify-content: center;
     width: 100%;
     height: 100%;
+    padding: 30px;
+    margin-top: 0%;
     
 }
 .form-title {
@@ -39,17 +53,18 @@
     margin-bottom: 10px;
 }
 .form-title input {
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-family: 'Exo';
     text-align: center;
     width: 100%;
+    color: white;
 }
 .form-quan-date input{
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-family: 'Exo';
     text-align: center;
     width: 48%;
     backdrop-filter: blur(0px);
-    border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    color: white;
+
 
 }
 .form-quan-date {
@@ -60,4 +75,25 @@
     margin-bottom: 10px;
     
 }
+.add-buttoncontainer {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
 
+
+
+}
+.add-button {
+    margin-top: 3%;
+    background-color: rgb(124, 192, 124);
+    position: relative;
+    font-size: 15px;
+    border: none;
+    height: 2rem;
+    width: 20%;
+    border-radius: 10px;
+    display: fixed;
+    font-family: "Exo";
+    
+}

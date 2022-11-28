@@ -1,0 +1,10 @@
+
+.grocerypage {
+  background-image: url(./grocerytitle.png);
+  display: flex;
+  width: 120%;
+  height: 16vh;
+  margin-top: 0%;
+  margin-left: 0%;
+}
+

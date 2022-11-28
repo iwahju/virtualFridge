@@ -12,6 +12,7 @@ const LoginForm = (/** @type {{setToken,}}*/ props) => {
     username: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   function handleChange(event) { 
     const {value, name} = event.target
@@ -35,6 +36,7 @@ const LoginForm = (/** @type {{setToken,}}*/ props) => {
       })
       .catch((error) => {
         if (error.response) {
+          setErrorMessage("Wrong credentials, please try again!")
           console.log(error.response);
           console.log(error.response.status);
           console.log(error.response.headers);
@@ -52,6 +54,7 @@ const LoginForm = (/** @type {{setToken,}}*/ props) => {
             <form className="formFields" onSubmit={handleSubmit}>
               <div className="title">Sign In</div>
               <div className="formField">
+              {errorMessage && <div className="error"> {errorMessage} </div>}
                 <label className="formFieldLabel" htmlFor="username">
                   Username
                 </label>
@@ -90,9 +93,10 @@ const LoginForm = (/** @type {{setToken,}}*/ props) => {
                 alignItems={"center"}
                 className="formField"
               >
-                <button className="formFieldButton" onClick={handleSubmit}>
+                <button className="formFieldButton" onClick={handleSubmit} >
                   Sign In
                 </button>
+                
                 {""}
                 <Link
                   to="/sign-up"

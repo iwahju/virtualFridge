@@ -1,29 +1,80 @@
 .storagebox-container {
-    display: flex;
-    width: 100vw;
-    justify-content: center;
-  }
-  .storagebox {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+  
+}
+.storagebox1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid;
+  border-color: antiquewhite;
+  height: 10rem;
+  width: 35rem;
+  margin-top: 5%;
+  margin-left: 10%;
+}
 
-  .storagebox-title {
-    font-family: "Fira Sans Extra Condensed", sans-serif;
-    background-color: #d9d9d9;
-    padding: 1rem 7rem;
-    border-radius: 35px;
-    border: 1px solid greenyellow;
-    font-size: 22px;
-  }
+.storagebox-title {
+  font-family: "Exo";
+  background-color: transparent;
+  padding: 1rem 7rem;
+  border-radius: 10px;
+  font-size: 30px;
+  margin-top: 0%;
+  border: 1px;
+  color: whitesmoke;
+  flex-direction: row;
+  
+ 
+}
 
-  .storagebox-content {
-    border: greenyellow 1px solid;
-    height: 30rem;
-    background-color: #d9d9d9;
-    border-radius: 15px;
-    width: 25rem;
-    margin: 2.5rem;
-    max-width: 33vw;
-  }
+.storagebox-title2 {
+  font-family: "Exo";
+  background-color: transparent;
+  padding: 1rem 7rem;
+  border-radius: 10px;
+  font-size: 30px;
+  margin-top: 0%;
+  border: 1px;
+  color: black;
+  flex-direction: row;
+ 
+}
+.storagebox-content {
+  border:1px ;
+  height: 35rem;
+  background-color: #d3e3d6;
+  border-radius: 5px;
+  width: 200rem;
+  margin: 1.5rem;
+  max-width: 33vw;
+}
+
+.appAside1 {
+  width: 50%;
+  background-color: #12130f;
+  height: 100vh;
+}
+
+.recipe-button {
+  flex-direction: row;
+  margin-top: -50px;
+  margin-left: 70%;
+  font-family: "Oswald";
+}
+.appAside2 {
+  width: 50%;
+  background-color: 'whitesmoke';
+  height: 100vh;
+  margin-left: 50%;
+  margin-top: -100vh;
+ 
+}
+.myrecipe {
+  display: inline;
+ 
+  
+}

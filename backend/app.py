@@ -89,6 +89,28 @@ def my_profile():
 
     return response_body
 
+@app.route('/addItem', methods=["POST"])
+@jwt_required()
+def addItem():
+
+    # user = userData.find_one({"name": get_jwt_identity()})
+    # newItem= {
+    #     "items" :user["inventory"]
+    # }
+    # response_body = {
+    #     "items" :user["inventory"]
+    # }
+    username = request.json.get("username", None)
+    newItem= {
+        "inventory":{},
+    }
+    user=userData.find_one({"name": username})
+    if user is not None:
+        return {"msg": "That username is taken"}, 401
+
+    userData.insert_one(newItem)
+
+    return response_body
 
 
 # @app.route('/inventory',methods=["POST"])

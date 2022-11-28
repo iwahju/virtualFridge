@@ -4,14 +4,22 @@ import { fridgeContext } from "../../context";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import Box from "@mui/material/Box";
+import MenuItem from '@mui/material/MenuItem';
+import axios from "axios";
+import TextField from '@mui/material/TextField';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
 
-function Plusmenu() {
+function Plusmenu(props) {
   const defaultformstate = {
-    name: "",
-    quantity: 0,
-    unit: "",
-    date: "",
-    location: "fridge",
+    item: {
+      name: "",
+      quantity: 0,
+      unit: "",
+      date: new Date(),
+      location: "fridge",
+    }
   };
   const [formstate, setFormstate] = useState(defaultformstate);
   const context = useContext(fridgeContext);
@@ -32,6 +40,25 @@ function Plusmenu() {
     console.log(formstate);
   };
   const handleFormSubmit = (e) => {
+    axios({
+      method: "POST",
+      url: "/addItem",
+      data: formstate,
+      headers: {
+        Authorization: `Bearer  ${props.token}`,
+      },
+    })
+      .then((response) => {
+        console.log("successfully added Item!");
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+
     e.preventDefault();
     console.log(formstate);
   };
@@ -40,42 +67,72 @@ function Plusmenu() {
     <div className="plusmenu-outer-container">
       <div className="plusmenu-inner-container">
         <div>
-          <h3>Add Item</h3>
+        <div className= "additem-title">
+          Add Item
+          </div>
         </div>
         <div>
           <form className="form" onSubmit={handleFormSubmit}>
             <div className="form-title">
-              <input
+              <TextField
+                sx={{width: 350}}
+                color= "success" focused
+                id="standard-basic" label="Item Name" variant="standard" 
                 name="name"
-                value={formstate.item.name}
+                value={formstate.name}
                 type="text"
-                placeholder="Item Name"
+                placeholder="'Eggs'"
                 onChange={handleInputChange}
               />
             </div>
             <div className="form-quan-date">
-              <input
+              <TextField
+                sx={{width: 50}}
+                id="standard-number"  label="Quantity" variant="standard" 
+                color= "success" focused
                 name="quantity"
-                value={formstate.item.quantity}
+                value={formstate.quantity}
                 type="text"
-                placeholder="quantity"
+                placeholder="'12'"
                 onChange={handleInputChange}
               />
-              <input
-                name="unit"
-                value={formstate.item.unit}
-                type="text"
-                placeholder="unit"
-                onChange={handleInputChange}
-              />
-              <input
+
+
+            <FormControl variant="standard" 
+                      color= "success" focused
+                      sx={{ minWidth: 90 }}>
+                    <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
+                    <Select
+                      
+                      labelId="demo-simple-select-standard-label"
+                      id="demo-simple-select-standard"
+                      value={formstate.unit}
+                      onChange={handleInputChange}
+                      label="unit"
+                    >
+                      <MenuItem value="">
+                      </MenuItem>
+                      <input type= "text" 
+                      placeholder="other"
+                      />
+                      <MenuItem value={'lb.'}>lbs</MenuItem>
+                      <MenuItem value={'tsp.'}>tsp</MenuItem>
+                      <MenuItem value={'tbsp.'}>tspb</MenuItem>
+                      <MenuItem value={'gallon.'}>gallon</MenuItem>
+                      <MenuItem value={'ounce'}>ounce(s)</MenuItem>
+                    </Select>
+                  </FormControl>
+
+
+              <TextField
+               id="standard-number"  label="Expiration Date" variant="standard" 
+               color= "success" focused
                 name="exp-date"
-                value={formstate.item.date}
-                type="text"
-                placeholder="Exp. Date"
+                value={formstate.date}
+                type="date"
+                placeholder="date"
                 onChange={handleInputChange}
               />
-              
             </div>
             <div>
               <Box
@@ -91,6 +148,7 @@ function Plusmenu() {
                 <ButtonGroup
                   variant="outlined"
                   aria-label="outlined button group"
+                  color="success"
                 >
                   <Button
                     sx={{
@@ -109,7 +167,9 @@ function Plusmenu() {
                 </ButtonGroup>
               </Box>
             </div>
-            <button type="submit">Add</button>
+            <div className= "add-buttoncontainer"> 
+            <button className= "add-button" type="submit">Add</button>
+            </div>
           </form>
         </div>
       </div>
