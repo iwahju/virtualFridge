@@ -22,6 +22,7 @@ import useToken from "./components/login/useToken";
 
 import Logout from "./components/logout/Logout";
 import axios from "axios";
+import FindRecipe from "./components/pages/FindRecipes";
 // import Userbutton from "./components/userbutton/Userbutton";
 
 function App() {
@@ -55,9 +56,10 @@ function App() {
               path="/myrecipe"
               element={<MyRecipe token={token} setToken={setToken} />}
             />
-
-            {/* <Route path='/myrecipe' components = {MyRecipe}/>
-        <Route path='/myrecipe' components = {MyRecipe}/> */}
+            <Route
+              path='/findrecipe'
+              element={<FindRecipe token={token} setToken={setToken}/>}
+            />
           </Routes>
         </Router>
       ) : (

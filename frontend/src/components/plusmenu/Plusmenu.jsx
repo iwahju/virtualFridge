@@ -13,17 +13,15 @@ import Select from '@mui/material/Select';
 
 function Plusmenu(props) {
   const defaultformstate = {
-    item: {
-      name: "",
+      ingredient: "",
       quantity: 0,
       unit: "",
       date: new Date(),
-      location: "fridge",
-    }
+      fridge: "true"
   };
   const [formstate, setFormstate] = useState(defaultformstate);
   const context = useContext(fridgeContext);
-  console.log(context);
+  console.log(formstate);
   const handleInputChange = (e) => {
     setFormstate({
       ...formstate,
@@ -31,15 +29,16 @@ function Plusmenu(props) {
     });
   };
   //location = fridge, pantry
-  const handleFridgeClick = (location, e) => {
+  const handleFridgeClick = (fridge, e) => {
     e.preventDefault();
     setFormstate({
       ...formstate,
-      location,
+      fridge,
     });
     console.log(formstate);
   };
   const handleFormSubmit = (e) => {
+    console.log(props.token)
     axios({
       method: "POST",
       url: "/addItem",
@@ -49,7 +48,7 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
-        console.log("successfully added Item!");
+        console.log(response.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -78,8 +77,8 @@ function Plusmenu(props) {
                 sx={{width: 350}}
                 color= "success" focused
                 id="standard-basic" label="Item Name" variant="standard" 
-                name="name"
-                value={formstate.name}
+                name="ingredient"
+                value={formstate.ingredient}
                 type="text"
                 placeholder="'Eggs'"
                 onChange={handleInputChange}
@@ -100,6 +99,7 @@ function Plusmenu(props) {
 
             <FormControl variant="standard" 
                       color= "success" focused
+                      name= "unit"
                       sx={{ minWidth: 90 }}>
                     <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
                     <Select
@@ -107,6 +107,7 @@ function Plusmenu(props) {
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
                       value={formstate.unit}
+                      name= "unit"
                       onChange={handleInputChange}
                       label="unit"
                     >
@@ -114,11 +115,12 @@ function Plusmenu(props) {
                       </MenuItem>
                       <input type= "text" 
                       placeholder="other"
+                      name= "unit"
                       />
-                      <MenuItem value={'lb.'}>lbs</MenuItem>
-                      <MenuItem value={'tsp.'}>tsp</MenuItem>
-                      <MenuItem value={'tbsp.'}>tspb</MenuItem>
-                      <MenuItem value={'gallon.'}>gallon</MenuItem>
+                      <MenuItem value={'lb'}>lbs</MenuItem>
+                      <MenuItem value={'tsp'}>tsp</MenuItem>
+                      <MenuItem value={'tbsp'}>tspb</MenuItem>
+                      <MenuItem value={'gallon'}>gallon</MenuItem>
                       <MenuItem value={'ounce'}>ounce(s)</MenuItem>
                     </Select>
                   </FormControl>
@@ -127,10 +129,10 @@ function Plusmenu(props) {
               <TextField
                id="standard-number"  label="Expiration Date" variant="standard" 
                color= "success" focused
-                name="exp-date"
+                name="date"
                 value={formstate.date}
                 type="date"
-                placeholder="date"
+                placeholder="mm/dd/yy"
                 onChange={handleInputChange}
               />
             </div>
@@ -156,12 +158,12 @@ function Plusmenu(props) {
                         backgroundColor: "#123D35",
                       },
                     }}
-                    onClick={(e) => handleFridgeClick("fridge", e)}
+                    onClick={(e) => handleFridgeClick("true", e)}
                   >
                     Fridge
                   </Button>
                   
-                  <Button onClick={(e) => handleFridgeClick("pantry", e)}>
+                  <Button onClick={(e) => handleFridgeClick("false", e)}>
                     Pantry
                   </Button>
                 </ButtonGroup>

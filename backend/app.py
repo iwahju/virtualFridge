@@ -89,30 +89,37 @@ def my_profile():
 
     return response_body
 
+@app.route('/recipes', methods=["GET"])
+@jwt_required()
+def get_recipes():
+    # get all docs from mongo collection and remove unserializable ID
+    response = list(recipeData.find({}, { "_id": 0}))
+    # print(response)
+    return response
+
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
-def addItem():
-
-    # user = userData.find_one({"name": get_jwt_identity()})
-    # newItem= {
-    #     "items" :user["inventory"]
-    # }
-    # response_body = {
-    #     "items" :user["inventory"]
-    # }
-    username = request.json.get("username", None)
-    newItem= {
-        "inventory":{},
+def add_item():
+    item = {
+        "ingredient": request.json.get("ingredient", None).lower(),
+        "quantity": int(request.json.get("quantity", None)),
+        "unit": request.json.get("unit", None),
+        "date": request.json.get("date", None),
+        "fridge": bool(request.json.get("fridge", None)),
     }
-    user=userData.find_one({"name": username})
-    if user is not None:
-        return {"msg": "That username is taken"}, 401
-
-    userData.insert_one(newItem)
-
-    return response_body
-
-
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+    for ingredient in user["inventory"] :
+        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+            ingredient["quantity"]+=item["quantity"]
+            userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
+            return "item exists, adding q"
+    user["inventory"].append(item)
+    
+    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
+    return {"message":"item didnt exist, adding new item",
+            "inventory":  user["inventory"] }
 # @app.route('/inventory',methods=["POST"])
 # @jwt_required()
 # def addInventoryItem():
