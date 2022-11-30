@@ -122,7 +122,7 @@ return (
             </Stack>
         </div>
       </div>
-      <PlusButton />
+      <PlusButton token={props.token}/>
     </div>
   </div>
 );

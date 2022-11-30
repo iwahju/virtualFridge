@@ -88,10 +88,11 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
 
   const handleSearchInput = (e) => {
     // set search input on form state
-    console.log("updating field", e.target.name, "with value", e.target.value);
+    console.log("updating field", e.target.name, "with value", e.target.value, "tas");
     setSearchFormState({
       ...searchFormState,
       [e.target.name]: e.target.value,
+      [e.target.tags]: e.target.tags,
     });
   };
 

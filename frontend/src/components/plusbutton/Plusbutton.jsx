@@ -1,10 +1,32 @@
+// import React,{useState} from "react";
+// import { IconContext } from "react-icons";
+// import * as AiIcons from "react-icons/ai";
+// import "./plusbutton.css";
+// import Plusmenu from '../plusmenu/Plusmenu';
+
+// function Plusbutton() {
+//   const [plus, setPlus] = useState(false) 
+//   const showPlus = () => setPlus(!plus)
+
+//     return (
+//         <div className="plusbuttoncontainer">
+//             <div className="plusbutton">
+//                 <AiIcons.AiFillPlusCircle onClick={showPlus} />
+//         </div>
+//         {plus && <Plusmenu />}
+//         </div>
+
+//     )
+// }
+
+// export default Plusbutton;
 import React,{useState} from "react";
 import { IconContext } from "react-icons";
 import * as AiIcons from "react-icons/ai";
 import "./plusbutton.css";
 import Plusmenu from '../plusmenu/Plusmenu';
 
-function Plusbutton() {
+function Plusbutton(props) {
   const [plus, setPlus] = useState(false) 
   const showPlus = () => setPlus(!plus)
 
@@ -13,7 +35,7 @@ function Plusbutton() {
             <div className="plusbutton">
                 <AiIcons.AiFillPlusCircle onClick={showPlus} />
         </div>
-        {plus && <Plusmenu />}
+        {plus && <Plusmenu token={props.token}/>}
         </div>
 
     )
