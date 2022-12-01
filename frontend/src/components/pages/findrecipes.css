@@ -1,9 +1,61 @@
-.ingredientsteps-container {
-    
+.recipesearch-outer-container{
+    position:fixed;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+
+}
+
+.recipes-container {
     background-color: transparent;
     display: inline;
-    top: 140px;
+    top: 15%;
     position: fixed;
-    margin-left: 600px;
+    margin-left: 25%;
+    width: 70vw;
+    height: 50vh;
     
+}
+
+.search-info {
+    background-color: rgb(186, 213, 194);
+    margin-top: 15%;
+    width: 25vw;
+    height: 100%;
+    display: fixed;
+    
+}
+
+.buttons{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    margin-top: 20%;
+   
+}
+.search-button {
+    background-color: rgb(124, 192, 124);
+    position: relative;
+    font-size: 15px;
+    border: none;
+    height: 2rem;
+    width: 40%;
+    border-radius: 10px;
+    display: fixed;
+    font-family: "Exo";
+    margin-right: 5%;
+}
+
+.clear-button {
+    background-color: rgb(99, 110, 99);
+    position: relative;
+    font-size: 15px;
+    border: none;
+    height: 2rem;
+    width: 40%;
+    border-radius: 10px;
+    display: fixed;
+    font-family: "Exo";
 }
