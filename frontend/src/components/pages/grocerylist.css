@@ -1,10 +1,29 @@
-
-.grocerypage {
-  background-image: url(./grocerytitle.png);
+.storagebox-container {
   display: flex;
-  width: 120%;
-  height: 16vh;
-  margin-top: 0%;
-  margin-left: 0%;
+  width: 100vw;
+  justify-content: center;
+}
+.storagebox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.storagebox-title {
+  font-family: "Fira Sans Extra Condensed", sans-serif;
+  background-color: #d9d9d9;
+  padding: 1rem 7rem;
+  border-radius: 35px;
+  border: 1px solid greenyellow;
+  font-size: 22px;
+}
+
+.grocerylist-content {
+  border: greenyellow 1px solid;
+  height: 30rem;
+  background-color: #d9d9d9;
+  border-radius: 15px;
+  width: 50rem;
+  margin: 2.5rem;
+  max-width: 33vw;
+}
