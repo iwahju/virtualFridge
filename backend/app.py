@@ -81,6 +81,10 @@ def logout():
 def my_profile():
     
     user=userData.find_one({"name": get_jwt_identity()})
+    for ingredient in user["inventory"]:
+        if type(ingredient["date"]) !=type(datetime.now(timezone.utc)):
+            ingredient["date"] = datetime.strptime(ingredient["date"],'%Y-%m-%d')
+        ingredient["expWarning"] = experationWarningIng(ingredient)
     response_body = {
         "name": get_jwt_identity(),
         "items" :user["inventory"]
@@ -120,17 +124,81 @@ def add_item():
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
     return {"message":"item didnt exist, adding new item",
             "inventory":  user["inventory"] }
-# @app.route('/inventory',methods=["POST"])
-# @jwt_required()
-# def addInventoryItem():
-    
-#     user=userData.find_one({"name": get_jwt_identity()})
-#     response_body = {
-#         "name": get_jwt_identity(),
-#         "items" :user["inventory"]
-#     }
-    
-
-#     return response_body
 
 
+def allFridgeIngredients(Fridge):
+    fridgeIngredients = []
+    for i in Fridge:
+        fridgeIngredients.append({'name':i['ingredient'],'quantity':i['quantity'],'unit':i['unit'],'date':i['date']})
+    return fridgeIngredients
+def allFridgeIngredientsNames(Fridge):
+    fridgeIngredients = []
+    for i in Fridge:
+        fridgeIngredients.append(i['ingredient'])
+    return fridgeIngredients
+
+
+def allRecipeIngredients(aRecipe):
+    listOfIngs = []
+    for i in aRecipe['ingredients']:
+        listOfIngs.append(i['name'].lower())
+    return listOfIngs
+
+def checkForIngredients(Fridge, aRecipe):
+    fridgeIng = allFridgeIngredientsNames(Fridge)
+    recipeIng = allRecipeIngredients(aRecipe)
+    for i in recipeIng:
+        if i not in fridgeIng:
+            return False
+    return True
+
+def percentOfIngredients(Fridge, aRecipe):
+    if checkForIngredients(Fridge,aRecipe):
+        return 1
+    fridgeIng = allFridgeIngredientsNames(Fridge)
+    recipeIng = allRecipeIngredients(aRecipe)
+    matches = 0
+    for i in recipeIng:
+        if i in fridgeIng:
+            matches = matches + 1
+    return round(float(int(matches)/len(recipeIng)),3)
+def createAScore(Fridge,aRecipe):
+    if checkForIngredients(Fridge,aRecipe):
+        return 1
+    fridgeIng = allFridgeIngredientsNames(Fridge)
+    recipeIng = allRecipeIngredients(aRecipe)
+    matches = 0
+    for i in recipeIng:
+        if i in fridgeIng:
+            matches = matches + 1
+    percent = round(float(int(matches)/len(recipeIng)),3)
+    return matches * percent
+
+def completeRecipes(Fridge, allRecipes):
+    completeRecipes = []
+    for i in allRecipes:
+        if checkForIngredients(Fridge, i):
+            completeRecipes.append(i)
+    return completeRecipes
+
+def calcTimeDiff(date):
+   today = datetime.today().date()
+   date = date.date()
+   timeDiff = date - today
+   return int(timeDiff.days)
+
+def experationWarningIng(anIngredient):
+    ing = anIngredient['date']
+    diff = calcTimeDiff(ing)
+    if diff > 3:
+        return 4
+    elif diff == 3:
+        return 3
+    elif diff == 2:
+        return 2
+    elif diff == 1:
+        return 1
+    elif diff == 0:
+        return 1
+    else:
+        return 0
