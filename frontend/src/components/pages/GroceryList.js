@@ -1,14 +1,24 @@
-import "./grocerylist.css";
 import React from "react";
-import ListButton from "../listbutton/ListButton";
+import "./grocerylist.css";
+import GroceryListButton from "../grocerylistbutton/GroceryListButton";
+
 
 function GroceryList() {
-    return (
-      <div className="grocerypage">
-            <ListButton/>
-
+  return (
+    <div className="grocerylist">
+      <div className= "storagebox-container">
+        <div className="storagebox">
+        <div className="storagebox-title">
+          Grocery List
+          </div>
+        <div className="grocerylist-content">
+            <GroceryListButton />
+        </div>
+        </div>
+    
       </div>
-    );
-  }
-  
-  export default GroceryList;
+    </div>
+  )
+}
+
+export default GroceryList;
