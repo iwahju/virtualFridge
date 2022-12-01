@@ -14,16 +14,46 @@ import { FaThLarge } from "react-icons/fa";
 import { CheckBox } from "@mui/icons-material";
 import Select from '@mui/material/Select';
 import Time from "./Time";
+import Slider from '@mui/material/Slider';
+import { grey } from '@mui/material/colors';
 
 const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
-      color: 'white',
+      color: 'green',
     },
     '& .MuiRating-iconHover': {
-      color: 'white',
+      color: 'black',
     },
+    '& .MuiRating-iconEmpty': {
+        color: 'green',
+      },
   });
+  const marks = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+    {
+       value: 5,
+       label: '5',
+      },
+  ];
 
+  function valuetext(value) {
+    return `${value}`;
+  }
 
 
 function Recipemenu() {
@@ -59,41 +89,34 @@ function Recipemenu() {
     
   return (
     <div className='recipemenu-outer-container'>
+        
         <div className='recipemenu-inner-container'>
-        <div>
-               
-            <form className='form' onSubmit={handleFormSubmit}>
+            Create Your Own Recipe
+            <div className='recipename-container'>
                 
-            <div className="recipe-info">
-                <div className='recipename-container'>
-                    <label className="text-container" htmlFor="recipename">
-                        Recipe Name
-                    </label>
-                    <input
+                    <TextField
+                    id="standard-number"  label="Recipe Name" variant="standard" 
+                    color="success" focused 
+                    sx={{width: 500 }}
                     name="recipeName"
-                    className="formFieldInput"
-                    placeholder="Enter the Recipe Name"
+                    placeholder="'Pumpkin Pie'"
                     onChange={handleInputChange}
                     />
+               
                 </div>
-                
-                <div className='time-container'>
-                    <div className='text-container'>
-                        Time to Cook
-                    </div>
+                <div className='time-container'> 
                     <div className='form-time'> 
                     <TextField
+                        id="standard-number"  label="Time to Cook" variant="standard" 
                         color="success" focused 
                         sx={{width: 80 }}
                         InputProps={{ 
-                            sx: { height: 45 },
-                            inputProps: { 
-                                max: 60, min: 5 
-                            }
+                            sx: { input: { color: 'black' } },
+                            inputProps: { max: 60, min: 5},
+                            
                         } }
                         name="time"
-                        id="standard-number"
-                        variant="standard"
+                        placeholder="5"
                         type="number"
                         onChange={handleInputChange}
                         
@@ -101,16 +124,22 @@ function Recipemenu() {
                     
                     </div>
                 </div>
-
                 <div className='difficulty'>
                     <div className='text-container'>
                             Difficulty
                     </div>
                     <div className='rating'>
-                    <Rating
+                    <Slider
+                        aria-label="small-steps"
+                        defaultValue={2}
+                        getAriaValueText={valuetext}
+                        step={1}
+                        marks= {marks}
+                        min={1}
+                        max={5}
+                        color="success"
                         name="difficulty"
-                        value={formstate.difficulty}
-                        type='text'
+                        value={formstate.difficulty}  
                         onChange={handleInputChange}
                     />
                     </div>
@@ -123,11 +152,11 @@ function Recipemenu() {
                     <div className='spice-rating'>
                     <StyledRating
                         defaultValue={1}
-                        max={3}
+                        max={5}
                         getLabelText={(value) => `${value} Fire${value !== 1 ? 's' : ''}`}
                         precision={0.5}
                         icon={<WhatshotIcon fontSize="inherit" />}
-                        emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
+                        emptyIcon={<WhatshotOutlinedIcon fontSize="inherit"  />}
                         name="spice"
                         value={formstate.spice}
                         type='text'
@@ -143,31 +172,41 @@ function Recipemenu() {
                 <div className='check-box'>
                     <FormGroup row>
                         <FormControlLabel
-                            control={<Checkbox name="vegetarian" onChange= {() =>setFormstate((e) => ({
+                            control={<Checkbox 
+                            sx={{ color: grey[600], }}
+                            name="vegetarian" onChange= {() =>setFormstate((e) => ({
                                 ...e, vegetarian: !formstate.vegetarian
                             }))}
                             color="success" size="small" />}
                             label="Vegetarian"/>
                         <FormControlLabel
-                            control={<Checkbox name="vegan" onChange= {() =>setFormstate((e) => ({
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="vegan" onChange= {() =>setFormstate((e) => ({
                                 ...e, vegan: !formstate.vegan
                             }))} 
                             color="success" size="small"/>}
                             label="Vegan"/>
                         <FormControlLabel
-                            control={<Checkbox name="dairyfree" onChange= {() =>setFormstate((e) => ({
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="dairyfree" onChange= {() =>setFormstate((e) => ({
                                 ...e, dairy: !formstate.dairy
                             }))} 
                             color="success" size="small"/>}
                             label="Dairy Free"/>
                         <FormControlLabel
-                            control={<Checkbox name="glutenfree" onChange= {() =>setFormstate((e) => ({
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="glutenfree" onChange= {() =>setFormstate((e) => ({
                                 ...e, gluten: !formstate.gluten
                             }))} 
                             color="success" size="small" />}
                             label="Gluten Free"/>
                         <FormControlLabel
-                            control={<Checkbox name="nutfree" onChange= {() =>setFormstate((prev) => ({
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="nutfree" onChange= {() =>setFormstate((prev) => ({
                                 ...prev, nut: !formstate.nut
                             }))}  
                             color="success" size="small" />}
@@ -175,17 +214,12 @@ function Recipemenu() {
                     </FormGroup>
                 </div>  
                 </div>  
-            
-            </div>
-                
-                <div className="ingredientsteps-container">
+               
                 <div className = 'ingredients-container'>
-                        <div className='text-container'>
-                            Ingredients
-                        </div>
                         <TextField 
+                            label="Ingredients" variant="outlined" 
                             color="success" focused 
-                            sx={{width: 600}}
+                            sx={{width: 550}}
                             InputProps={{ sx: { height: 150 } }}
                             name="ingredients"
                             id="outlined-multiline-static"
@@ -198,12 +232,10 @@ function Recipemenu() {
                 </div>
 
                 <div className='steps-container'>
-                        <div className='text-container'>
-                            Steps
-                        </div>
                         <TextField 
+                            label="Steps" variant="outlined" 
                             color="success" focused 
-                            sx={{width: 600}}
+                            sx={{width: 550}}
                             InputProps={{ sx: { height:220 } }}
                             name="steps"
                             id="outlined-multiline-static"
@@ -214,12 +246,22 @@ function Recipemenu() {
 
                     />
                 </div>
-                </div>
+              
+            
+            
+        <div>
+               
+            <form className='form' onSubmit={handleFormSubmit}>
+                
+            
+                
+               
 
 
 
-                    
+                    <div className= 'submitbutton-container'>
                     <button className="submit-button" type='submit'>Create</button>
+                    </div>
                     
             </form>
         </div>
