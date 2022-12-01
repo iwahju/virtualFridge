@@ -7,21 +7,19 @@
   display: flex;
   flex-direction: column;
   /*background-image: url(./chefbackground.png);*/
- 
 }
 .welcome {
-  background-image: url(./chefbackground1.png);
+  background-image: url(./allthepics/chefbackground1.png);
   background-repeat: no-repeat;
   display: flex;
   width: 120%;
   height: 44vh;
   margin-top: -15%;
   margin-left: 20%;
- 
 }
 
 .text {
-  background-image: url(./text.png);
+  background-image: url(./allthepics/text.png);
   display: flex;
   width: 95%;
   height: 10vh;
@@ -35,29 +33,24 @@
   justify-content: center;
   margin-top: 5%;
   margin-left: 25%;
-  
-  
 }
 .storagebox {
   display: flex;
   flex-direction: column;
-  align-items:center;
-  
-  
-  
+  align-items: center;
 }
 .storagebox-title3 {
   font-family: "Exo";
   border-radius: 35px;
   font-size: 25px;
-  color:'black';
+  color: "black";
 }
 .storagebox-content1 {
-  border:1px ;
-    height: 35rem;
-    background-color: #272c28;
-    border-radius: 5px;
-    width: 200rem;
-    margin: 1.5rem;
-    max-width: 33vw;
+  border: 1px;
+  height: 35rem;
+  background-color: #272c28;
+  border-radius: 5px;
+  width: 200rem;
+  margin: 1.5rem;
+  max-width: 33vw;
 }

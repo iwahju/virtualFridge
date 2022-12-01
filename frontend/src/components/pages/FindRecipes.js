@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Avatar, CardHeader, CardMedia, Collapse, List, ListItem, ListItemText, Stack } from "@mui/material";
+import {
+  Avatar,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
@@ -16,7 +25,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { FormLabel, Rating } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { FaThLarge } from "react-icons/fa";
-import { CheckBox, Favorite, MoreVert, PictureAsPdf, Share } from "@mui/icons-material";
+import {
+  CheckBox,
+  Favorite,
+  MoreVert,
+  PictureAsPdf,
+  Share,
+} from "@mui/icons-material";
 import Select from "@mui/material/Select";
 import Time from "./findrecipestime";
 import { Link, useNavigate } from "react-router-dom";
@@ -88,7 +103,13 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
 
   const handleSearchInput = (e) => {
     // set search input on form state
-    console.log("updating field", e.target.name, "with value", e.target.value, "tas");
+    console.log(
+      "updating field",
+      e.target.name,
+      "with value",
+      e.target.value,
+      "tas"
+    );
     setSearchFormState({
       ...searchFormState,
       [e.target.name]: e.target.value,
@@ -175,217 +196,217 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     );
     return (
       <Link to={`/findrecipe/${route}`}>
-        <ListItem key={item.data + "__" + index}>
+        <Card key={item.data + "__" + index}>
           <ListItemText>{item.name}</ListItemText>
           <ListItemText>{item.difficulty}</ListItemText>
           <ListItemText>{item.time + "min "}</ListItemText>
           <ListItemText>{item.spiceLevel + " "}</ListItemText>
-        </ListItem>
+        </Card>
       </Link>
     );
   };
 
   return (
     <div className="recipemenu-outer-container">
+      <div>
+        <form className="form" onSubmit={handleSearchSubmit}>
+          <div className="recipe-info">
+            <div className="recipename-container">
+              <label className="text-container" htmlFor="recipename">
+                Recipe Name
+              </label>
+              <input
+                name="recipeName"
+                className="formFieldInput"
+                placeholder="Enter the Recipe"
+                onChange={handleSearchInput}
+                value={searchFormState.recipeName}
+              />
+            </div>
 
-        <div>
-          <form className="form" onSubmit={handleSearchSubmit}>
-            <div className="recipe-info">
-              <div className="recipename-container">
-                <label className="text-container" htmlFor="recipename">
-                  Recipe Name
-                </label>
-                <input
-                  name="recipeName"
-                  className="formFieldInput"
-                  placeholder="Enter the Recipe"
+            <div className="time-container">
+              <div className="text-container">Time to Cook (min)</div>
+              <div className="form-time">
+                <TextField
+                  color="success"
+                  focused
+                  sx={{ width: 80 }}
+                  InputProps={{
+                    sx: { height: 45 },
+                    //   inputProps: {
+                    //     max: 60,
+                    //     min: 5,
+                    //   },
+                  }}
+                  name="time"
+                  id="standard-number"
+                  variant="standard"
+                  type="number"
                   onChange={handleSearchInput}
-                  value={searchFormState.recipeName}
+                  value={searchFormState.time}
                 />
               </div>
+            </div>
 
-              <div className="time-container">
-                <div className="text-container">Time to Cook (min)</div>
-                <div className="form-time">
-                  <TextField
-                    color="success"
-                    focused
-                    sx={{ width: 80 }}
-                    InputProps={{
-                      sx: { height: 45 },
-                      //   inputProps: {
-                      //     max: 60,
-                      //     min: 5,
-                      //   },
-                    }}
-                    name="time"
-                    id="standard-number"
-                    variant="standard"
-                    type="number"
-                    onChange={handleSearchInput}
-                    value={searchFormState.time}
-                  />
-                </div>
-              </div>
-
-              <div className="difficulty">
-                <div className="text-container">Difficulty</div>
-                <div className="rating">
-                  <Rating
-                    name="difficulty"
-                    type="text"
-                    onChange={handleSearchInput}
-                    value={searchFormState.difficulty}
-                  />
-                </div>
-              </div>
-
-              <div className="spice">
-                <div className="text-container">Spice Level</div>
-                <div className="spice-rating">
-                  <StyledRating
-                    defaultValue={1}
-                    max={3}
-                    getLabelText={(value) =>
-                      `${value} Fire${value !== 1 ? "s" : ""}`
-                    }
-                    precision={0.5}
-                    icon={<WhatshotIcon fontSize="inherit" />}
-                    emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
-                    name="spice"
-                    value={searchFormState.spice}
-                    type="text"
-                    onChange={handleSearchInput}
-                  />
-                </div>
-              </div>
-
-              <div className="tags">
-                <div className="text-container">Filters</div>
-                <div className="check-box">
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="vegetarian"
-                          checked={searchFormState.vegetarian}
-                          onChange={() => {
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              vegetarian: !searchFormState.vegetarian,
-                            }));
-                          }}
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Vegetarian"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="vegan"
-                          checked={searchFormState.vegan}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              vegan: !searchFormState.vegan,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Vegan"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="dairyfree"
-                          checked={searchFormState.dairy}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              dairy: !searchFormState.dairy,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Dairy Free"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="glutenfree"
-                          checked={searchFormState.gluten}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              gluten: !searchFormState.gluten,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Gluten Free"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          name="nutfree"
-                          checked={searchFormState.nut}
-                          onChange={() =>
-                            setSearchFormState(() => ({
-                              ...searchFormState,
-                              nut: !searchFormState.nut,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Nut Free"
-                    />
-                  </FormGroup>
-                  <button className="submit-button" type="submit">
-                    Search
-                  </button>
-                  <button onClick={handleFormClear}>Clear</button>
-                </div>
-                <div className="ingredientsteps-container">
-                  <div></div>
-                  <Card sx={{ minWidth: 275 }}>
-                    <CardContent>
-                      <Typography
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      ></Typography>
-                      <Typography variant="h5" component="div">
-                        <CardActions>
-                          {filteredRecipes.map((recipeItem)=>{
-                            return (
-                              <div>
-                                <Link to={`/findrecipe/${recipeItem.data}`}>
-                                  <Button size="small">{recipeItem.name}</Button>
-                                </Link>
-                              </div>
-                            )
-                          })}
-                        </CardActions>
-                      </Typography>
-                    </CardContent>
-                  </Card>
-
-                </div>
+            <div className="difficulty">
+              <div className="text-container">Difficulty</div>
+              <div className="rating">
+                <Rating
+                  name="difficulty"
+                  type="text"
+                  onChange={handleSearchInput}
+                  value={searchFormState.difficulty}
+                />
               </div>
             </div>
-          </form>
-        </div>
+
+            <div className="spice">
+              <div className="text-container">Spice Level</div>
+              <div className="spice-rating">
+                <StyledRating
+                  defaultValue={1}
+                  max={3}
+                  getLabelText={(value) =>
+                    `${value} Fire${value !== 1 ? "s" : ""}`
+                  }
+                  precision={0.5}
+                  icon={<WhatshotIcon fontSize="inherit" />}
+                  emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
+                  name="spice"
+                  value={searchFormState.spice}
+                  type="text"
+                  onChange={handleSearchInput}
+                />
+              </div>
+            </div>
+
+            <div className="tags">
+              <div className="text-container">Filters</div>
+              <div className="check-box">
+                <FormGroup row>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="vegetarian"
+                        checked={searchFormState.vegetarian}
+                        onChange={() => {
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            vegetarian: !searchFormState.vegetarian,
+                          }));
+                        }}
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Vegetarian"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="vegan"
+                        checked={searchFormState.vegan}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            vegan: !searchFormState.vegan,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Vegan"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="dairyfree"
+                        checked={searchFormState.dairy}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            dairy: !searchFormState.dairy,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Dairy Free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="glutenfree"
+                        checked={searchFormState.gluten}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            gluten: !searchFormState.gluten,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Gluten Free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="nutfree"
+                        checked={searchFormState.nut}
+                        onChange={() =>
+                          setSearchFormState(() => ({
+                            ...searchFormState,
+                            nut: !searchFormState.nut,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Nut Free"
+                  />
+                </FormGroup>
+                <button className="submit-button" type="submit">
+                  Search
+                </button>
+                <button onClick={handleFormClear}>Clear</button>
+              </div>
+              <div className="ingredientsteps-container">
+                <div></div>
+                <Card sx={{ minWidth: 275 }}>
+                  <CardContent>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {filteredRecipes.map((recipeItem) => {
+                        return (
+                          <div>
+                            <Link to={`/findrecipe/${recipeItem.data}`}>
+                              <Button size="small">{recipeItem.name}</Button>
+                              <p>{recipeItem.time}</p>
+                              <p>{recipeItem.steps}</p>
+                            </Link>
+                          </div>
+                        );
+                      })}
+                    </Typography>
+                    <Typography variant="h5" component="div">
+                      <CardActions></CardActions>
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
+    </div>
   );
 }
 

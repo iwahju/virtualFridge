@@ -28,12 +28,9 @@ import FindRecipe from "./components/pages/FindRecipes";
 function App() {
   const user = useSelector(selectUser);
   const { token, removeToken, setToken } = useToken();
-  
- 
 
   useEffect(() => {
     console.log("token modified", { token });
-    
   }, [token]);
 
   return (
@@ -45,20 +42,21 @@ function App() {
 
           <Routes>
             <Route path="/" exact element={<LoginForm setToken={setToken} />} />
-            <Route path="/sign-up" element={<SignupForm setToken={setToken}/>} />
+            <Route
+              path="/sign-up"
+              element={<SignupForm setToken={setToken} />}
+            />
             <Route
               path="/home"
-              element={
-                <Home token={token} setToken={setToken} />
-              }
+              element={<Home token={token} setToken={setToken} />}
             />
             <Route
               path="/myrecipe"
               element={<MyRecipe token={token} setToken={setToken} />}
             />
             <Route
-              path='/findrecipe'
-              element={<FindRecipe token={token} setToken={setToken}/>}
+              path="/findrecipe"
+              element={<FindRecipe token={token} setToken={setToken} />}
             />
           </Routes>
         </Router>
