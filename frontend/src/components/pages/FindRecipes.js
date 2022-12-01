@@ -25,10 +25,6 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import Slider from '@mui/material/Slider';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 
 const bull = (
   <Box
@@ -189,54 +185,24 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     );
   };
 
-  const marks = [
-    {
-      value: 1,
-      label: '1',
-    },
-    {
-      value: 2,
-      label: '2',
-    },
-    {
-      value: 3,
-      label: '3',
-    },
-    {
-      value: 4,
-      label: '4',
-    },
-    {
-       value: 5,
-       label: '5',
-      },
-  ];
-
-  function valuetext(value) {
-    return `${value}`;
-  }
-
-
-
   return (
-    <div className="recipesearch-outer-container">
+    <div className="recipemenu-outer-container">
 
         <div>
           <form className="form" onSubmit={handleSearchSubmit}>
-            <div className="search-info">
-            <div className='recipename-container'>
-                
-                <TextField
-                id="standard-number"  label="Recipe Name" variant="standard" 
-                color="success" focused 
-                sx={{width: 300 }}
-                name="recipeName"
-                placeholder="'Mac & Cheese'"
-                onChange={handleSearchInput}
-                value={searchFormState.name}
+            <div className="recipe-info">
+              <div className="recipename-container">
+                <label className="text-container" htmlFor="recipename">
+                  Recipe Name
+                </label>
+                <input
+                  name="recipeName"
+                  className="formFieldInput"
+                  placeholder="Enter the Recipe"
+                  onChange={handleSearchInput}
+                  value={searchFormState.recipeName}
                 />
-           
-            </div>
+              </div>
 
               <div className="time-container">
                 <div className="text-container">Time to Cook (min)</div>
@@ -262,26 +228,17 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                 </div>
               </div>
 
-              <div className='difficulty'>
-                    <div className='text-container'>
-                            Difficulty
-                    </div>
-                    <div className='rating'>
-                    <Slider
-                        aria-label="small-steps"
-                        defaultValue={2}
-                        getAriaValueText={valuetext}
-                        step={1}
-                        marks= {marks}
-                        min={1}
-                        max={5}
-                        color="success"
-                        name="difficulty"
-                        value={searchFormState.difficulty}  
-                        onChange={handleSearchInput}
-                    />
-                    </div>
+              <div className="difficulty">
+                <div className="text-container">Difficulty</div>
+                <div className="rating">
+                  <Rating
+                    name="difficulty"
+                    type="text"
+                    onChange={handleSearchInput}
+                    value={searchFormState.difficulty}
+                  />
                 </div>
+              </div>
 
               <div className="spice">
                 <div className="text-container">Spice Level</div>
@@ -306,7 +263,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
               <div className="tags">
                 <div className="text-container">Filters</div>
                 <div className="check-box">
-                  <FormGroup >
+                  <FormGroup row>
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -392,18 +349,15 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                       }
                       label="Nut Free"
                     />
-                  </FormGroup> 
+                  </FormGroup>
+                  <button className="submit-button" type="submit">
+                    Search
+                  </button>
+                  <button onClick={handleFormClear}>Clear</button>
                 </div>
-                <div className="buttons">
-                   <button className="search-button" type="submit">Search</button>
-                  <button className="clear-button" onClick={handleFormClear}>Clear</button>
-                  </div>
-                
-                
-                
-                <div className="recipes-container">
+                <div className="ingredientsteps-container">
                   <div></div>
-                  <Card sx={{ width: 1000, height: 300 }}>
+                  <Card sx={{ minWidth: 275 }}>
                     <CardContent>
                       <Typography
                         sx={{ fontSize: 14 }}
@@ -415,21 +369,9 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                           {filteredRecipes.map((recipeItem)=>{
                             return (
                               <div>
-                              <Card sx={{ width: 150, height: 200}}>
                                 <Link to={`/findrecipe/${recipeItem.data}`}>
                                   <Button size="small">{recipeItem.name}</Button>
                                 </Link>
-                                <p> Time: {recipeItem.time} mins</p>
-                               
-                                <p> {recipeItem.difficulty}</p>
-                                
-                                <IconButton aria-label="Bookmark">
-                                  <BookmarkBorderIcon />
-                                </IconButton>
-                                
-
-
-                                </Card>
                               </div>
                             )
                           })}

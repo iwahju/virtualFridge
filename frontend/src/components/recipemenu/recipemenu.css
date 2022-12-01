@@ -1,32 +1,36 @@
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-
 .recipemenu-outer-container {
     position:fixed;
     top: 0px;
-    left: 50%;
-    width: 50vw;
-    height: 100vh;
+    left: 150px;
+    width: 70vw;
+    height: 105vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(216, 239, 216);
     
     
     
 }
 
 .recipemenu-inner-container {
-    width: 90%;
-    border: 1px solid;
-    border-color: black;
+    background-color: #eaf4ea;
     border-radius: 10px;
-    padding: 25px 40px;
-    height: 90vh;
+    width: 200%;
+    height: 75%;
+    padding: 10px;
+    display: flex;
+    align-items: initial;
+    flex-direction: column;
+    
     font-size: 30px;
-    overflow-y: scroll;
-    margin-top: 5%;
-    font-family: "Exo";
+
+}
+
+.create-recipe {
+    position: relative;
+    margin: auto;
+    
 }
 
 .recipe-info{
@@ -34,37 +38,46 @@
    display:inline;
    background-color: #162b16;
    margin-right: 700px;
-   margin-left: 0px;
+   margin-left: -10px;
    border-radius: 10px;
    height: 80vh;
    width: 30vw;
+   top: -10px;
    box-shadow: 0 0 20px rgb(39, 37, 37);
-   
     
+}
+
+.submit-button {
+    background-color: rgb(124, 192, 124);
+    position: fixed;
+    top: 80%;
+    font-size: 20px;
+    align-items: baseline;
+    justify-content: center;
+    border: none;
+    height: 2.5rem;
+    width: 10%;
+    border-radius: 25px;
 }
 
 .recipename-container {
     position: relative;
-    width: 60%;
-    margin-left: 20px;
+    width: 80%;
+    margin-left: 50px;
     border: none;
     margin-top: 10px;
-}
-
-.recipename-container input {
-    font-family: "Exo";
-    position: relative;
-    margin-left: 0px;
-    border: none;
    
+    
+   
+    
 }
 
 .text-container {
     display: block;
-    font-size: 12px;
-    color: #2c7b2c;
+    text-transform: uppercase;
+    font-size: 0.45em;
+    color: rgb(253, 250, 250);
     margin-top: 20px;
-    font-family: "Roboto" ;
     
 }
 
@@ -79,39 +92,42 @@
 
 }
     
-
+.form-recipetitle input {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    text-align: center;
+    width: 80%;
+    font-size: 15px;
+}
 
 .time-container {
     position: relative;
     width: 80%;
-    margin-top: 5%;
-    margin-left: 20px;
+    top: 0%;
+    margin-left: 50px;
     border: none;
+    
+   
+
 }
 
 .form-time {
     color: white;
     position: relative;
     width: 200%;
-    margin-top: 0%;
-    border: none; 
+    margin-top: 5%;
+    border: none;
+    
     font-size: 10px;
     text-align: left;
     margin-left: 0px;
 }
 
-.form-time input  {
-    font-family: "Exo";
-}
-
 .difficulty {
     position: relative;
-    width: 60%;
-    top: 0%;
+    width: 80%;
+    top: 5%;
     border: none;
-    margin-left: 20px;
-    font-family: "Roboto";
-    
+    margin-left: 50px;
     
 }
 
@@ -119,8 +135,8 @@
 .rating {
     color: white;
     position: relative;
-    width: 80%;
-    margin-top: 0%;
+    width: 200%;
+    margin-top: 5%;
     border: none;
     margin-left: 0px;
 }
@@ -128,9 +144,9 @@
 .tags {
     position: relative;
     width: 80%;
-    top: 0%;
+    top: 5%;
     border: none;
-    margin-left: 20px;
+    margin-left: 50px;
 }
 
 .check-box {
@@ -138,21 +154,20 @@
     margin-left: 40px;
     display: flex;
     top: 7%;
-    color: rgb(70, 75, 70);
-   
+    color: rgb(168, 222, 162);
     
 
 }
 .spice {
     position:relative;
-    top: 0%;
+    top: 5%;
     width: 80%;
     border: none;
-    margin-left: 20px;
+    margin-left: 50px;
 }
 .spice-rating {
     position: relative;
-    margin-top: 0%;
+    margin-top: 5%;
     color: white;
     width: 200%;
     border: none; 
@@ -160,51 +175,37 @@
 
     
 }
-
-.ingredients-container {
-   
-    position: relative;
-    margin-top: 5%;
-    margin-bottom: 5%;
+.ingredientsteps-container {
+    background-color: transparent;
+    display: inline;
+    top: 140px;
+    position: fixed;
+    margin-left: 475px;
     
+}
+.ingredients-container {
+    margin-right: 40px;
+    display: inline;
+    position: relative;
+   
+
    
 }
 
 .steps-container {
     position: relative;
-    margin-bottom: 5px;
-    
+    top: 15px;
 }
 
 .formFieldInput {
-    
     width: 90%;
     background-color: transparent;
     border: none;
-    color: 'black';
+    color: rgb(25, 24, 24);
     outline: none;
-    border-bottom: 1px solid #31bb41;
+    border-bottom: 1px solid #445366;
     font-size: 0.5em;
     font-weight: 300;
     padding-bottom: 10px;
     margin-top: 10px;
   }
-
-  .submitbutton-container{
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin-top: 20px;
-    width: 125%;
-  }
-  .submit-button {
-    background-color: rgb(124, 192, 124);
-    position: relative;
-    font-size: 15px;
-    border: none;
-    height: 2rem;
-    width: 15%;
-    border-radius: 10px;
-    display: fixed;
-    font-family: "Exo";
-}
