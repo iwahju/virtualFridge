@@ -53,6 +53,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const inventoryItem = (item, index) => (
     <ListItem key={item.ingredient + "__" + index}>
       <ListItemText>{item.ingredient}</ListItemText>
+      <ListItemText>{item.date}</ListItemText>
     </ListItem>
   );
 
