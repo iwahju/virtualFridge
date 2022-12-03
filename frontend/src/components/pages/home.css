@@ -9,7 +9,7 @@
   /*background-image: url(./chefbackground.png);*/
 }
 .welcome {
-  background-image: url(./allthepics/chefbackground1.png);
+  /* background-image: url(./allthepics/chefbackground1.png); */
   background-repeat: no-repeat;
   display: flex;
   width: 120%;
@@ -53,4 +53,9 @@
   width: 200rem;
   margin: 1.5rem;
   max-width: 33vw;
+}
+
+.alert-wrapper {
+  display: flex;
+  align-items: baseline;
 }

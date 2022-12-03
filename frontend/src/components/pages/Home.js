@@ -4,6 +4,7 @@ import PlusButton from "../plusbutton/Plusbutton";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { List, ListItem, ListItemText, Stack } from "@mui/material";
+import {FiAlertTriangle} from "react-icons/fi"
 // import { withStyles, Typography } from "@mui/styles";
 
 
@@ -102,9 +103,12 @@ return (
             marginTop: '2%',
           }}
           />
+          <div className="alert-wrapper">
+          <FiAlertTriangle/>
           <Stack className="storagebox-content1" color={'white'}>
             <List>{fridgeItems.map(inventoryItem)}</List>
           </Stack>
+          </div>
       </div>
       <div className="storagebox">
         <div className="storagebox">
