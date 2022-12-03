@@ -55,7 +55,7 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
-        console.log(response.data);
+        window.location.reload();
       })
       .catch((error) => {
         if (error.response) {
@@ -141,6 +141,7 @@ function Plusmenu(props) {
                         e.stopPropagation();
                       }}
                       onKeyDown={(e) => {
+                        // console.log(e.code)
                         if (e.keyCode === 13) {
                           setUnitSelectorOpen(false)
                         }

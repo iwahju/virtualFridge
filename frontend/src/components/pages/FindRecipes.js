@@ -372,7 +372,12 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                               <div>
                                 <Link to={`/findrecipe/${recipeItem.data}`}>
                                   <Button size="small">{recipeItem.name}</Button>
-                                  <span size="small">{recipeItem.ingredients}</span>
+                                  <span size="small">{recipeItem.ingredients.map((ingredient) => {
+                                   return <div>
+                                    <span>Name: {ingredient.name}</span>
+                                    <span>Quantity: {ingredient.quantity}</span>
+                                   </div>
+                                  })}</span>
                                 </Link>
                               </div>
                             )
