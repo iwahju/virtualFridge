@@ -49,10 +49,22 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
     }, [profile]);
 
   console.log({ fridgeItems, pantryItems });
+  const renderComingSoon = (date) => {
+    const currentDate = new Date();
+    const dateObject = new Date(date);
+    const timeDiff =  (dateObject.getTime() - currentDate.getTime())/1000;
 
+    if (timeDiff < 0) {
+      return <span>(Expired)</span>
+    } else if (timeDiff < (60 * 60 * 24 * 5)) {
+      return <span>(Coming Soon)</span>
+    } else {
+      return '';
+    }
+  }
   const inventoryItem = (item, index) => (
     <ListItem key={item.ingredient + "__" + index}>
-      <ListItemText>{item.ingredient}</ListItemText>
+      <ListItemText>{item.ingredient}{renderComingSoon(item.date)}</ListItemText>
       <ListItemText>{item.date}</ListItemText>
     </ListItem>
   );
