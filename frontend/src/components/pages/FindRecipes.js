@@ -180,6 +180,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
           <ListItemText>{item.difficulty}</ListItemText>
           <ListItemText>{item.time + "min "}</ListItemText>
           <ListItemText>{item.spiceLevel + " "}</ListItemText>
+          <ListItemText>{item.ingredients+ " "}</ListItemText>
         </ListItem>
       </Link>
     );
@@ -371,6 +372,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                               <div>
                                 <Link to={`/findrecipe/${recipeItem.data}`}>
                                   <Button size="small">{recipeItem.name}</Button>
+                                  <span size="small">{recipeItem.ingredients}</span>
                                 </Link>
                               </div>
                             )

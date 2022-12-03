@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import "./plusmenu.css";
 import { fridgeContext } from "../../context";
 import Button from "@mui/material/Button";
@@ -12,6 +12,7 @@ import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 
 function Plusmenu(props) {
+
   const defaultformstate = {
       ingredient: "",
       quantity: 0,
@@ -19,14 +20,20 @@ function Plusmenu(props) {
       date: new Date(),
       fridge: "true"
   };
+  const [unitSelectorOpen, setUnitSelectorOpen] = useState(false)
   const [formstate, setFormstate] = useState(defaultformstate);
+
   const context = useContext(fridgeContext);
   console.log(formstate);
-  const handleInputChange = (e) => {
+  const handleInputChange = (e, closeSelector) => {
+    if (closeSelector) {
+      setUnitSelectorOpen(false)
+    }
     setFormstate({
       ...formstate,
       [e.target.name]: e.target.value,
     });
+    
   };
   //location = fridge, pantry
   const handleFridgeClick = (fridge, e) => {
@@ -103,12 +110,24 @@ function Plusmenu(props) {
                       sx={{ minWidth: 90 }}>
                     <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
                     <Select
-                      
+                      open={unitSelectorOpen}
+                   
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
                       value={formstate.unit}
                       name= "unit"
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        
+                        handleInputChange(e, true)
+                       
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setUnitSelectorOpen(!unitSelectorOpen)
+                      }}
+                      renderValue={() => {
+                        return <span>{formstate.unit}</span>
+                      }}
                       label="unit"
                     >
                       <MenuItem value="">
@@ -116,10 +135,21 @@ function Plusmenu(props) {
                       <input type= "text" 
                       placeholder="other"
                       name= "unit"
+                      onChange={handleInputChange}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.keyCode === 13) {
+                          setUnitSelectorOpen(false)
+                        }
+                       
+                      }}
                       />
-                      <MenuItem value={'lb'}>lbs</MenuItem>
+                      <MenuItem value={'lbs'}>lbs</MenuItem>
                       <MenuItem value={'tsp'}>tsp</MenuItem>
-                      <MenuItem value={'tbsp'}>tspb</MenuItem>
+                      <MenuItem value={'tbsp'}>tbsp</MenuItem>
                       <MenuItem value={'gallon'}>gallon</MenuItem>
                       <MenuItem value={'ounce'}>ounce(s)</MenuItem>
                     </Select>
@@ -132,6 +162,7 @@ function Plusmenu(props) {
                 name="date"
                 value={formstate.date}
                 type="date"
+              
                 placeholder="mm/dd/yy"
                 onChange={handleInputChange}
               />
