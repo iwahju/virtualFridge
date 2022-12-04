@@ -1,9 +1,77 @@
 .ingredientsteps-container {
     
-    background-color: transparent;
+    /* background-color: transparent;
     display: inline;
     top: 140px;
     position: fixed;
-    margin-left: 600px;
+    margin-left: 600px; */
     
+}
+
+.recipemenu-outer-container {
+    display: flex;
+    /* flex-wrap: wrap; */
+}
+
+.form {
+    display: block;
+    background-color: rgb(8 44 8 / 98%);
+
+}
+    
+.form {
+    width: 40%;
+    margin-right: 40px;
+    color: #fff;
+}
+
+.form input {
+    margin-bottom: 20px;
+}
+
+.ingredientsteps-container {
+    width: 60%;
+}
+
+.time-container .text-container {
+    margin-bottom: 20px;
+}
+
+.form-time input {
+    background-color: #fff;
+}
+
+.submit-button.search {
+    margin-right: 10px;
+}
+
+.custom-card {
+    align-items: start !important;
+    /* flex-wrap: wrap; */
+}
+
+.card-item {
+    display: none;
+}
+
+.card-item.active {
+    display: block;
+}
+
+.card-item:first-child {
+    display: block;
+    position: relative;
+}
+
+.card-item:first-child::after{
+    content: ">";
+    position: absolute;
+    right: -40px;
+    cursor: pointer;
+    top: 50%;
+    font-size: 30px;
+}
+
+.card-item.active:first-child::after {
+    content: "";
 }

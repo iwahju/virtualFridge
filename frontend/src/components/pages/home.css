@@ -43,14 +43,13 @@
   flex-direction: column;
   align-items:center;
   
-  
-  
 }
 .storagebox-title3 {
   font-family: "Exo";
   border-radius: 35px;
   font-size: 25px;
   color:'black';
+  
 }
 .storagebox-content1 {
   border:1px ;
@@ -60,4 +59,6 @@
     width: 200rem;
     margin: 1.5rem;
     max-width: 33vw;
+    overflow-y: auto;
+    max-height: 2500px;
 }
