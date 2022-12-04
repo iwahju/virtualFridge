@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import PlusButton from "../plusbutton/Plusbutton";
 import { Box } from "@mui/system";
 import axios from "axios";
+import {GoAlert} from 'react-icons/go'
 import { List, ListItem, ListItemText, Stack } from "@mui/material";
 // import { withStyles, Typography } from "@mui/styles";
 
@@ -57,7 +58,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
     if (timeDiff < 0) {
       return <span>(Expired)</span>
     } else if (timeDiff < (60 * 60 * 24 * 5)) {
-      return <span>(Coming Soon)</span>
+      return <span><GoAlert/></span>
     } else {
       return '';
     }
