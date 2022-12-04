@@ -24,7 +24,6 @@ import Logout from "./components/logout/Logout";
 import axios from "axios";
 import FindRecipe from "./components/pages/FindRecipes";
 // import Userbutton from "./components/userbutton/Userbutton";
-import GroceryList from "./components/pages/GroceryList";
 
 function App() {
   const user = useSelector(selectUser);
@@ -50,20 +49,17 @@ function App() {
             <Route
               path="/home"
               element={
-                <Home token={token} setToken={setToken} />
+                <Home token={token}/>
               }
             />
             <Route
               path="/myrecipe"
-              element={<MyRecipe token={token} setToken={setToken} />}
+              element={<MyRecipe token={token} />}
             />
             <Route
               path='/findrecipe'
-              element={<FindRecipe token={token} setToken={setToken}/>}
+              element={<FindRecipe token={token} />}
             />
-            <Route 
-              path="/grocerylist" 
-              element={<GroceryList token={token} setToken={setToken}/>} />
           </Routes>
         </Router>
       ) : (

@@ -35,7 +35,7 @@ function Plusbutton(props) {
             <div className="plusbutton">
                 <AiIcons.AiFillPlusCircle onClick={showPlus} />
         </div>
-        {plus && <Plusmenu token={props.token}/>}
+        {plus && <Plusmenu token={props.token} setPlus={setPlus} setProfileLoaded={props.setProfileLoaded}/>}
         </div>
 
     )

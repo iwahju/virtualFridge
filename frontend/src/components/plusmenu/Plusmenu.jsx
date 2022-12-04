@@ -17,7 +17,7 @@ function Plusmenu(props) {
       ingredient: "",
       quantity: 0,
       unit: "",
-      date: new Date(),
+      date: "2023-12-04",
       fridge: "true"
   };
   const [unitSelectorOpen, setUnitSelectorOpen] = useState(false)
@@ -55,7 +55,8 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
-        window.location.reload();
+        props.setProfileLoaded(false)
+        props.setPlus(false)
       })
       .catch((error) => {
         if (error.response) {

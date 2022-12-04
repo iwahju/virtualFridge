@@ -99,7 +99,7 @@ def get_recipes():
 
 @app.route('/addRecipe', methods=["POST"])
 @jwt_required()
-def get_recipes():
+def addRecipes():
     newRecipe={
         "author": get_jwt_identity(),
         "name": request.json.get("recipeName", None).lower(),
@@ -135,8 +135,7 @@ def add_item():
     user["inventory"].append(item)
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item didnt exist, adding new item",
-            "user": user  }
+    return {"message":"item didnt exist, adding new item"}
 
 @app.route('/deleteItem') #index of item
 @jwt_required()
