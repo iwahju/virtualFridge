@@ -89,6 +89,7 @@ return (
   <div className="home">
     <div className= "welcome"></div>
     <div className= "text">
+    <PlusButton token={props.token}/>
     </div>
     
     <div className="storagebox-container1">
@@ -122,7 +123,7 @@ return (
             </Stack>
         </div>
       </div>
-      <PlusButton />
+     
     </div>
   </div>
 );

@@ -87,11 +87,13 @@ function Recipemenu() {
         console.log(formstate);
       };
     
+    
   return (
     <div className='recipemenu-outer-container'>
         
         <div className='recipemenu-inner-container'>
             Create Your Own Recipe
+        
             <div className='recipename-container'>
                 
                     <TextField
@@ -250,20 +252,13 @@ function Recipemenu() {
             
             
         <div>
-               
-            <form className='form' onSubmit={handleFormSubmit}>
-                
             
-                
-               
-
-
 
                     <div className= 'submitbutton-container'>
                     <button className="submit-button" type='submit'>Create</button>
                     </div>
                     
-            </form>
+           
         </div>
             
         </div>

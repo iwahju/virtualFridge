@@ -28,6 +28,8 @@ import Typography from "@mui/material/Typography";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import Slider from '@mui/material/Slider';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Grid from '@mui/material/Grid';
+import { grey } from '@mui/material/colors';
 
 
 const bull = (
@@ -39,12 +41,15 @@ const bull = (
   </Box>
 );
 const StyledRating = styled(Rating)({
-  "& .MuiRating-iconFilled": {
-    color: "white",
+  '& .MuiRating-iconFilled': {
+    color: 'green',
   },
-  "& .MuiRating-iconHover": {
-    color: "white",
+  '& .MuiRating-iconHover': {
+    color: 'green',
   },
+  '& .MuiRating-iconEmpty': {
+      color: 'gray',
+    },
 });
 
 function FindRecipe(/** @type {{setToken,}}*/ props) {
@@ -188,6 +193,8 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     );
   };
 
+  
+
   const marks = [
     {
       value: 1,
@@ -214,21 +221,40 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
   function valuetext(value) {
     return `${value}`;
   }
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
 
+  
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded); 
+  };
 
 
   return (
+ <div className="findrecipe">
     <div className="recipesearch-outer-container">
 
         <div>
-          <form className="form" onSubmit={handleSearchSubmit}>
-            <div className="search-info">
-            <div className='recipename-container'>
+          <form className="searchform" onSubmit={handleSearchSubmit}>
+            
+            <div className='recipename-search'>
                 
                 <TextField
                 id="standard-number"  label="Recipe Name" variant="standard" 
                 color="success" focused 
-                sx={{width: 300 }}
+                sx={{ width: 250}}
+                InputProps={{ 
+                  sx: { input: { color: 'white' } }}}
                 name="recipeName"
                 placeholder="'Mac & Cheese'"
                 onChange={handleSearchInput}
@@ -237,36 +263,35 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
            
             </div>
 
-              <div className="time-container">
+              <div className="time-search">
                 <div className="text-container">Time to Cook (min)</div>
-                <div className="form-time">
+                <div className="time-search">
                   <TextField
                     color="success"
                     focused
-                    sx={{ width: 80 }}
-                    InputProps={{
-                      sx: { height: 45 },
-                      //   inputProps: {
-                      //     max: 60,
-                      //     min: 5,
-                      //   },
-                    }}
+                    sx={{ width: 250 }}
+                    InputProps={{ 
+                      sx: { input: { color: 'white' } }
+                      
+                  } }
                     name="time"
                     id="standard-number"
                     variant="standard"
                     type="number"
+                    placeholder="'30 mins'"
                     onChange={handleSearchInput}
                     value={searchFormState.time}
                   />
                 </div>
               </div>
 
-              <div className='difficulty'>
+              <div className='difficulty-search'>
                     <div className='text-container'>
                             Difficulty
                     </div>
                     <div className='rating'>
                     <Slider
+                        sx={{ width: 200, marginRight: 5 }}
                         aria-label="small-steps"
                         defaultValue={2}
                         getAriaValueText={valuetext}
@@ -282,10 +307,11 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                     </div>
                 </div>
 
-              <div className="spice">
+              <div className="spice-search">
                 <div className="text-container">Spice Level</div>
                 <div className="spice-rating">
                   <StyledRating
+                    sx={{ width: 200, marginRight: 5, marginTop: 1 }}
                     defaultValue={1}
                     max={3}
                     getLabelText={(value) =>
@@ -302,13 +328,15 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                 </div>
               </div>
 
-              <div className="tags">
+              <div className="tags-search">
                 <div className="text-container">Filters</div>
-                <div className="check-box">
-                  <FormGroup >
+                <div className="checkbox-search">
+                  <FormGroup>
+                  
                     <FormControlLabel
                       control={
                         <Checkbox
+                          sx={{ color: grey[400],}}
                           name="vegetarian"
                           checked={searchFormState.vegetarian}
                           onChange={() => {
@@ -326,6 +354,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          sx={{ color: grey[400],}}
                           name="vegan"
                           checked={searchFormState.vegan}
                           onChange={() =>
@@ -343,6 +372,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          sx={{ color: grey[400],}}
                           name="dairyfree"
                           checked={searchFormState.dairy}
                           onChange={() =>
@@ -360,6 +390,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          sx={{ color: grey[400],}}
                           name="glutenfree"
                           checked={searchFormState.gluten}
                           onChange={() =>
@@ -377,6 +408,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          sx={{ color: grey[400],}}
                           name="nutfree"
                           checked={searchFormState.nut}
                           onChange={() =>
@@ -401,48 +433,68 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                 
                 
                 <div className="recipes-container">
-                  <div></div>
-                  <Card sx={{ width: 1000, height: 300 }}>
-                    <CardContent>
-                      <Typography
-                        sx={{ fontSize: 14 }}
-                        color="text.secondary"
-                        gutterBottom
-                      ></Typography>
-                      <Typography variant="h5" component="div">
-                        <CardActions>
+                  <Grid container>
                           {filteredRecipes.map((recipeItem)=>{
                             return (
                               <div>
-                              <Card sx={{ width: 150, height: 200}}>
-                                <Link to={`/findrecipe/${recipeItem.data}`}>
-                                  <Button size="small">{recipeItem.name}</Button>
-                                </Link>
-                                <p> Time: {recipeItem.time} mins</p>
-                               
-                                <p> {recipeItem.difficulty}</p>
-                                
+                              <Grid item  >
+                              <Card sx={{ width: 300, marginRight:2, marginTop: 2}} style={{backgroundColor:'lightgray'}} >
+                              <Typography sx={{marginLeft:1, marginTop: 1}} >
+                              {recipeItem.data}
+                              {recipeItem.name}
+                              </Typography>
+                                <div className="recipe-tags">
+                                <Typography sx={{marginLeft:1, marginTop: 1}} >
+                                <p>Time: {recipeItem.time} mins </p>
+                                <p>Difficulty: {recipeItem.difficulty}</p>
+                                <p>Spice Level: {recipeItem.spiceLevel} </p>
+                                </Typography>
+                                <CardActions disableSpacing>
+                                <div className="bookmark">
                                 <IconButton aria-label="Bookmark">
                                   <BookmarkBorderIcon />
                                 </IconButton>
+                                 </div>
+                                <ExpandMore
+                                    expand={expanded}
+                                    onClick={handleExpandClick}
+                                    aria-expanded={expanded}
+                                    aria-label="show more"
+                                  >
+                                    <ExpandMoreIcon />
+                                  </ExpandMore>
+                                  </CardActions>
+                                  <Collapse in={expanded} timeout="auto" unmountOnExit> 
+                                  <CardContent>
+                                <Typography >
+                                Steps: {recipeItem.steps}
                                 
+                                </Typography>
+                                <Typography >
+                                Ingredients: {recipeItem.inventory}
+                                
+                                </Typography>
 
-
+                               
+                                </CardContent>
+                                </Collapse>
+                                </div>
                                 </Card>
+                              </Grid>
+                                
                               </div>
                             )
                           })}
-                        </CardActions>
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                  </Grid>  
+                  
 
                 </div>
               </div>
-            </div>
           </form>
         </div>
       </div>
+    </div>
+     
   );
 }
 

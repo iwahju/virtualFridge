@@ -3,7 +3,7 @@
 
 .recipemenu-outer-container {
     position:fixed;
-    top: 0px;
+    top: 20px;
     left: 50%;
     width: 50vw;
     height: 100vh;
@@ -195,7 +195,7 @@
     align-items: center;
     display: flex;
     margin-top: 20px;
-    width: 125%;
+    width: 100%;
   }
   .submit-button {
     background-color: rgb(124, 192, 124);

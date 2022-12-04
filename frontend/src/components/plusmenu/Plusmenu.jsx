@@ -128,7 +128,7 @@ function Plusmenu(props) {
 
               <TextField
                id="standard-number"  label="Expiration Date" variant="standard" 
-               color= "success" focused
+                color= "success" focused
                 name="date"
                 value={formstate.date}
                 type="date"
@@ -137,7 +137,7 @@ function Plusmenu(props) {
               />
             </div>
             <div>
-              <Box
+              <Box  
                 sx={{
                   display: "flex",
                   flexDirection: "column",

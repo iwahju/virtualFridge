@@ -1,20 +1,22 @@
 
-
 .createbutton {
-    font-size: 20px;
-    display: center;
+    font-size: 15px;
+    display:flex;
     align-items: center;
     justify-content: center;
+    color: whitesmoke;
+    font-family: "Exo";
+    margin-bottom: 2%;
 }
 .createbuttoncontainer {
-    background-color: rgb(147, 180, 147);
-    height: 3rem;
+    border: 1px solid;
+    border-color: rgb(147, 180, 147) ;
+    height: 2rem;
     width: 60%;
-    border-radius: 25px;
+    border-radius: 10px;
     justify-content: center;
     align-items: center;
     display: flex;
-    position: relative;
     top: 85%;
-    right: -75px;
+   
 }
