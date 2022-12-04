@@ -105,8 +105,11 @@ def add_item():
         "quantity": int(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "date": request.json.get("date", None),
-        "fridge": bool(request.json.get("fridge", None)),
+        "fridge": request.json.get("fridge", None),
     }
+    item["fridge"]=bool(item["fridge"])
+    if item["ingredient"]=="" or item["quantity"]==0:
+        return {"msg": "please fill out all fields"}, 401
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
@@ -119,18 +122,48 @@ def add_item():
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
     return {"message":"item didnt exist, adding new item",
-            "inventory":  user["inventory"] }
-# @app.route('/inventory',methods=["POST"])
-# @jwt_required()
-# def addInventoryItem():
+            "user": user  }
+
+@app.route('/deleteItem')
+@jwt_required()
+def deleteItem():
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+
+    user["inventory"].pop(int(request.json.get("index", None)))
     
-#     user=userData.find_one({"name": get_jwt_identity()})
-#     response_body = {
-#         "name": get_jwt_identity(),
-#         "items" :user["inventory"]
-#     }
-    
+    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
+    return {"message":"item successfully deleted",
+            "user": user["inventory"]  }
 
-#     return response_body
+@app.route('/editItem')
+@jwt_required()
+def editItem():
+    item = {
+        "ingredient": request.json.get("ingredient", None).lower(),
+        "quantity": int(request.json.get("quantity", None)),
+        "unit": request.json.get("unit", None),
+        "date": request.json.get("date", None),
+        "fridge": bool(request.json.get("fridge", None)),
+    }
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+    oldItem=user["inventory"][int(request.json.get("index", None))]
+    user["inventory"][int(request.json.get("index", None))]=item
 
+    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
+    return {"message":"item edited successfully",
+            "oldItem": oldItem,
+            "item": item}
 
+@app.route('/addShoppingCart')
+@jwt_required()
+def addShoppingCart():
+    user=userData.find_one({"name": get_jwt_identity()})
+    items=user["shoppingList"]
+    for ingredient in items:
+        i=0
+
+    return 0
