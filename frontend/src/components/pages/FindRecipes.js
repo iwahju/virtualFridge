@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { Avatar, CardHeader, CardMedia, Collapse, List, ListItem, ListItemText, Stack } from "@mui/material";
+import {
+  Avatar,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
@@ -16,7 +25,13 @@ import Checkbox from "@mui/material/Checkbox";
 import { FormLabel, Rating } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { FaThLarge } from "react-icons/fa";
-import { CheckBox, Favorite, MoreVert, PictureAsPdf, Share } from "@mui/icons-material";
+import {
+  CheckBox,
+  Favorite,
+  MoreVert,
+  PictureAsPdf,
+  Share,
+} from "@mui/icons-material";
 import Select from "@mui/material/Select";
 import Time from "./findrecipestime";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,11 +40,11 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import Slider from '@mui/material/Slider';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Grid from '@mui/material/Grid';
-import { grey } from '@mui/material/colors';
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import Slider from "@mui/material/Slider";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Grid from "@mui/material/Grid";
+import { grey } from "@mui/material/colors";
 
 const bull = (
   <Box
@@ -200,24 +215,24 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
   const marks = [
     {
       value: 1,
-      label: '1',
+      label: "1",
     },
     {
       value: 2,
-      label: '2',
+      label: "2",
     },
     {
       value: 3,
-      label: '3',
+      label: "3",
     },
     {
       value: 4,
-      label: '4',
+      label: "4",
     },
     {
-       value: 5,
-       label: '5',
-      },
+      value: 5,
+      label: "5",
+    },
   ];
 
   function valuetext(value) {
@@ -227,276 +242,287 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     const { expand, ...other } = props;
     return <IconButton {...other} />;
   })(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
   }));
 
-  
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
-    setExpanded(!expanded); 
+    setExpanded(!expanded);
   };
 
-
   return (
- <div className="findrecipe">
-    <div className="recipesearch-outer-container">
-
+    <div className="findrecipe">
+      <div className="recipesearch-outer-container">
         <div>
           <form className="searchform" onSubmit={handleSearchSubmit}>
-            
-            <div className='recipename-search'>
-                
-                <TextField
-                id="standard-number"  label="Recipe Name" variant="standard" 
-                color="success" focused 
-                sx={{ width: 250}}
-                InputProps={{ 
-                  sx: { input: { color: 'white' } }}}
+            <div className="recipename-search">
+              <TextField
+                id="standard-number"
+                label="Recipe Name"
+                variant="standard"
+                color="success"
+                focused
+                sx={{ width: 250 }}
+                InputProps={{
+                  sx: { input: { color: "white" } },
+                }}
                 name="recipeName"
                 placeholder="'Mac & Cheese'"
                 onChange={handleSearchInput}
                 value={searchFormState.name}
-                />
-           
+              />
             </div>
 
+            <div className="time-search">
+              <div className="text-container">Time to Cook (min)</div>
               <div className="time-search">
-                <div className="text-container">Time to Cook (min)</div>
-                <div className="time-search">
-                  <TextField
-                    color="success"
-                    focused
-                    sx={{ width: 250 }}
-                    InputProps={{ 
-                      sx: { input: { color: 'white' } }
-                      
-                  } }
-                    name="time"
-                    id="standard-number"
-                    variant="standard"
-                    type="number"
-                    placeholder="'30 mins'"
-                    onChange={handleSearchInput}
-                    value={searchFormState.time}
-                  />
-                </div>
+                <TextField
+                  color="success"
+                  focused
+                  sx={{ width: 250 }}
+                  InputProps={{
+                    sx: { input: { color: "white" } },
+                  }}
+                  name="time"
+                  id="standard-number"
+                  variant="standard"
+                  type="number"
+                  placeholder="'30 mins'"
+                  onChange={handleSearchInput}
+                  value={searchFormState.time}
+                />
               </div>
+            </div>
 
-              <div className='difficulty-search'>
-                    <div className='text-container'>
-                            Difficulty
-                    </div>
-                    <div className='rating'>
-                    <Slider
-                        sx={{ width: 200, marginRight: 5 }}
-                        aria-label="small-steps"
-                        defaultValue={2}
-                        getAriaValueText={valuetext}
-                        step={1}
-                        marks= {marks}
-                        min={1}
-                        max={5}
+            <div className="difficulty-search">
+              <div className="text-container">Difficulty</div>
+              <div className="rating">
+                <Slider
+                  sx={{ width: 200, marginRight: 5 }}
+                  aria-label="small-steps"
+                  defaultValue={2}
+                  getAriaValueText={valuetext}
+                  step={1}
+                  marks={marks}
+                  min={1}
+                  max={5}
+                  color="success"
+                  name="difficulty"
+                  value={searchFormState.difficulty}
+                  onChange={handleSearchInput}
+                />
+              </div>
+            </div>
+
+            <div className="spice-search">
+              <div className="text-container">Spice Level</div>
+              <div className="spice-rating">
+                <StyledRating
+                  sx={{ width: 200, marginRight: 5, marginTop: 1 }}
+                  defaultValue={1}
+                  max={3}
+                  getLabelText={(value) =>
+                    `${value} Fire${value !== 1 ? "s" : ""}`
+                  }
+                  precision={0.5}
+                  icon={<WhatshotIcon fontSize="inherit" />}
+                  emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
+                  name="spice"
+                  value={searchFormState.spice}
+                  type="text"
+                  onChange={handleSearchInput}
+                />
+              </div>
+            </div>
+
+            <div className="tags-search">
+              <div className="text-container">Filters</div>
+              <div className="checkbox-search">
+                <FormGroup>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ color: grey[400] }}
+                        name="vegetarian"
+                        checked={searchFormState.vegetarian}
+                        onChange={() => {
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            vegetarian: !searchFormState.vegetarian,
+                          }));
+                        }}
                         color="success"
-                        name="difficulty"
-                        value={searchFormState.difficulty}  
-                        onChange={handleSearchInput}
-                    />
-                    </div>
-                </div>
-
-              <div className="spice-search">
-                <div className="text-container">Spice Level</div>
-                <div className="spice-rating">
-                  <StyledRating
-                    sx={{ width: 200, marginRight: 5, marginTop: 1 }}
-                    defaultValue={1}
-                    max={3}
-                    getLabelText={(value) =>
-                      `${value} Fire${value !== 1 ? "s" : ""}`
+                        size="small"
+                      />
                     }
-                    precision={0.5}
-                    icon={<WhatshotIcon fontSize="inherit" />}
-                    emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
-                    name="spice"
-                    value={searchFormState.spice}
-                    type="text"
-                    onChange={handleSearchInput}
+                    label="Vegetarian"
                   />
-                </div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ color: grey[400] }}
+                        name="vegan"
+                        checked={searchFormState.vegan}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            vegan: !searchFormState.vegan,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Vegan"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ color: grey[400] }}
+                        name="dairyfree"
+                        checked={searchFormState.dairy}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            dairy: !searchFormState.dairy,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Dairy Free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ color: grey[400] }}
+                        name="glutenfree"
+                        checked={searchFormState.gluten}
+                        onChange={() =>
+                          setSearchFormState((e) => ({
+                            ...searchFormState,
+                            gluten: !searchFormState.gluten,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Gluten Free"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        sx={{ color: grey[400] }}
+                        name="nutfree"
+                        checked={searchFormState.nut}
+                        onChange={() =>
+                          setSearchFormState(() => ({
+                            ...searchFormState,
+                            nut: !searchFormState.nut,
+                          }))
+                        }
+                        color="success"
+                        size="small"
+                      />
+                    }
+                    label="Nut Free"
+                  />
+                </FormGroup>
+              </div>
+              <div className="buttons">
+                <button className="search-button" type="submit">
+                  Search
+                </button>
+                <button className="clear-button" onClick={handleFormClear}>
+                  Clear
+                </button>
               </div>
 
-              <div className="tags-search">
-                <div className="text-container">Filters</div>
-                <div className="checkbox-search">
-                  <FormGroup>
-                  
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: grey[400],}}
-                          name="vegetarian"
-                          checked={searchFormState.vegetarian}
-                          onChange={() => {
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              vegetarian: !searchFormState.vegetarian,
-                            }));
-                          }}
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Vegetarian"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: grey[400],}}
-                          name="vegan"
-                          checked={searchFormState.vegan}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              vegan: !searchFormState.vegan,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Vegan"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: grey[400],}}
-                          name="dairyfree"
-                          checked={searchFormState.dairy}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              dairy: !searchFormState.dairy,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Dairy Free"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: grey[400],}}
-                          name="glutenfree"
-                          checked={searchFormState.gluten}
-                          onChange={() =>
-                            setSearchFormState((e) => ({
-                              ...searchFormState,
-                              gluten: !searchFormState.gluten,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Gluten Free"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: grey[400],}}
-                          name="nutfree"
-                          checked={searchFormState.nut}
-                          onChange={() =>
-                            setSearchFormState(() => ({
-                              ...searchFormState,
-                              nut: !searchFormState.nut,
-                            }))
-                          }
-                          color="success"
-                          size="small"
-                        />
-                      }
-                      label="Nut Free"
-                    />
-                  </FormGroup> 
-                </div>
-                <div className="buttons">
-                   <button className="search-button" type="submit">Search</button>
-                  <button className="clear-button" onClick={handleFormClear}>Clear</button>
-                  </div>
-                
-                
-                
-                <div className="recipes-container">
-                  <Grid container>
-                          {filteredRecipes.map((recipeItem)=>{
-                            return (
-                              <div>
-                              <Grid item  >
-                              <Card sx={{ width: 300, marginRight:2, marginTop: 2}} style={{backgroundColor:'lightgray'}} >
-                              <Typography sx={{marginLeft:1, marginTop: 1}} >
+              <div className="recipes-container">
+                <Grid container>
+                  {filteredRecipes.map((recipeItem) => {
+                    return (
+                      <div>
+                        <Grid item>
+                          <Card
+                            sx={{ width: 300, marginRight: 2, marginTop: 2 }}
+                            style={{ backgroundColor: "lightgray" }}
+                          >
+                            <Typography sx={{ marginLeft: 1, marginTop: 1 }}>
                               {recipeItem.data}
                               {recipeItem.name}
-                              </Typography>
-                                <div className="recipe-tags">
-                                <Typography sx={{marginLeft:1, marginTop: 1}} >
+                            </Typography>
+                            <div className="recipe-tags">
+                              <Typography sx={{ marginLeft: 1, marginTop: 1 }}>
                                 <p>Time: {recipeItem.time} mins </p>
                                 <p>Difficulty: {recipeItem.difficulty}</p>
                                 <p>Spice Level: {recipeItem.spiceLevel} </p>
-                                </Typography>
-                                <CardActions disableSpacing>
+                              </Typography>
+                              <CardActions disableSpacing>
                                 <div className="bookmark">
-                                <IconButton aria-label="Bookmark">
-                                  <BookmarkBorderIcon />
-                                </IconButton>
-                                 </div>
-                                <ExpandMore
-                                    expand={expanded}
-                                    onClick={handleExpandClick}
-                                    aria-expanded={expanded}
-                                    aria-label="show more"
-                                  >
-                                    <ExpandMoreIcon />
-                                  </ExpandMore>
-                                  </CardActions>
-                                  <Collapse in={expanded} timeout="auto" unmountOnExit> 
-                                  <CardContent>
-                                <Typography >
-                                Steps: {recipeItem.steps}
-                                
-                                </Typography>
-                                <Typography >
-                                Ingredients: {recipeItem.inventory}
-                                
-                                </Typography>
-
-                               
-                                </CardContent>
-                                </Collapse>
+                                  <IconButton aria-label="Bookmark">
+                                    <BookmarkBorderIcon />
+                                  </IconButton>
                                 </div>
-                                </Card>
-                              </Grid>
-                                
-                              </div>
-                            )
-                          })}
-                  </Grid>  
-                  
-
-                </div>
+                                <ExpandMore
+                                  expand={expanded}
+                                  onClick={handleExpandClick}
+                                  aria-expanded={expanded}
+                                  aria-label="show more"
+                                >
+                                  <ExpandMoreIcon />
+                                </ExpandMore>
+                              </CardActions>
+                              <Collapse
+                                in={expanded}
+                                timeout="auto"
+                                unmountOnExit
+                              >
+                                <CardContent>
+                                  <Typography>
+                                    Steps: {recipeItem.steps}
+                                  </Typography>
+                                  <Typography>
+                                    Ingredients: {recipeItem.inventory}
+                                  </Typography>
+                                  <Typography>
+                                    <span size="small">
+                                      {recipeItem.ingredients.map(
+                                        (ingredient) => {
+                                          return (
+                                            <div>
+                                              <span>{ingredient.name}</span>
+                                              <span>
+                                                Quantity: {ingredient.quantity}
+                                              </span>
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                    </span>
+                                  </Typography>
+                                </CardContent>
+                              </Collapse>
+                            </div>
+                          </Card>
+                        </Grid>
+                      </div>
+                    );
+                  })}
+                </Grid>
               </div>
+            </div>
           </form>
         </div>
       </div>
     </div>
-     
   );
 }
 
