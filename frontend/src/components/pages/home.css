@@ -9,7 +9,7 @@
   /*background-image: url(./chefbackground.png);*/
 }
 .welcome {
-  /* background-image: url(./allthepics/chefbackground1.png); */
+  background-image: url(./allthepics/chefbackground1.png);
   background-repeat: no-repeat;
   display: flex;
   width: 120%;
