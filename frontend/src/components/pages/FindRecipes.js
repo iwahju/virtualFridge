@@ -25,6 +25,11 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import Slider from '@mui/material/Slider';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Grid from '@mui/material/Grid';
+import { grey } from '@mui/material/colors';
 
 const bull = (
   <Box
@@ -184,6 +189,49 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
         </ListItem>
       </Link>
     );
+  };
+  const marks = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+    {
+       value: 5,
+       label: '5',
+      },
+  ];
+
+  function valuetext(value) {
+    return `${value}`;
+  }
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+
+  
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded); 
   };
 
   return (
@@ -370,15 +418,59 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                           {filteredRecipes.map((recipeItem)=>{
                             return (
                               <div>
-                                <Link to={`/findrecipe/${recipeItem.data}`}>
-                                  <Button size="small">{recipeItem.name}</Button>
-                                  <span size="small">{recipeItem.ingredients.map((ingredient) => {
+                              <Grid item  >
+                              <Card sx={{ width: 300, marginRight:2, marginTop: 2}} style={{backgroundColor:'lightgray'}} >
+                              <Typography sx={{marginLeft:1, marginTop: 1}} >
+                              {recipeItem.data}
+                              {recipeItem.name}
+                              </Typography>
+                                <div className="recipe-tags">
+                                <Typography sx={{marginLeft:1, marginTop: 1}} >
+                                <p>Time: {recipeItem.time} mins </p>
+                                <p>Difficulty: {recipeItem.difficulty}</p>
+                                <p>Spice Level: {recipeItem.spiceLevel} </p>
+                                </Typography>
+                                <CardActions disableSpacing>
+                                <div className="bookmark">
+                                <IconButton aria-label="Bookmark">
+                                  <BookmarkBorderIcon />
+                                </IconButton>
+                                 </div>
+                                <ExpandMore
+                                    expand={expanded}
+                                    onClick={handleExpandClick}
+                                    aria-expanded={expanded}
+                                    aria-label="show more"
+                                  >
+                                    <ExpandMore/>
+                                  </ExpandMore>
+                                  </CardActions>
+                                  <Collapse in={expanded} timeout="auto" unmountOnExit> 
+                                  <CardContent>
+                                <Typography >
+                                Steps: {recipeItem.steps}
+                                
+                                </Typography>
+                                <Typography >
+                                Ingredients: {recipeItem.inventory}
+                                
+                                </Typography>
+                                <Typography>
+                                <span size="small">{recipeItem.ingredients.map((ingredient) => {
                                    return <div>
-                                    <span>Name: {ingredient.name}</span>
+                                    <span>{ingredient.name}</span>
                                     <span>Quantity: {ingredient.quantity}</span>
                                    </div>
                                   })}</span>
-                                </Link>
+                                </Typography>
+
+                               
+                                </CardContent>
+                                </Collapse>
+                                </div>
+                                </Card>
+                              </Grid>
+                              
                               </div>
                             )
                           })}
