@@ -102,7 +102,8 @@ function Editmenu(props) {
                     <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
                     <Select
                       open={unitSelectorOpen}
-                   
+
+                  sx={{color:"white", fontFamily:"Exo"}}
                       labelId="demo-simple-select-standard-label"
                       id="demo-simple-select-standard"
                       value={formstate.unit}
@@ -137,11 +138,19 @@ function Editmenu(props) {
                        
                       }}
                       />
-                      <MenuItem value={'lbs'}>lbs</MenuItem>
-                      <MenuItem value={'tsp'}>tsp</MenuItem>
-                      <MenuItem value={'tbsp'}>tbsp</MenuItem>
-                      <MenuItem value={'gallon'}>gallon</MenuItem>
-                      <MenuItem value={'ounce'}>ounce(s)</MenuItem>
+                      <MenuItem value={"grams"}>grams</MenuItem>
+                  <MenuItem value={"kilograms"}>kilograms</MenuItem>
+                  <MenuItem value={"pounds"}>pounds</MenuItem>
+                  <MenuItem value={"ounces"}>ounces</MenuItem>
+                  <MenuItem value={"gallons"}>gallons</MenuItem>
+                  <MenuItem value={"quarts"}>quarts</MenuItem>
+                  <MenuItem value={"pints"}>pints</MenuItem>
+                  <MenuItem value={"cups"}>cups</MenuItem>
+                  <MenuItem value={"fluid ounces"}>fluid ounces</MenuItem>
+                  <MenuItem value={"tablespoons"}>tablespoons</MenuItem>
+                  <MenuItem value={"teaspoons"}>teaspoons</MenuItem>
+                  <MenuItem value={"liters"}>liters</MenuItem>
+                  <MenuItem value={"milliliters"}>milliliters</MenuItem>
                     </Select>
                   </FormControl>
 
