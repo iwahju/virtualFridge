@@ -2,9 +2,10 @@ from datetime import datetime, timedelta
 
 fridge = [{"date":"Wed, 22 Nov 2023 05:00:00 GMT","fridge":False,"ingredient":"milk","quantity":1,"unit":"gallon"},
 {"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":False,"ingredient":"salt","quantity":400,"unit":"grams"},
-{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"jelly","quantity":20,"unit":"tablespoon"},
-{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"peanut butter","quantity":20,"unit":"tablespoon"},
-{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"bread","quantity":12,"unit":"Null"}]
+{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"jelly","quantity":10,"unit":"tablespoon"},
+{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"peanut butter","quantity":10,"unit":"tablespoon"},
+{"date":"Thu, 25 Nov 2027 05:00:00 GMT","fridge":True,"ingredient":"bread","quantity":12,"unit":"Null"},
+{"date": "Thu, 25 Nov 2027 05:00:00 GMT", "fridge": True, "ingredient": "pasta", "quantity": 12, "unit": "Null"}        ]
 
 recipeDict = {0:{"author":"admin","difficulty":1,"ingredients":[{"name":"Peanut Butter","quantity":2.0,"unit":"tablespoon"},{"name":"Jelly","quantity":2.0,"unit":"tablespoon"},{"name":"Bread","quantity":2.0,"unit":"slice"}],"name":"Peanut Butter and Jelly Sandwich","price":1,"spiceLevel":0,"steps":["Spread peanut butter evenly on 1 slice of bread.","Spread jelly on another slice of bread.","Put slices together so that the peanut butter and jelly are aligned."],"tags":["Vegan","Vegetarian"],"time":5},
 
@@ -39,13 +40,7 @@ def allRecipeIngredients(aRecipe):
         listOfIngs.append(i['name'].lower())
     return listOfIngs
 
-def checkForIngredients(Fridge, aRecipe):
-    fridgeIng = allFridgeIngredientsNames(Fridge)
-    recipeIng = allRecipeIngredients(aRecipe)
-    for i in recipeIng:
-        if i not in fridgeIng:
-            return False
-    return True
+
 
 def percentOfIngredients(Fridge, aRecipe):
     if checkForIngredients(Fridge,aRecipe):
@@ -65,17 +60,9 @@ def percentOfIngredients(Fridge, aRecipe):
 # print(franctionOfIngredients(fridge, recipeDict[4]))
 # print(franctionOfIngredients(fridge, recipeDict[5]))
 
-def createAScore(Fridge,aRecipe):
-    if checkForIngredients(Fridge,aRecipe):
-        return 1
-    fridgeIng = allFridgeIngredientsNames(Fridge)
-    recipeIng = allRecipeIngredients(aRecipe)
-    matches = 0
-    for i in recipeIng:
-        if i in fridgeIng:
-            matches = matches + 1
-    percent = round(float(int(matches)/len(recipeIng)),3)
-    return matches * percent
+
+
+
 
 def completeRecipes(Fridge, allRecipes):
     completeRecipes = []
@@ -97,14 +84,14 @@ def completeRecipes(Fridge, allRecipes):
 #         scores[i]
 #
 #     for i in incompleteRecipes:
-
 date = datetime.today()
+date8 = datetime.today() - timedelta(2)
 date1 = datetime.today() + timedelta(1)
 date2 = datetime.today() + timedelta(2)
 date3 = datetime.today() + timedelta(3)
 date4 = datetime.today() + timedelta(4)
 date7 = datetime.today() + timedelta(7)
-print(date)
+print(date8)
 print(date1)
 print(date2)
 print(date3)
@@ -150,8 +137,8 @@ def experationWarningF(aFridge):
             ingredientScores.append(0)
     return ingredientScores
 
-scoresD = experationWarningF(fridgeDate)
-print(scoresD)
+# scoresD = experationWarningF(fridgeDate)
+# print(scoresD)
 
 
 
@@ -171,14 +158,72 @@ def experationWarningIng(anIngredient):
     else:
         return 0
 
-print(len(fridgeDate))
-print(experationWarningIng(fridgeDate[0]))
-print(experationWarningIng(fridgeDate[1]))
-print(experationWarningIng(fridgeDate[2]))
-print(experationWarningIng(fridgeDate[3]))
-print(experationWarningIng(fridgeDate[4]))
+def checkForIngredients(Fridge, aRecipe):
+    fridgeIng = allFridgeIngredients(Fridge)
+    fridgeIngNames = allFridgeIngredientsNames(Fridge)
+    recipeIng = allRecipeIngredients(aRecipe)
+    requiredIngs = []
+    # check we have the recipe ingredients in the fridge
+    for i in recipeIng:
+        if i not in fridgeIngNames:
+            return False # return false if we do not
+
+    # make sure we have the enough of the ingredient in the fridge to make the recipe!
+    count1 = 0
+    for i in fridgeIngNames:
+        if i in recipeIng:
+            requiredIngs.append(fridgeIng[count1])
+        count1 = count1 + 1
+    count2 = 0
+    for i in requiredIngs:
+        fridgeQuant = i['quantity']
+        recipeQuant = aRecipe['ingredients'][count2]['quantity']
+        if recipeQuant > fridgeQuant:
+            return False # return false if we do not have the correct quanitity
+        count2 = count2 + 1
+
+    # check the fridge ingredients are not expired
+    for i in requiredIngs:
+        if experationWarningIng(i) == 0:
+            return False  # return false if any required ingredients are expired
+    return True
+
+#print(checkForIngredients(fridgeDate, recipeDict[0]))
+
+
+def createAScore(Fridge,aRecipe):
+    if checkForIngredients(Fridge,aRecipe):
+        return 10
+    fridgeIng = allFridgeIngredients(Fridge)
+    fridgeIngNames = allFridgeIngredientsNames(Fridge)
+    recipeIng = allRecipeIngredients(aRecipe)
+    matches = 0
+    for i in recipeIng:
+        if i in fridgeIng:
+            matches = matches + 1
+    percent = round(float(int(matches)/len(recipeIng)),3)
+    score = matches * percent
+    count3 = 0
+    requiredIngs = []
+    for i in fridgeIngNames:
+        if i in recipeIng:
+            requiredIngs.append(fridgeIng[count3])
+        count3 = count3 + 1
+    for i in requiredIngs:
+        score = float(score + (4-experationWarningIng(i)))
+    return score
+
+print(createAScore(fridgeDate, recipeDict[2]))
+
+# print(len(fridgeDate))
+# print(experationWarningIng(fridgeDate[0]))
+# print(experationWarningIng(fridgeDate[1]))
+# print(experationWarningIng(fridgeDate[2]))
+# print(experationWarningIng(fridgeDate[3]))
+# print(experationWarningIng(fridgeDate[4]))
 
 #print(type(fridge[1]['date']))
 
 #print(datetime.today())
+
 

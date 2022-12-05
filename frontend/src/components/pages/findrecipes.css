@@ -1,9 +1,100 @@
-.ingredientsteps-container {
+
+.findrecipe {
+    height: 160vh;
+    width: 1280px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  
+  
+  .recipesearch-outer-container{
+      
+      top: 0px;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+  
+  }
+  
+  .recipes-container {
+      background-color: transparent;
+      display: grid;
+      top: 10%;
+      position:absolute;
+      margin-left: 25%;
+      width: 70vw ;
+      height: 50vh;
+      
+  }
+  
+  .recipename-search {
+      display: inline;
+     
+      
+      
+  }
     
-    background-color: transparent;
-    display: inline;
-    top: 140px;
-    position: fixed;
-    margin-left: 600px;
-    
-}
+  
+  .time-search {
+      display: inline;
+  } 
+  .difficulty-search {
+      display: inline;
+  }
+  
+  .tags-search {
+      margin-right: 100px;
+  }
+  
+  .checkbox-search {
+      color:rgb(177, 182, 186);
+      margin-left: 40px;
+  }
+  
+  .buttons{
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      width: 100%;
+      margin-top: 30%;
+      margin-left: 50px;
+     
+  }
+  .search-button {
+      background-color: rgb(124, 192, 124);
+      position: relative;
+      font-size: 15px;
+      border: none;
+      height: 2rem;
+      width: 40%;
+      border-radius: 10px;
+      display: fixed;
+      font-family: "Exo";
+      margin-right: 5%;
+  }
+  
+  .clear-button {
+      background-color: rgb(99, 110, 99);
+      position: relative;
+      font-size: 15px;
+      border: none;
+      height: 2rem;
+      width: 40%;
+      border-radius: 10px;
+      display: fixed;
+      font-family: "Exo";
+  }
+  
+  .recipe-tags {
+      font-size: 14px;
+      margin-top: 5%;
+      margin-left: 1;
+      color: rgb(73, 159, 98);
+  }
+  
+  .searchform {
+    background-color: rgb(34, 31, 31);
+    padding: 20px;
+  }
+  
