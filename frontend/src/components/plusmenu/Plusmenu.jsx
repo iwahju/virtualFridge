@@ -55,6 +55,7 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
+        console.log(response)
         props.setProfileLoaded(false)
         props.setPlus(false)
       })

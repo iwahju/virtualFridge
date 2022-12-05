@@ -18,7 +18,9 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const [profile, setProfile] = useState({});
   const [pantryItems, setPantryItems] = useState([]);
   const [fridgeItems, setFridgeItems] = useState([]);
+  const [editedComponent,setEditedComponent] = useState(-1);
   const [isProfileLoaded,setProfileLoaded] = useState(false);
+
 
 
   useEffect(() => {
@@ -32,14 +34,11 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
           Authorization: `Bearer  ${props.token}`,
         },
       }).then((response) => {
-        console.log(response.data);
-        console.log(profile);
+        console.log(response.data)
         setProfile(response.data);
-        console.log(profile);
+        
     }).then(() => { 
-      console.log(isProfileLoaded)
       setProfileLoaded (true)
-      console.log(isProfileLoaded)
     })
     // console.log(profile);
     try {
@@ -56,7 +55,26 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
     }  
     }, [isProfileLoaded,profile]);
 
+    const DeleteItem = (index, e) => {
+      console.log(index)
 
+      axios({
+        method: "POST",
+        url: "/deleteItem",
+        data: {"index":index},
+        headers: {
+          Authorization: `Bearer  ${props.token}`,
+        },
+      }).then((response) => {
+        console.log(response)
+        setProfileLoaded(false)
+      }).catch((error) => {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      )
+    }
 
   const renderComingSoon = (date) => {
     const currentDate = new Date();
@@ -75,6 +93,18 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
     <ListItem key={item.ingredient + "__" + index}>
       <ListItemText>{item.ingredient}{renderComingSoon(item.date)}</ListItemText>
       <ListItemText>{item.date}</ListItemText>
+      <button
+                      onClick={() => DeleteItem(item["index"])}
+                      className="btn btn-info"
+                    >
+                      delete{" "}
+                    </button>
+                    <button
+                      onClick={() => console.log(item["index"])}
+                      className="btn btn-info"
+                    >
+                      edit{" "}
+                    </button>
     </ListItem>
   );
 

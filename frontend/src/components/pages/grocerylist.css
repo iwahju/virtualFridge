@@ -26,6 +26,7 @@
   width: 50rem;
   margin: 2.5rem;
   max-width: 33vw;
+  scroll-behavior: auto;
 }
 .storagebox-content1 {
   border:1px ;

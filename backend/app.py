@@ -86,7 +86,10 @@ def my_profile():
         "items" :user["inventory"],
         "list":user["shoppingList"]
     }
-    
+    counter=0
+    for item in response_body["items"]:
+        item["index"]=counter
+        counter=counter+1
 
     return response_body
 
@@ -122,7 +125,10 @@ def add_item():
         "date": request.json.get("date", None),
         "fridge": request.json.get("fridge", None),
     }
-    item["fridge"]=bool(item["fridge"])
+    if item["fridge"] == "false":
+        item["fridge"]=False
+    else:
+        item["fridge"]=True
     if item["ingredient"]=="" or item["quantity"]==0:
         return {"msg": "please fill out all fields"}, 401
     user=userData.find_one({"name": get_jwt_identity()})
@@ -163,7 +169,7 @@ def addList():
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
     return {"message":"item didnt exist, adding new item"}
 
-@app.route('/deleteItem') #index of item
+@app.route('/deleteItem', methods=["POST"]) #index of item
 @jwt_required()
 def deleteItem():
     user=userData.find_one({"name": get_jwt_identity()})
@@ -173,8 +179,19 @@ def deleteItem():
     user["inventory"].pop(int(request.json.get("index", None)))
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item successfully deleted",
-            "user": user["inventory"]  }
+    return {"message":"item successfully deleted"}
+
+@app.route('/deleteList', methods=["POST"]) #index of item
+@jwt_required()
+def deleteList():
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+
+    user["shoppingList"].pop(int(request.json.get("index", None)))
+    
+    userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
+    return {"message":"item successfully deleted" }
 
 @app.route('/editItem') #values of item, index of item
 @jwt_required()
