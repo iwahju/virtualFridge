@@ -195,7 +195,9 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     axios({
       method: "POST",
       url: "/makeRecipe",
-      data: recipe.ingredients,
+      data: {
+        "data":recipe.ingredients
+      },
       headers: {
           Authorization: `Bearer  ${props.token}`,
       },
