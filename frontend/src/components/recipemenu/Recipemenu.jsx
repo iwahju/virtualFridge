@@ -16,8 +16,6 @@ import Select from '@mui/material/Select';
 import Time from "./Time";
 import Slider from '@mui/material/Slider';
 import { grey } from '@mui/material/colors';
-import Slider from '@mui/material/Slider';
-import { grey } from '@mui/material/colors';
 
 const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
@@ -404,7 +402,7 @@ function Recipemenu() {
             
         <div>
                
-            <form className='form' onSubmit={handleSubmit}>
+           
                 
             
                 
