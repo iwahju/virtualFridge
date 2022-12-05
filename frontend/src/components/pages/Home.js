@@ -16,7 +16,7 @@ import { List, ListItem, ListItemText, Stack } from "@mui/material";
 
 function Home(/** @type {/** @type {{setToken,}}*/ props) {
 
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({});
   const [pantryItems, setPantryItems] = useState([]);
   const [fridgeItems, setFridgeItems] = useState([]);
   const [isProfileLoaded,setProfileLoaded] = useState(false);
@@ -25,6 +25,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   useEffect(() => {
     console.log(isProfileLoaded)
     if (isProfileLoaded === false) {
+      
       axios({
         method: "GET",
         url: "/profile",
@@ -32,8 +33,15 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
           Authorization: `Bearer  ${props.token}`,
         },
       }).then((response) => {
-      setProfile(response.data);
-    }).then(() => { setProfileLoaded (true)})
+        console.log(response.data);
+        console.log(profile);
+        setProfile(response.data);
+        console.log(profile);
+    }).then(() => { 
+      console.log(isProfileLoaded)
+      setProfileLoaded (true)
+      console.log(isProfileLoaded)
+    })
     // console.log(profile);
     try {
       setPantryItems(
@@ -46,10 +54,11 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
       catch(e){
         console.log("empty fridge")
       }
-    } 
-    }, [profile]);
+    }  
+    }, [isProfileLoaded,profile]);
 
-  console.log({ fridgeItems, pantryItems });
+
+
   const renderComingSoon = (date) => {
     const currentDate = new Date();
     const dateObject = new Date(date);
@@ -69,35 +78,6 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
       <ListItemText>{item.date}</ListItemText>
     </ListItem>
   );
-
-//   return (
-//     <div className="home">
-//       <div className="storagebox-container">
-//         <div className="storagebox">
-//           <div className="storagebox-title">
-//             My fridge, items: {fridgeItems.length}
-//           </div>
-//           <Stack className="storagebox-content">
-//             <List>{fridgeItems.map(inventoryItem)}</List>
-//           </Stack>
-//         </div>
-//         <div className="storagebox">
-//           <div className="storagebox">
-//             <div className="storagebox-title">
-//               My Pantry, items: {pantryItems.length}
-//             </div>
-//             <Stack className="storagebox-content">
-//               <List>{pantryItems.map(inventoryItem)}</List>
-//             </Stack>
-//           </div>
-//         </div>
-//         <PlusButton />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Home;
 
 return (
   <div className="home">
@@ -137,7 +117,7 @@ return (
             </Stack>
         </div>
       </div>
-     
+      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
     </div>
   </div>
 );

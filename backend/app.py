@@ -97,6 +97,20 @@ def get_recipes():
     # print(response)
     return response
 
+@app.route('/addRecipe', methods=["POST"])
+@jwt_required()
+def addRecipes():
+    newRecipe={
+        "author": get_jwt_identity(),
+        "name": request.json.get("recipeName", None).lower(),
+        "time": int(request.json.get("time", None)),
+        "difficulty":int(request.json.get("difficulty", None)),
+        "spiceLevel": request.json.get("spice", None).lower(),
+        "tags":{}
+    }
+
+    return 0
+
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
 def add_item():
@@ -121,10 +135,9 @@ def add_item():
     user["inventory"].append(item)
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item didnt exist, adding new item",
-            "user": user  }
+    return {"message":"item didnt exist, adding new item"}
 
-@app.route('/deleteItem')
+@app.route('/deleteItem') #index of item
 @jwt_required()
 def deleteItem():
     user=userData.find_one({"name": get_jwt_identity()})
@@ -137,7 +150,7 @@ def deleteItem():
     return {"message":"item successfully deleted",
             "user": user["inventory"]  }
 
-@app.route('/editItem')
+@app.route('/editItem') #values of item, index of item
 @jwt_required()
 def editItem():
     item = {
