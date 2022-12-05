@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import { IconContext } from "react-icons";
 import * as AiIcons from "react-icons/ai";
 import "./plusbutton.css";
 import Plusmenu from '../plusmenu/Plusmenu';

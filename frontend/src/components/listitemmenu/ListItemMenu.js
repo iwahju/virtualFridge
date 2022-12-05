@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import React, { useState } from "react";
 
-function ListItemMenu() {
+function ListItemMenu(props) {
     const defaultformstate = {
         ingredient: "",
         quantity: 0,
@@ -17,6 +17,12 @@ function ListItemMenu() {
           [e.target.name]: e.target.value,
         });
       };
+
+      const handleFormSubmit = (e) => {
+        console.log(props.token)
+        console.log(formstate)
+
+      };
   return (
     <div className='listitemmenu-outer-container'>
         <div className='listitemmenu-inner-container'>
@@ -24,7 +30,7 @@ function ListItemMenu() {
                 <h3> Add Item</h3>
             </div>
             <div>
-                <form className='form'>
+                <form className='form' onSubmit={handleFormSubmit}>
                 
                 <div className='itemname-container'>
                     <div className='text-container'>
@@ -63,6 +69,7 @@ function ListItemMenu() {
                 <div className='text-container'>
                         Unit
                     </div>
+                    <div className='unit-container'> 
                 <Select
                       
                       labelId="unit-label"
@@ -84,7 +91,7 @@ function ListItemMenu() {
                       <MenuItem value={'gallon'}>gallon</MenuItem>
                       <MenuItem value={'ounce'}>ounce(s)</MenuItem>
                     </Select>
-
+                    </div>
 
                 </div>
                 
