@@ -97,7 +97,7 @@ def my_profile():
 @jwt_required()
 def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
-    response = list(recipeData.find({"author":get_jwt_identity()}, { "_id": 0}))
+    response = list(recipeData.find({}, { "_id": 0}))
     for item in response:
         for component in item["ingredients"]:
             if component["unit"]!="":
@@ -136,10 +136,11 @@ def addRecipes():
 
     return {"message":"recipe added"}
 
-@app.route('makeRecipe') #make a recipe and use all ingredients (no matter if it is enough or not) that you have in fridge/pantry
+@app.route('/makeRecipe', methods=["POST"]) #make a recipe and use all ingredients (no matter if it is enough or not) that you have in fridge/pantry
 @jwt_required()
 def makeRecipe():
     data = request.json.get("data", None)
+    return {"message":data}
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401

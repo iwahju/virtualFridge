@@ -191,7 +191,23 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
 
   // set search form and recipes to default
   const handleCook = (recipe, e) => {
-    console.log(recipe)
+    console.log(recipe.ingredients)
+    axios({
+      method: "POST",
+      url: "/makeRecipe",
+      data: recipe.ingredients,
+      headers: {
+          Authorization: `Bearer  ${props.token}`,
+      },
+  }).then((response) => {
+      console.log(response)
+  }).catch((error) => {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+    })
   };
   const handleAddToList = (recipe, e) => {
     console.log(recipe)
