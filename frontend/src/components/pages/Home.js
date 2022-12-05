@@ -124,7 +124,9 @@ return (
   <div className="home">
     <div className= "welcome"></div>
     <div className= "text">
-    <PlusButton token={props.token}/>
+      <div className= "plusButton">
+      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
+      </div>
     </div>
     
     <div className="storagebox-container1">
@@ -159,7 +161,8 @@ return (
         </div>
       </div>
       {editedIndex!=-1 && <EditMenu token={props.token} data={editedComponent} setEditedIndex={setEditedIndex} setProfileLoaded={setProfileLoaded}/>}
-      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
+      
+      
     </div>
   </div>
 );

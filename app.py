@@ -125,7 +125,7 @@ def add_item():
         "date": request.json.get("date", None),
         "fridge": request.json.get("fridge", None),
     }
-    if item["fridge"] == "false":
+    if item["fridge"] == "false" or item["fridge"] == "False" :
         item["fridge"]=False
     else:
         item["fridge"]=True
@@ -203,7 +203,7 @@ def editItem():
         "date": request.json.get("date", None),
         "fridge": request.json.get("fridge", None),
     }
-    if item["fridge"] == "false":
+    if item["fridge"] == "false" or item["fridge"] == "False" :
         item["fridge"]=False
     else:
         item["fridge"]=True
