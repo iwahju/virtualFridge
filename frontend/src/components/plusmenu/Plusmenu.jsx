@@ -69,147 +69,6 @@ function Plusmenu(props) {
     console.log(formstate);
   };
 
-  //   return (
-  //     <div className="plusmenu-outer-container">
-  //       <div className="plusmenu-inner-container">
-  //         <div>
-  //         <div className= "additem-title">
-  //           Add Item
-  //           </div>
-  //         </div>
-  //         <div>
-  //           <form className="form" onSubmit={handleFormSubmit}>
-  //             <div className="form-title">
-  //               <TextField
-  //                 sx={{width: 350}}
-  //                 color= "success" focused
-  //                 id="standard-basic" label="Item Name" variant="standard"
-  //                 name="ingredient"
-  //                 value={formstate.ingredient}
-  //                 type="text"
-  //                 placeholder="'Eggs'"
-  //                 onChange={handleInputChange}
-  //               />
-  //             </div>
-  //             <div className="form-quan-date">
-  //               <TextField
-  //                 sx={{width: 50}}
-  //                 id="standard-number"  label="Quantity" variant="standard"
-  //                 color= "success" focused
-  //                 name="quantity"
-  //                 value={formstate.quantity}
-  //                 type="text"
-  //                 placeholder="'12'"
-  //                 onChange={handleInputChange}
-  //               />
-
-  //             <FormControl variant="standard"
-  //                       color= "success" focused
-  //                       name= "unit"
-  //                       sx={{ minWidth: 90 }}>
-  //                     <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
-  //                     <Select
-  //                       open={unitSelectorOpen}
-
-  //                       labelId="demo-simple-select-standard-label"
-  //                       id="demo-simple-select-standard"
-  //                       value={formstate.unit}
-  //                       name= "unit"
-  //                       onChange={(e) => {
-
-  //                         handleInputChange(e, true)
-
-  //                       }}
-  //                       onClick={(e) => {
-  //                         e.preventDefault()
-  //                         setUnitSelectorOpen(!unitSelectorOpen)
-  //                       }}
-  //                       renderValue={() => {
-  //                         return <span>{formstate.unit}</span>
-  //                       }}
-  //                       label="unit"
-  //                     >
-  //                       <MenuItem value="">
-  //                       </MenuItem>
-  //                       <input type= "text"
-  //                       placeholder="other"
-  //                       name= "unit"
-  //                       onChange={handleInputChange}
-  //                       onClick={(e) => {
-  //                         e.preventDefault();
-  //                         e.stopPropagation();
-  //                       }}
-  //                       onKeyDown={(e) => {
-  //                         // console.log(e.code)
-  //                         if (e.keyCode === 13) {
-  //                           setUnitSelectorOpen(false)
-  //                         }
-
-  //                       }}
-  //                       />
-  //                       <MenuItem value={'lbs'}>lbs</MenuItem>
-  //                       <MenuItem value={'tsp'}>tsp</MenuItem>
-  //                       <MenuItem value={'tbsp'}>tbsp</MenuItem>
-  //                       <MenuItem value={'gallon'}>gallon</MenuItem>
-  //                       <MenuItem value={'ounce'}>ounce(s)</MenuItem>
-  //                     </Select>
-  //                   </FormControl>
-
-  //               <TextField
-  //                id="standard-number"  label="Expiration Date" variant="standard"
-  //                color= "success" focused
-  //                 name="date"
-  //                 value={formstate.date}
-  //                 type="date"
-
-  //                 placeholder="mm/dd/yy"
-  //                 onChange={handleInputChange}
-  //               />
-  //             </div>
-  //             <div>
-  //               <Box
-  //                 sx={{
-  //                   display: "flex",
-  //                   flexDirection: "column",
-  //                   alignItems: "center",
-  //                   "& > *": {
-  //                     m: 1,
-  //                   },
-  //                 }}
-  //               >
-  //                 <ButtonGroup
-  //                   variant="outlined"
-  //                   aria-label="outlined button group"
-  //                   color="success"
-  //                 >
-  //                   <Button
-  //                     sx={{
-  //                       "& .MuiDrawer-paper": {
-  //                         backgroundColor: "#123D35",
-  //                       },
-  //                     }}
-  //                     onClick={(e) => handleFridgeClick("true", e)}
-  //                   >
-  //                     Fridge
-  //                   </Button>
-
-  //                   <Button onClick={(e) => handleFridgeClick("false", e)}>
-  //                     Pantry
-  //                   </Button>
-  //                 </ButtonGroup>
-  //               </Box>
-  //             </div>
-  //             <div className= "add-buttoncontainer">
-  //             <button className= "add-button" type="submit">Add</button>
-  //             </div>
-  //           </form>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // export default Plusmenu;
   return (
     <div className="plusmenu-outer-container">
       <div className="plusmenu-inner-container">
@@ -293,11 +152,19 @@ function Plusmenu(props) {
                       }
                     }}
                   />
-                  <MenuItem value={"lbs"}>lbs</MenuItem>
-                  <MenuItem value={"tsp"}>tsp</MenuItem>
-                  <MenuItem value={"tbsp"}>tbsp</MenuItem>
-                  <MenuItem value={"gallon"}>gallon</MenuItem>
-                  <MenuItem value={"ounce"}>ounce(s)</MenuItem>
+                  <MenuItem value={"grams"}>grams</MenuItem>
+                  <MenuItem value={"kilograms"}>kilograms</MenuItem>
+                  <MenuItem value={"pounds"}>pounds</MenuItem>
+                  <MenuItem value={"ounces"}>ounces</MenuItem>
+                  <MenuItem value={"gallons"}>gallons</MenuItem>
+                  <MenuItem value={"quarts"}>quarts</MenuItem>
+                  <MenuItem value={"pints"}>pints</MenuItem>
+                  <MenuItem value={"cups"}>cups</MenuItem>
+                  <MenuItem value={"fluid ounces"}>fluid ounces</MenuItem>
+                  <MenuItem value={"tablespoons"}>tablespoons</MenuItem>
+                  <MenuItem value={"teaspoons"}>teaspoons</MenuItem>
+                  <MenuItem value={"liters"}>liters</MenuItem>
+                  <MenuItem value={"milliliters"}>milliliters</MenuItem>
                 </Select>
               </FormControl>
 

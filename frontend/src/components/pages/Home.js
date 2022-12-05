@@ -104,6 +104,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const inventoryItem = (item, index) => (
     <ListItem key={item.ingredient + "__" + index}>
       <ListItemText>{item.ingredient}{renderComingSoon(item.date)}</ListItemText>
+      <ListItemText>{item.quantity} {item.unit}</ListItemText>
       <ListItemText>{item.date}</ListItemText>
       <button
                       onClick={() => DeleteItem(item["index"])}

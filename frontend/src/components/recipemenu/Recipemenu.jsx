@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import "./recipemenu.css";
+import MenuItem from "@mui/material/MenuItem";
 import { styled } from '@mui/material/styles';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import WhatshotOutlinedIcon from '@mui/icons-material/WhatshotOutlined';
@@ -13,6 +14,7 @@ import { green } from "@mui/material/colors";
 import { FaThLarge } from "react-icons/fa";
 import { CheckBox } from "@mui/icons-material";
 import Select from '@mui/material/Select';
+import InputLabel from "@mui/material/InputLabel";
 import Time from "./Time";
 import Slider from '@mui/material/Slider';
 import { grey } from '@mui/material/colors';
@@ -75,6 +77,7 @@ function Recipemenu() {
       unit: ""
     }
   ]);
+  const [unitSelectorOpen, setUnitSelectorOpen] = useState(false);
   const [instructions, setInstructions] = React.useState([
     {
       text: ""
@@ -105,16 +108,21 @@ function Recipemenu() {
   function handleSpiceChange(event) {
     setSpice(event.target.value);
   }
+  
 
   function handleIngredientChange(event) {
     //grab the index and the input type
-    let idx = parseInt(event.target.id.split("-")[2]);
-    let inputType = event.target.id.split("-")[1];
+    console.log(event.target)
+   
+    let idx = parseInt(event.target.name.split("-")[2]);
+    let inputType = event.target.name.split("-")[1];
+    console.log(inputType)
 
     if (inputType === "name") {
       // we only want to modify one element, easiest way to do this is to use map to generate a new array
       // the new array will be the same with the one element modified as needed
       const newIngredients = ingredients.map((ingredient, index) => {
+
         // check if we are at the index that we want
         if (idx !== index) {
           // if it's not the element we want to change we just return the element
@@ -127,10 +135,21 @@ function Recipemenu() {
       setIngredients(newIngredients);
     } else if (inputType === "amt") {
       const newIngredients = ingredients.map((ingredient, index) => {
+
         if (idx !== index) {
           return ingredient;
         }
         return { ...ingredient, amount: event.target.value };
+      });
+      setIngredients(newIngredients);
+    }
+    else if(inputType==="unit"){
+      const newIngredients = ingredients.map((ingredient, index) => {
+
+        if (idx !== index) {
+          return ingredient;
+        }
+        return { ...ingredient, unit: event.target.value };
       });
       setIngredients(newIngredients);
     }
@@ -341,6 +360,62 @@ function Recipemenu() {
                 required
                 onChange={handleIngredientChange}
               />
+              <FormControl
+                variant="standard"
+                color="success"
+                focused
+                id={"ing-unit-" + idx}
+                name={"ing-unit-" + idx}
+                sx={{ minWidth: 90 }}
+              >
+                <InputLabel id={"ing-unit-" + idx}>
+                  Unit
+                </InputLabel>
+                <Select
+                  open={unitSelectorOpen}
+                  value={ing.unit}
+                  id={"ing-unit-" + idx}
+                name={"ing-unit-" + idx}
+                  onChange={(e) => {
+                    handleIngredientChange(e, true);
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setUnitSelectorOpen(!unitSelectorOpen);
+                  }}
+                  renderValue={() => {
+                    return <span>{ing.unit}</span>;
+                  }}
+                  label="unit"
+                >
+                  <MenuItem value=""></MenuItem>
+                  <input
+                    type="text"
+                    id={"ing-unit-" + idx}
+                    placeholder="other"
+                    name="unit"
+                    onChange={handleIngredientChange}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  />
+                  <MenuItem value={"grams"}>grams</MenuItem>
+                  <MenuItem value={"kilograms"}>kilograms</MenuItem>
+                  <MenuItem value={"pounds"}>pounds</MenuItem>
+                  <MenuItem value={"ounces"}>ounces</MenuItem>
+                  <MenuItem value={"gallons"}>gallons</MenuItem>
+                  <MenuItem value={"quarts"}>quarts</MenuItem>
+                  <MenuItem value={"pints"}>pints</MenuItem>
+                  <MenuItem value={"cups"}>cups</MenuItem>
+                  <MenuItem value={"fluid ounces"}>fluid ounces</MenuItem>
+                  <MenuItem value={"tablespoons"}>tablespoons</MenuItem>
+                  <MenuItem value={"teaspoons"}>teaspoons</MenuItem>
+                  <MenuItem value={"liters"}>liters</MenuItem>
+                  <MenuItem value={"milliliters"} >milliliters</MenuItem>
+                  
+                </Select>
+              </FormControl>
               <Button
                 id={"ing-remove-" + idx}
                 variant="contained"
@@ -411,7 +486,7 @@ function Recipemenu() {
 
 
                     <div className= 'submitbutton-container'>
-                    <button className="submit-button" type='submit'>Create</button>
+                    <button className="submit-button" type='submit' onClick={handleSubmit}>Create</button>
                     </div>
                     
            

@@ -113,19 +113,25 @@ def addRecipes():
         "tags":{}
     }
 
-    return 0
+@app.route('/executeRecipe', methods=["POST"])
+@jwt_required()
+def executeRecipe():
+    ingredients=request.json.get("ingredients", None)
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
 
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
 def add_item():
     item = {
         "ingredient": request.json.get("ingredient", None).lower(),
-        "quantity": int(request.json.get("quantity", None)),
+        "quantity": float(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "date": request.json.get("date", None),
         "fridge": request.json.get("fridge", None),
     }
-    if item["fridge"] == "false" or item["fridge"] == "False" :
+    if item["fridge"] == "false" or item["fridge"] == "False":
         item["fridge"]=False
     else:
         item["fridge"]=True
@@ -136,11 +142,20 @@ def add_item():
         return {"msg": "Account Error: Please Sign In"}, 401
     for ingredient in user["inventory"] :
         if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
-            ingredient["quantity"]+=item["quantity"]
-            userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-            return "item exists, adding q"
-    user["inventory"].append(item)
-    
+            if ingredient["unit"] == item["unit"]:
+                ingredient["quantity"]+=item["quantity"]
+                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                return {"message": "item exists, adding q"}
+            elif ingredient["unit"]=="" or item["unit"]=="":
+                break #add as seperate entity
+            else:
+                if unitConversion(item, ingredient["unit"]) == 0:
+                    break
+                ingredient["quantity"] =  ingredient["quantity"]+ float(unitConversion(item, ingredient["unit"]))
+                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                return {"message": "item exists, adding q in converted units"}
+
+    user["inventory"].append(item) #add item as seperate entity
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
     return {"message":"item didnt exist, adding new item"}
 
@@ -149,21 +164,31 @@ def add_item():
 def addList():
     item = {
         "ingredient": request.json.get("ingredient", None).lower(),
-        "quantity": int(request.json.get("quantity", None)),
+        "quantity": float(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "fridge": request.json.get("fridge", None),
     }
-    item["fridge"]=bool(item["fridge"])
+    if item["fridge"] == "false" or item["fridge"] == "False":
+        item["fridge"]=False
+    else:
+        item["fridge"]=True
     if item["ingredient"]=="" or item["quantity"]==0:
         return {"msg": "please fill out all fields"}, 401
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for ingredient in user["shoppingList"] :
-        if ingredient["ingredient"]==item["ingredient"]:
-            ingredient["quantity"]+=item["quantity"]
-            userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
-            return "item exists, adding q"
+        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+            if ingredient["unit"] == item["unit"]:
+                ingredient["quantity"]+=item["quantity"]
+                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                return {"message": "item exists, adding q"}
+            elif ingredient["unit"] == "" or item["unit"] == "":
+                break #add as seperate entity
+            else:
+                ingredient["quantity"] += unitConversion(item, ingredient["unit"]) 
+                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                return {"message": "item exists, adding q in converted units"}
     user["shoppingList"].append(item)
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
@@ -225,3 +250,68 @@ def addShoppingCart():
         i=0
 
     return 0
+
+# takes an ingredient and the unit that we want to convert to. this unit must be passed as a string
+def unitConversion(ingredient, unit):
+    if ingredient['unit'] == "" or ingredient['unit'] == unit:
+        return 0
+    quantity = ingredient['quantity']
+    dryWeights = ['grams', 'kilograms', 'pounds', 'ounces']
+    wetWeights = ['gallons', 'quarts', 'pints', 'cups', 'fluid ounces', 'tablespoons', 'teaspoons', 'liters', 'milliliters']
+
+    if ingredient['unit'] in dryWeights and unit in dryWeights:
+        if ingredient['unit'] == 'kilograms':
+            quantity *= 1000
+        elif ingredient['unit'] == 'pounds':
+            quantity *= 453.592
+        elif ingredient['unit'] == 'ounces':
+            quantity *= 28.3495
+
+    elif ingredient['unit'] in wetWeights and unit in wetWeights:
+        if ingredient['unit'] == 'liters':
+            quantity *= 1000
+        elif ingredient['unit'] == 'cups':
+            quantity *= 240
+        elif ingredient['unit'] == 'pints':
+            quantity *= 473
+        elif ingredient['unit'] == 'quarts':
+            quantity *= 946.4
+        elif ingredient['unit'] == 'gallons':
+            quantity *= 3785
+        elif ingredient['unit'] == 'fluid ounces':
+            quantity *= 29.574
+        elif ingredient['unit'] == 'tablespoons':
+            quantity *= 14.787
+        elif ingredient['unit'] == 'teaspoons':
+            quantity *= 4.929
+    else:
+        return 0
+
+    ingredient['unit'] = unit
+    if ingredient['unit'] in dryWeights:
+        if ingredient['unit'] == 'kilograms':
+            quantity /= 1000
+        elif ingredient['unit'] == 'pounds':
+            quantity /= 453.592
+        elif ingredient['unit'] == 'ounces':
+            quantity /= 28.3495
+
+    elif ingredient['unit'] in wetWeights:
+        if ingredient['unit'] == 'liters':
+            quantity /= 1000
+        elif ingredient['unit'] == 'cups':
+            quantity /= 240
+        elif ingredient['unit'] == 'pints':
+            quantity /= 473
+        elif ingredient['unit'] == 'quarts':
+            quantity /= 946.4
+        elif ingredient['unit'] == 'gallons':
+            quantity /= 3785
+        elif ingredient['unit'] == 'fluid ounces':
+            quantity /= 29.574
+        elif ingredient['unit'] == 'tablespoons':
+            quantity /= 14.787
+        elif ingredient['unit'] == 'teaspoons':
+            quantity /= 4.929
+            quantity = round(quantity, 3)
+    return quantity
