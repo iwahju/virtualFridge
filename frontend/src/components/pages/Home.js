@@ -104,6 +104,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const inventoryItem = (item, index) => (
     <ListItem key={item.ingredient + "__" + index}>
       <ListItemText>{item.ingredient}{renderComingSoon(item.date)}</ListItemText>
+      <ListItemText>{item.quantity} {item.unit}</ListItemText>
       <ListItemText>{item.date}</ListItemText>
       <button
                       onClick={() => DeleteItem(item["index"])}
@@ -153,7 +154,9 @@ return (
   <div className="home">
     <div className= "welcome"></div>
     <div className= "text">
-    <PlusButton token={props.token}/>
+      <div className= "plusButton">
+      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
+      </div>
     </div>
     
     <div className="storagebox-container1">
@@ -188,7 +191,8 @@ return (
         </div>
       </div>
       {editedIndex!=-1 && <EditMenu token={props.token} data={editedComponent} setEditedIndex={setEditedIndex} setProfileLoaded={setProfileLoaded}/>}
-      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
+      
+      
     </div>
   </div>
 );

@@ -66,3 +66,7 @@
     margin: 1.5rem;
     max-width: 33vw;
 }
+
+.plusButton {
+  z-index: 1;
+}
