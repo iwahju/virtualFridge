@@ -3,7 +3,7 @@ import "./grocerylist.css";
 import GroceryListButton from "../grocerylistbutton/GroceryListButton";
 
 
-function GroceryList(props) {
+function GroceryList() {
   return (
     <div className="grocerylist">
       <div className= "storagebox-container">
@@ -12,7 +12,7 @@ function GroceryList(props) {
           Grocery List
           </div>
         <div className="grocerylist-content">
-            <GroceryListButton token={props.token}/>
+            <GroceryListButton />
         </div>
         </div>
     

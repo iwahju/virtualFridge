@@ -50,20 +50,20 @@ function App() {
             <Route
               path="/home"
               element={
-                <Home token={token} />
+                <Home token={token} setToken={setToken} />
               }
             />
             <Route
               path="/myrecipe"
-              element={<MyRecipe token={token}/>}
+              element={<MyRecipe token={token} setToken={setToken} />}
             />
             <Route
               path='/findrecipe'
-              element={<FindRecipe token={token}/>}
+              element={<FindRecipe token={token} setToken={setToken}/>}
             />
             <Route 
               path="/grocerylist" 
-              element={<GroceryList token={token}/>} />
+              element={<GroceryList token={token} setToken={setToken}/>} />
           </Routes>
         </Router>
       ) : (
