@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 import InputLabel from "@mui/material/InputLabel";
 import Time from "./Time";
 import Slider from '@mui/material/Slider';
+import axios from "axios";
 import { grey } from '@mui/material/colors';
 
 const StyledRating = styled(Rating)({
@@ -58,7 +59,7 @@ const StyledRating = styled(Rating)({
   }
 
 
-function Recipemenu() {
+function Recipemenu(props) {
     const [recipeName, setRecipeName] = React.useState("");
     const [spice, setSpice] = React.useState("");
     const [difficulty, setDifficulty] = React.useState("");
@@ -221,7 +222,22 @@ function Recipemenu() {
       ingredients: ingredients,
       instructions: instructions,
     };
-    console.log(data);
+    axios({
+      method: "POST",
+      url: "/addRecipe",
+      data: data,
+      headers: {
+          Authorization: `Bearer  ${props.token}`,
+      },
+  }).then((response) => {
+      console.log(response)
+  }).catch((error) => {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+    })
   }
     
     

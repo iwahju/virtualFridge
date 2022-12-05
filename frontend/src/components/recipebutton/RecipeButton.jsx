@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import Recipemenu from '../recipemenu/Recipemenu';
 import "./recipebutton.css";
 
-function RecipeButton() {
+function RecipeButton(props) {
     const [plus, setPlus] = useState(false) 
     const showPlus = () => setPlus(!plus)
   
@@ -11,7 +11,7 @@ function RecipeButton() {
               <div className="createbutton" onClick={showPlus} >
                 Create Recipe
           </div>
-          {plus && <Recipemenu />}
+          {plus && <Recipemenu token={props.token} setPlus={setPlus}/>}
           </div>
   
       )

@@ -99,7 +99,11 @@ def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
     response = list(recipeData.find({}, { "_id": 0}))
     for item in response:
-        item["expanded"]=0
+        for component in item["ingredients"]:
+            if component["unit"]!="":
+                component["unit"]=str(component["unit"])+"s"
+            if component["unit"]=="Nones":
+                component["unit"]=""
     # print(response)
     return response
 
@@ -108,12 +112,15 @@ def get_recipes():
 def addRecipes():
     newRecipe={
         "author": get_jwt_identity(),
-        "name": request.json.get("recipeName", None).lower(),
+        "name": str(request.json.get("recipeName", None)).lower(),
         "time": int(request.json.get("time", None)),
         "difficulty":int(request.json.get("difficulty", None)),
         "spiceLevel": request.json.get("spice", None).lower(),
-        "tags":{}
+        "tags":{},
+        "ingredients": request.json.get("ingredients", None),
+        "steps": request.json.get("instructions", None)
     }
+    return newRecipe
 
 @app.route('/executeRecipe', methods=["POST"])
 @jwt_required()
@@ -127,7 +134,7 @@ def executeRecipe():
 @jwt_required()
 def add_item():
     item = {
-        "ingredient": request.json.get("ingredient", None).lower(),
+        "ingredient": str(request.json.get("ingredient", None)).lower(),
         "quantity": float(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "date": request.json.get("date", None),
