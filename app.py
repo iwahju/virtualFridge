@@ -98,6 +98,8 @@ def my_profile():
 def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
     response = list(recipeData.find({}, { "_id": 0}))
+    for item in response:
+        item["expanded"]=0
     # print(response)
     return response
 

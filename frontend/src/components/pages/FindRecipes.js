@@ -202,6 +202,8 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     return (
       <Link to={`/findrecipe/${route}`}>
         <ListItem key={item.data + "__" + index}>
+
+          <ListItemText>{item.author}</ListItemText>
           <ListItemText>{item.name}</ListItemText>
           <ListItemText>{item.difficulty}</ListItemText>
           <ListItemText>{item.time + "min "}</ListItemText>
@@ -500,7 +502,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                             <div>
                                               <span>{ingredient.name}</span>
                                               <span>
-                                                Quantity: {ingredient.quantity}
+                                                Quantity: {ingredient.quantity} {ingredient.unit}
                                               </span>
                                             </div>
                                           );
@@ -508,6 +510,25 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                       )}
                                     </span>
                                   </Typography>
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={console.log(recipeItem.ingredients)}
+                                  >
+                                    Cook
+                                  </Button>
+                                  <div className="rightButton">
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={console.log(recipeItem.ingredients)}
+                                  >
+                                    Add to Cart
+                                  </Button>
+                                  </div>
+                                  
                                 </CardContent>
                               </Collapse>
                             </div>

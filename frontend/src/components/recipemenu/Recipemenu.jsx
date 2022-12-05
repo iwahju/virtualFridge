@@ -139,7 +139,7 @@ function Recipemenu() {
         if (idx !== index) {
           return ingredient;
         }
-        return { ...ingredient, amount: event.target.value };
+        return { ...ingredient, quantity: event.target.value };
       });
       setIngredients(newIngredients);
     }
@@ -173,7 +173,7 @@ function Recipemenu() {
      * Same concept as the above methods, concat returns a new array. In this case we get a new array with an
      * element containing an empty string in both fields at the end of it
      */
-    let newIngredients = ingredients.concat({ name: "", amount: "" });
+    let newIngredients = ingredients.concat({ name: "", quantity: "" });
     setIngredients(newIngredients);
   }
 
@@ -356,7 +356,7 @@ function Recipemenu() {
                 name={"ing-amt-" + idx}
                 variant="outlined"
                 label="Ingredient Amount"
-                value={ing.amount}
+                value={ing.quantity}
                 required
                 onChange={handleIngredientChange}
               />
