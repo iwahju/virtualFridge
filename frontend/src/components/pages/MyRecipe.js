@@ -3,7 +3,7 @@ import "./myrecipe.css";
 import RecipeButton from "../recipebutton/RecipeButton";
 
 
-function MyRecipe() {
+function MyRecipe(props) {
   return (
     <div className = "myrecipe">
     <div className = "appAside1">
@@ -11,7 +11,7 @@ function MyRecipe() {
           MY RECIPES
         </div>
       <div className= "recipe-button">
-        <RecipeButton/>
+        <RecipeButton token={props.token}/>
       </div> 
       <hr 
       style={{
