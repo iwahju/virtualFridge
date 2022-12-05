@@ -193,7 +193,7 @@ def deleteList():
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
     return {"message":"item successfully deleted" }
 
-@app.route('/editItem') #values of item, index of item
+@app.route('/editItem', methods=["POST"] ) #values of item, index of item
 @jwt_required()
 def editItem():
     item = {
@@ -201,11 +201,15 @@ def editItem():
         "quantity": int(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "date": request.json.get("date", None),
-        "fridge": bool(request.json.get("fridge", None)),
+        "fridge": request.json.get("fridge", None),
     }
+    if item["fridge"] == "false":
+        item["fridge"]=False
+    else:
+        item["fridge"]=True
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
-        return {"msg": "Account Error: Please Sign In"}, 401
+        return {"msg": "Account Error: Please `Sign In"}, 401
     oldItem=user["inventory"][int(request.json.get("index", None))]
     user["inventory"][int(request.json.get("index", None))]=item
 

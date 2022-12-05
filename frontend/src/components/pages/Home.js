@@ -1,6 +1,8 @@
 import "./home.css";
 import React, { useEffect, useState } from "react";
 import PlusButton from "../plusbutton/Plusbutton";
+
+import EditMenu from "../editmenu/Editmenu";
 import { Box } from "@mui/system";
 import axios from "axios";
 import { List, ListItem, ListItemText, Stack } from "@mui/material";
@@ -18,7 +20,8 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const [profile, setProfile] = useState({});
   const [pantryItems, setPantryItems] = useState([]);
   const [fridgeItems, setFridgeItems] = useState([]);
-  const [editedComponent,setEditedComponent] = useState(-1);
+  const [editedIndex,setEditedIndex] = useState(-1);
+  const [editedComponent,setEditedComponent] = useState(null);
   const [isProfileLoaded,setProfileLoaded] = useState(false);
 
 
@@ -76,6 +79,14 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
       )
     }
 
+    const EditItem = (item, e) => {
+      console.log(item)
+      setEditedIndex(item["index"]);
+      setEditedComponent(item);
+      console.log(editedIndex)
+      
+    }
+
   const renderComingSoon = (date) => {
     const currentDate = new Date();
     const dateObject = new Date(date);
@@ -100,7 +111,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
                       delete{" "}
                     </button>
                     <button
-                      onClick={() => console.log(item["index"])}
+                      onClick={() => EditItem(item)}
                       className="btn btn-info"
                     >
                       edit{" "}
@@ -145,6 +156,7 @@ return (
             </Stack>
         </div>
       </div>
+      {editedIndex!=-1 && <EditMenu token={props.token} data={editedComponent} setEditedIndex={setEditedIndex} setProfileLoaded={setProfileLoaded}/>}
       <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
     </div>
   </div>
