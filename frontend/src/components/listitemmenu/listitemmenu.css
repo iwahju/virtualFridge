@@ -14,7 +14,7 @@
     background-color: #494a46;
     border-radius: 10px;
     width: 45%;
-    height: 40%;
+    height: 60%;
     padding: 10px;
     display: flex;
     color: white;
@@ -28,7 +28,7 @@
 .submit-button {
     background-color: rgb(147, 180, 147);
     position: relative;
-    top: 50%;
+    top: 0%;
     font-size: 20px;
     align-items: flex-end;
     justify-content: center;
@@ -101,3 +101,14 @@
     font-size: 15px;
 }
 
+.unit-container {
+    position: relative;
+    width: 200%;
+    top: 20%;
+    left: 20%;
+    border: none;
+    display: flex;
+}
+.css-14ajw3y{
+    margin-top: 40%;
+}

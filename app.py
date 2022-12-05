@@ -95,6 +95,20 @@ def get_recipes():
     # print(response)
     return response
 
+@app.route('/addRecipe', methods=["POST"])
+@jwt_required()
+def addRecipes():
+    newRecipe={
+        "author": get_jwt_identity(),
+        "name": request.json.get("recipeName", None).lower(),
+        "time": int(request.json.get("time", None)),
+        "difficulty":int(request.json.get("difficulty", None)),
+        "spiceLevel": request.json.get("spice", None).lower(),
+        "tags":{}
+    }
+
+    return 0
+
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
 def add_item():
@@ -107,21 +121,42 @@ def add_item():
     }
     item["fridge"]=bool(item["fridge"])
     if item["ingredient"]=="" or item["quantity"]==0:
-        return {"msg": "please fill out all fields"}, 400
+        return {"msg": "please fill out all fields"}, 401
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
-    for ingredient in user["inventory"]:
-        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
-            ingredient["quantity"]+=item["quantity"]
-            userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-            return "item exists, adding quantity"
-    user["inventory"].append(item)
-    
+    oldItem=user["inventory"][int(request.json.get("index", None))]
+    user["inventory"][int(request.json.get("index", None))]=item
+
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
     return {"message":"item didnt exist, adding new item"}
+
+@app.route('/addList', methods=["POST"])
+@jwt_required()
+def addList():
+    item = {
+        "ingredient": request.json.get("ingredient", None).lower(),
+        "quantity": int(request.json.get("quantity", None)),
+        "unit": request.json.get("unit", None),
+        "fridge": request.json.get("fridge", None),
+    }
+    item["fridge"]=bool(item["fridge"])
+    if item["ingredient"]=="" or item["quantity"]==0:
+        return {"msg": "please fill out all fields"}, 401
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+    for ingredient in user["shoppingList"] :
+        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+            ingredient["quantity"]+=item["quantity"]
+            userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
+            return "item exists, adding q"
+    user["shoppingList"].append(item)
     
-@app.route('/deleteItem')
+    userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
+    return {"message":"item didnt exist, adding new item"}
+
+@app.route('/deleteItem') #index of item
 @jwt_required()
 def deleteItem():
     user=userData.find_one({"name": get_jwt_identity()})
@@ -134,7 +169,7 @@ def deleteItem():
     return {"message":"item successfully deleted",
             "user": user["inventory"]  }
 
-@app.route('/editItem')
+@app.route('/editItem') #values of item, index of item
 @jwt_required()
 def editItem():
     item = {
@@ -162,13 +197,5 @@ def addShoppingCart():
     items=user["shoppingList"]
     for ingredient in items:
         i=0
-    return 0
 
-@app.route('/')
-@app.route('/home')
-@app.route('/myrecipe')
-@app.route('/findrecipe')
-@app.route('/grocerylist')
-@app.route('/sign-up')
-def serve_static():
-    return app.send_static_file('index.html')
+    return 0

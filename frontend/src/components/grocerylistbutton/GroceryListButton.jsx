@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import "./grocerylistbutton.css";
 import ListItemMenu from "../listitemmenu/ListItemMenu";
 
-function GroceryListButton() {
+function GroceryListButton(props) {
     const [plus, setPlus] = useState(false) 
     const showPlus = () => setPlus(!plus)
   
@@ -11,7 +11,8 @@ function GroceryListButton() {
               <div className="createbutton" onClick={showPlus} >
                 Add Item
           </div>
-          {plus && <ListItemMenu />}
+          
+          {plus && <ListItemMenu/>}
           </div>
   
       )
