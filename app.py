@@ -97,7 +97,7 @@ def my_profile():
 @jwt_required()
 def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
-    response = list(recipeData.find({}, { "_id": 0}))
+    response = list(recipeData.find({"name":get_jwt_identity()}, { "_id": 0}))
     for item in response:
         for component in item["ingredients"]:
             if component["unit"]!="":
@@ -112,15 +112,27 @@ def get_recipes():
 def addRecipes():
     newRecipe={
         "author": get_jwt_identity(),
-        "name": str(request.json.get("recipeName", None)).lower(),
+        "name": str(request.json.get("name", None)).lower(),
         "time": int(request.json.get("time", None)),
         "difficulty":int(request.json.get("difficulty", None)),
         "spiceLevel": request.json.get("spice", None).lower(),
-        "tags":{},
+        "tags":request.json.get("tags", None),
         "ingredients": request.json.get("ingredients", None),
         "steps": request.json.get("instructions", None)
     }
-    return newRecipe
+    recipeBook=recipeData.find({}, { "_id": 0})
+    for item in recipeBook:
+        for component in item["ingredients"]:
+            if component["unit"]!="":
+                component["unit"]=str(component["unit"])+"s"
+            if component["unit"]=="Nones":
+                component["unit"]=""
+    for item in recipeBook:
+        if newRecipe["author"]==item["author"] and newRecipe["name"]==item["name"]:
+            return {"message": "recipe already added"}
+    recipeData.insert_one(newRecipe)
+
+    return {"message":"recipe added"}
 
 @app.route('/executeRecipe', methods=["POST"])
 @jwt_required()
