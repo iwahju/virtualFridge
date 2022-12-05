@@ -28,7 +28,7 @@
 .submit-button {
     background-color: rgb(147, 180, 147);
     position: relative;
-    top: 50%;
+    top: 0%;
     font-size: 20px;
     align-items: flex-end;
     justify-content: center;
@@ -108,4 +108,7 @@
     left: 20%;
     border: none;
     display: flex;
+}
+.css-14ajw3y{
+    margin-top: 40%;
 }

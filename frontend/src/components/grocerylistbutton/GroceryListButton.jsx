@@ -11,7 +11,8 @@ function GroceryListButton(props) {
               <div className="createbutton" onClick={showPlus} >
                 Add Item
           </div>
-          {plus && <ListItemMenu setPlus={setPlus} token={props.token}/>}
+          
+          {plus && <ListItemMenu/>}
           </div>
   
       )
