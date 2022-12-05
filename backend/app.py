@@ -214,9 +214,7 @@ def editItem():
     user["inventory"][int(request.json.get("index", None))]=item
 
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item edited successfully",
-            "oldItem": oldItem,
-            "item": item}
+    return {"message":"item edited successfully"}
 
 @app.route('/addShoppingCart')
 @jwt_required()
