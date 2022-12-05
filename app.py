@@ -15,7 +15,7 @@ userData = db.users
 cors = CORS(app)
 
 app.config["JWT_SECRET_KEY"] = "ThisIsASecretFridge:P"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
 jwt = JWTManager(app)
 
 @app.after_request
