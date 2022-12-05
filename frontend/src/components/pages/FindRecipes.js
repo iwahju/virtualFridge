@@ -190,6 +190,13 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
   };
 
   // set search form and recipes to default
+  const handleCook = (recipe, e) => {
+    console.log(recipe)
+  };
+  const handleAddToList = (recipe, e) => {
+    console.log(recipe)
+  };
+
   const handleFormClear = () => {
     setSearchFormState(defaultSearchFormState);
     setFilteredRecipes(allRecipes);
@@ -480,7 +487,24 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                   aria-label="show more"
                                 >
                                   <ExpandMoreIcon />
+                                  
                                 </ExpandMore>
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={() => {handleCook(recipeItem)}}
+                                  >
+                                    Cook
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={() => {handleAddToList(recipeItem)}}
+                                  >
+                                    Add to Cart
+                                  </Button>
                               </CardActions>
                               <Collapse
                                 in={expanded}
@@ -510,24 +534,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                       )}
                                     </span>
                                   </Typography>
-                                  <Button
-                                    variant="contained"
-                                    color="success"
-                                    type="button"
-                                    onClick={console.log(recipeItem.ingredients)}
-                                  >
-                                    Cook
-                                  </Button>
-                                  <div className="rightButton">
-                                  <Button
-                                    variant="contained"
-                                    color="success"
-                                    type="button"
-                                    onClick={console.log(recipeItem.ingredients)}
-                                  >
-                                    Add to Cart
-                                  </Button>
-                                  </div>
+                                  
                                   
                                 </CardContent>
                               </Collapse>
