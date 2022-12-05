@@ -14,7 +14,7 @@ import Select from "@mui/material/Select";
 function Plusmenu(props) {
   const defaultformstate = {
     ingredient: "",
-    quantity: 0,
+    quantity: 1,
     unit: "",
     date: new Date(),
     fridge: "true",
@@ -53,8 +53,7 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
-        props.setProfileLoaded(false)
-        props.setPlus(false)
+        window.location.reload();
       })
       .catch((error) => {
         if (error.response) {

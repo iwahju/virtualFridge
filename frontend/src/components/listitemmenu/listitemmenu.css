@@ -101,17 +101,3 @@
     font-size: 15px;
 }
 
-.unit-container {
-    position: relative;
-    width: 200%;
-    top: 20%;
-    left: 20%;
-    border: none;
-    display: flex;
-}
-.unit-input {
-    font-family: 'Fira Sans Extra Condensed', sans-serif;
-    text-align: center;
-    width: 70%;
-    font-size: 15px;
-}
