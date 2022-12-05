@@ -53,7 +53,7 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
       catch(e){
         console.log("empty fridge")
       }
-    } 
+    }  
     }, [isProfileLoaded,profile]);
 
 
