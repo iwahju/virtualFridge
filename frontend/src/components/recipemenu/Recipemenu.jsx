@@ -8,110 +8,251 @@ import Box from '@mui/material/Box';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Checkbox from '@mui/material/Checkbox';
-import { FormLabel, Rating, TextField } from "@mui/material";
+import { FormLabel, Rating, TextField,Button} from "@mui/material";
 import { green } from "@mui/material/colors";
 import { FaThLarge } from "react-icons/fa";
 import { CheckBox } from "@mui/icons-material";
 import Select from '@mui/material/Select';
 import Time from "./Time";
+import Slider from '@mui/material/Slider';
+import { grey } from '@mui/material/colors';
 
 const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
-      color: 'white',
+      color: 'green',
     },
     '& .MuiRating-iconHover': {
-      color: 'white',
+      color: 'black',
     },
+    '& .MuiRating-iconEmpty': {
+        color: 'green',
+      },
   });
+  const marks = [
+    {
+      value: 1,
+      label: '1',
+    },
+    {
+      value: 2,
+      label: '2',
+    },
+    {
+      value: 3,
+      label: '3',
+    },
+    {
+      value: 4,
+      label: '4',
+    },
+    {
+       value: 5,
+       label: '5',
+      },
+  ];
 
+  function valuetext(value) {
+    return `${value}`;
+  }
 
 
 function Recipemenu() {
-    const defaultformstate = {
-        recipeName: "",
-        time: 0,
-        difficulty: "",
-        spice: "",
+    const [recipeName, setRecipeName] = React.useState("");
+    const [spice, setSpice] = React.useState("");
+    const [difficulty, setDifficulty] = React.useState("");
+    const [time, setTime] = React.useState(0);
+    const [tags, setTags] = React.useState({
         vegetarian: false,
-        vegan: false,
-        dairy: false,
-        nut: false,
-        gluten: false,
-        ingredients:"",
-        steps:"",
+        dairyFree: false,
+        nutFree: false,
+        glutenFree: false,
+        vegan: false
+    })
+    const [ingredients, setIngredients] = React.useState([
+    {
+      name: "",
+      quantity: "",
+      unit: ""
+    }
+  ]);
+  const [instructions, setInstructions] = React.useState([
+    {
+      text: ""
+    }
+  ]);
 
-      };
-      
-      
-      const [formstate, setFormstate] = useState(defaultformstate);
-      const handleInputChange = (e) => {
-        setFormstate({
-          ...formstate,
-          [e.target.name]: e.target.value,
-        });
-      };
+  
 
 
-      const handleFormSubmit = (e) => {
-        e.preventDefault();
-        console.log(formstate);
-      };
+  function handleRecipeNameChange(event) {
+    let newName = event.target.value;
+    setRecipeName(newName);
+  }
+  
+  function handleTagChange(event) {
+    setTags(prevNote => ({
+        ...prevNote, [event.target.name]: !tags[event.target.name]})
+    )}
+
+  function handleDifficultyChange(event) {
+    setDifficulty(event.target.value);
+  }
+
+  function handleTimeChange(event) {
+    setTime(event.target.value);
+  }
+
+  function handleSpiceChange(event) {
+    setSpice(event.target.value);
+  }
+
+  function handleIngredientChange(event) {
+    //grab the index and the input type
+    let idx = parseInt(event.target.id.split("-")[2]);
+    let inputType = event.target.id.split("-")[1];
+
+    if (inputType === "name") {
+      // we only want to modify one element, easiest way to do this is to use map to generate a new array
+      // the new array will be the same with the one element modified as needed
+      const newIngredients = ingredients.map((ingredient, index) => {
+        // check if we are at the index that we want
+        if (idx !== index) {
+          // if it's not the element we want to change we just return the element
+          return ingredient;
+        }
+        // if we have the element that needs to be modified, we return the modified element
+        // using object destructuring we just return the original object, with the name field modified
+        return { ...ingredient, name: event.target.value };
+      });
+      setIngredients(newIngredients);
+    } else if (inputType === "amt") {
+      const newIngredients = ingredients.map((ingredient, index) => {
+        if (idx !== index) {
+          return ingredient;
+        }
+        return { ...ingredient, amount: event.target.value };
+      });
+      setIngredients(newIngredients);
+    }
+  }
+  function handleIngredientRemove(event) {
+    /*
+     * To remove an element, we just use the array.filter function to genereate a new array without the
+     * element being deleted
+     */
+    console.log(event.target.id);
+    let idx = parseInt(event.target.id.split("-")[2]);
+    console.log("Removing ingredient " + idx);
+    let newIngredients = ingredients.filter(
+      (ingredient, index) => idx !== index
+    );
+    setIngredients(newIngredients);
+  }
+
+  function handleIngredientAdd(event) {
+    /*
+     * Same concept as the above methods, concat returns a new array. In this case we get a new array with an
+     * element containing an empty string in both fields at the end of it
+     */
+    let newIngredients = ingredients.concat({ name: "", amount: "" });
+    setIngredients(newIngredients);
+  }
+
+  /*
+   * Instruction functions are mostly the same as the ingredient functions
+   * Only changes here are the object property names
+   */
+  function handleInstructionChange(event) {
+    let idx = parseInt(event.target.id.split("-")[1]);
+
+    const newInstructions = instructions.map((instruction, index) => {
+      if (idx !== index) {
+        return instruction;
+      }
+      return { ...instruction, text: event.target.value };
+    });
+
+    setInstructions(newInstructions);
+  }
+
+  function handleInstructionRemove(event) {
+    console.log(event.target.id);
+    let idx = parseInt(event.target.id.split("-")[2]);
+    console.log("Removing instruction " + idx);
+    let newinstructions = instructions.filter(
+      (instruction, index) => idx !== index
+    );
+    setInstructions(newinstructions);
+  }
+
+  function handleInstructionAdd(event) {
+    let newInstructions = instructions.concat({ text: "" });
+    setInstructions(newInstructions);
+  }
+
+  function handleSubmit(event) {
+    // prevent the default form submit action
+    event.preventDefault();
+    let data = {
+      name: recipeName,
+      difficulty: difficulty,
+      time: time,
+      tags: tags,
+      spice: spice,
+      ingredients: ingredients,
+      instructions: instructions,
+    };
+    console.log(data);
+  }
     
   return (
     <div className='recipemenu-outer-container'>
+        
         <div className='recipemenu-inner-container'>
-        <div>
-               
-            <form className='form' onSubmit={handleFormSubmit}>
-                
-            <div className="recipe-info">
-                <div className='recipename-container'>
-                    <label className="text-container" htmlFor="recipename">
-                        Recipe Name
-                    </label>
-                    <input
-                    name="recipeName"
-                    className="formFieldInput"
-                    placeholder="Enter the Recipe Name"
-                    onChange={handleInputChange}
-                    />
-                </div>
-                
-                <div className='time-container'>
-                    <div className='text-container'>
-                        Time to Cook
-                    </div>
-                    <div className='form-time'> 
-                    <TextField
-                        color="success" focused 
-                        sx={{width: 80 }}
-                        InputProps={{ 
-                            sx: { height: 45 },
-                            inputProps: { 
-                                max: 60, min: 5 
-                            }
-                        } }
-                        name="time"
-                        id="standard-number"
-                        variant="standard"
-                        type="number"
-                        onChange={handleInputChange}
-                        
-                    />
-                    
-                    </div>
-                </div>
+            Create Your Own Recipe
 
+            <div className='recipename-container'>    
+                <TextField
+                id="recipe-name"
+                name="recipe-name"
+                label="Recipe Name"
+                placeholder="A brief name for your dish"
+                required
+                variant="outlined"
+                value={recipeName}
+                onChange={handleRecipeNameChange} />               
+            </div>
+            
+            <div className='time-container'> 
+            <div className='form-time'> 
+                <TextField
+                id="recipe-time"
+                name="recipe-time"
+                label="Time"
+                placeholder="(minutes)"
+                required
+                variant="outlined"
+                value={time}
+                onChange={handleTimeChange} />
+            </div>
+            </div>
                 <div className='difficulty'>
                     <div className='text-container'>
                             Difficulty
                     </div>
                     <div className='rating'>
-                    <Rating
+                    <Slider
+                        aria-label="small-steps"
+                        defaultValue={2}
+                        getAriaValueText={valuetext}
+                        step={1}
+                        marks= {marks}
+                        min={1}
+                        max={5}
+                        color="success"
                         name="difficulty"
-                        value={formstate.difficulty}
-                        type='text'
-                        onChange={handleInputChange}
+                        value={difficulty}  
+                        onChange={handleDifficultyChange}
                     />
                     </div>
                 </div>
@@ -123,15 +264,15 @@ function Recipemenu() {
                     <div className='spice-rating'>
                     <StyledRating
                         defaultValue={1}
-                        max={3}
+                        max={5}
                         getLabelText={(value) => `${value} Fire${value !== 1 ? 's' : ''}`}
                         precision={0.5}
                         icon={<WhatshotIcon fontSize="inherit" />}
-                        emptyIcon={<WhatshotOutlinedIcon fontSize="inherit" />}
+                        emptyIcon={<WhatshotOutlinedIcon fontSize="inherit"  />}
                         name="spice"
-                        value={formstate.spice}
+                        value={spice}
                         type='text'
-                        onChange={handleInputChange}
+                        onChange={handleSpiceChange}
                     />
                     </div>
                 </div>
@@ -143,83 +284,134 @@ function Recipemenu() {
                 <div className='check-box'>
                     <FormGroup row>
                         <FormControlLabel
-                            control={<Checkbox name="vegetarian" onChange= {() =>setFormstate((e) => ({
-                                ...e, vegetarian: !formstate.vegetarian
-                            }))}
+                            control={<Checkbox 
+                            sx={{ color: grey[600], }}
+                            name="vegetarian" 
+                            onChange= {handleTagChange}
                             color="success" size="small" />}
                             label="Vegetarian"/>
                         <FormControlLabel
-                            control={<Checkbox name="vegan" onChange= {() =>setFormstate((e) => ({
-                                ...e, vegan: !formstate.vegan
-                            }))} 
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="vegan" onChange= {handleTagChange} 
                             color="success" size="small"/>}
                             label="Vegan"/>
                         <FormControlLabel
-                            control={<Checkbox name="dairyfree" onChange= {() =>setFormstate((e) => ({
-                                ...e, dairy: !formstate.dairy
-                            }))} 
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="dairyFree" onChange= {handleTagChange} 
                             color="success" size="small"/>}
                             label="Dairy Free"/>
                         <FormControlLabel
-                            control={<Checkbox name="glutenfree" onChange= {() =>setFormstate((e) => ({
-                                ...e, gluten: !formstate.gluten
-                            }))} 
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="glutenFree" onChange= {handleTagChange} 
                             color="success" size="small" />}
                             label="Gluten Free"/>
                         <FormControlLabel
-                            control={<Checkbox name="nutfree" onChange= {() =>setFormstate((prev) => ({
-                                ...prev, nut: !formstate.nut
-                            }))}  
+                            control={<Checkbox 
+                                sx={{ color: grey[600],}}
+                                name="nutFree" onChange= {handleTagChange}  
                             color="success" size="small" />}
                             label="Nut Free"/>
                     </FormGroup>
                 </div>  
                 </div>  
-            
+               
+
+                {ingredients.map((ing, idx) => {
+          return (
+            <div key={idx}>
+              <TextField
+                id={"ing-name-" + idx}
+                name={"ing-name-" + idx}
+                variant="outlined"
+                label="Ingredient Name"
+                value={ing.name}
+                required
+                onChange={handleIngredientChange}
+              />
+              <TextField
+                id={"ing-amt-" + idx}
+                name={"ing-amt-" + idx}
+                variant="outlined"
+                label="Ingredient Amount"
+                value={ing.amount}
+                required
+                onChange={handleIngredientChange}
+              />
+              <Button
+                id={"ing-remove-" + idx}
+                variant="contained"
+                color="secondary"
+                type="button"
+                onClick={handleIngredientRemove}
+              >
+                -
+              </Button>
             </div>
+          );
+        })}
+
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={handleIngredientAdd}
+        >
+          +
+        </Button>
+
+        {instructions.map((instr, idx) => {
+          return (
+            <div key={idx}>
+              <TextField
+                id={"instr-" + idx}
+                name={"instr-" + idx}
+                variant="outlined"
+                multiline
+                value={instr.text}
+                required
+                onChange={handleInstructionChange}
+              />
+
+              <Button
+                id={"instr-remove-" + idx}
+                variant="contained"
+                color="secondary"
+                type="button"
+                onClick={handleInstructionRemove}
+              >
+                -
+              </Button>
+            </div>
+          );
+        })}
+
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={handleInstructionAdd}
+        >
+          +
+        </Button>
+              
+            
+            
+        <div>
+               
+            <form className='form' onSubmit={handleSubmit}>
                 
-                <div className="ingredientsteps-container">
-                <div className = 'ingredients-container'>
-                        <div className='text-container'>
-                            Ingredients
-                        </div>
-                        <TextField 
-                            color="success" focused 
-                            sx={{width: 600}}
-                            InputProps={{ sx: { height: 150 } }}
-                            name="ingredients"
-                            id="outlined-multiline-static"
-                            multiline
-                            rows={4}
-                            defaultValue=""
-                            onChange={handleInputChange}
-
-                    />
-                </div>
-
-                <div className='steps-container'>
-                        <div className='text-container'>
-                            Steps
-                        </div>
-                        <TextField 
-                            color="success" focused 
-                            sx={{width: 600}}
-                            InputProps={{ sx: { height:220 } }}
-                            name="steps"
-                            id="outlined-multiline-static"
-                            multiline
-                            rows={4}
-                            defaultValue=""
-                            onChange={handleInputChange}
-
-                    />
-                </div>
-                </div>
+            
+                
+               
 
 
 
-                    
+                    <div className= 'submitbutton-container'>
                     <button className="submit-button" type='submit'>Create</button>
+                    </div>
                     
             </form>
         </div>
@@ -228,6 +420,6 @@ function Recipemenu() {
 
     </div>
   )
-}
 
+    }
 export default Recipemenu;

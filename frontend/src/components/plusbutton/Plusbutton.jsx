@@ -4,7 +4,6 @@ import "./plusbutton.css";
 import Plusmenu from '../plusmenu/Plusmenu';
 
 function Plusbutton(props) {
-
   const [plus, setPlus] = useState(false) 
   const showPlus = () => setPlus(!plus)
 

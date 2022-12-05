@@ -88,10 +88,11 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
 
   const handleSearchInput = (e) => {
     // set search input on form state
-    console.log("updating field", e.target.name, "with value", e.target.value);
+    console.log("updating field", e.target.name, "with value", e.target.value, "tas");
     setSearchFormState({
       ...searchFormState,
       [e.target.name]: e.target.value,
+      [e.target.tags]: e.target.tags,
     });
   };
 
@@ -179,6 +180,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
           <ListItemText>{item.difficulty}</ListItemText>
           <ListItemText>{item.time + "min "}</ListItemText>
           <ListItemText>{item.spiceLevel + " "}</ListItemText>
+          <ListItemText>{item.ingredients+ " "}</ListItemText>
         </ListItem>
       </Link>
     );
@@ -370,6 +372,12 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                               <div>
                                 <Link to={`/findrecipe/${recipeItem.data}`}>
                                   <Button size="small">{recipeItem.name}</Button>
+                                  <span size="small">{recipeItem.ingredients.map((ingredient) => {
+                                   return <div>
+                                    <span>Name: {ingredient.name}</span>
+                                    <span>Quantity: {ingredient.quantity}</span>
+                                   </div>
+                                  })}</span>
                                 </Link>
                               </div>
                             )

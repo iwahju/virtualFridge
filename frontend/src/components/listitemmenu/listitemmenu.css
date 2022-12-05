@@ -109,6 +109,9 @@
     border: none;
     display: flex;
 }
-.css-14ajw3y{
-    margin-top: 40%;
+.unit-input {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    text-align: center;
+    width: 70%;
+    font-size: 15px;
 }
