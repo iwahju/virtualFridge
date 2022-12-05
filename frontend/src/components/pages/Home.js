@@ -56,35 +56,6 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
     </ListItem>
   );
 
-//   return (
-//     <div className="home">
-//       <div className="storagebox-container">
-//         <div className="storagebox">
-//           <div className="storagebox-title">
-//             My fridge, items: {fridgeItems.length}
-//           </div>
-//           <Stack className="storagebox-content">
-//             <List>{fridgeItems.map(inventoryItem)}</List>
-//           </Stack>
-//         </div>
-//         <div className="storagebox">
-//           <div className="storagebox">
-//             <div className="storagebox-title">
-//               My Pantry, items: {pantryItems.length}
-//             </div>
-//             <Stack className="storagebox-content">
-//               <List>{pantryItems.map(inventoryItem)}</List>
-//             </Stack>
-//           </div>
-//         </div>
-//         <PlusButton />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Home;
-
 return (
   <div className="home">
     <div className= "welcome"></div>
@@ -122,7 +93,7 @@ return (
             </Stack>
         </div>
       </div>
-      <PlusButton />
+      <PlusButton token = {props.token}/>
     </div>
   </div>
 );

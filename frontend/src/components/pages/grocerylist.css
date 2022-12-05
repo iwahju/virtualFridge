@@ -27,3 +27,12 @@
   margin: 2.5rem;
   max-width: 33vw;
 }
+.storagebox-content1 {
+  border:1px ;
+    height: 35rem;
+    background-color: #272c28;
+    border-radius: 5px;
+    width: 200rem;
+    margin: 1.5rem;
+    max-width: 33vw;
+}

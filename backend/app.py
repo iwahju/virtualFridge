@@ -83,7 +83,8 @@ def my_profile():
     user=userData.find_one({"name": get_jwt_identity()})
     response_body = {
         "name": get_jwt_identity(),
-        "items" :user["inventory"]
+        "items" :user["inventory"],
+        "list":user["shoppingList"]
     }
     
 
@@ -153,7 +154,7 @@ def addList():
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for ingredient in user["shoppingList"] :
-        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+        if ingredient["ingredient"]==item["ingredient"]:
             ingredient["quantity"]+=item["quantity"]
             userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
             return "item exists, adding q"

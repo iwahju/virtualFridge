@@ -12,7 +12,7 @@ function GroceryListButton(props) {
                 Add Item
           </div>
           
-          {plus && <ListItemMenu/>}
+          {plus && <ListItemMenu setPlus={setPlus} token={props.token}/>}
           </div>
   
       )
