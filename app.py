@@ -97,7 +97,7 @@ def my_profile():
 @jwt_required()
 def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
-    response = list(recipeData.find({"name":get_jwt_identity()}, { "_id": 0}))
+    response = list(recipeData.find({"author":get_jwt_identity()}, { "_id": 0}))
     for item in response:
         for component in item["ingredients"]:
             if component["unit"]!="":
@@ -106,6 +106,8 @@ def get_recipes():
                 component["unit"]=""
     # print(response)
     return response
+
+
 
 @app.route('/addRecipe', methods=["POST"])
 @jwt_required()
@@ -134,13 +136,31 @@ def addRecipes():
 
     return {"message":"recipe added"}
 
-@app.route('/executeRecipe', methods=["POST"])
+@app.route('makeRecipe') #make a recipe and use all ingredients (no matter if it is enough or not) that you have in fridge/pantry
 @jwt_required()
-def executeRecipe():
-    ingredients=request.json.get("ingredients", None)
+def makeRecipe():
+    data = request.json.get("data", None)
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
+    for each in data:
+        for item in user["inventory"]:
+            if each["name"] == item["ingredient"]:      #if item exist in inventory
+                if each["unit"] == item["unit"]:
+                    item["quantity"]-=each["quantity"]
+                    if item["quantity"] <= 0:
+                        user["inventory"].pop(each["name"]) ##REMOVE ITEM FROM USER INVENTORY
+                    break
+                elif each["unit"] == "" or item["unit"] == "":
+                    break
+                else:
+                    item["quantity"] -= unitConversion(each, item["unit"]) ##MAY HAVE A GLITCH, as data is a recipeName;quantity;unit structure while item is a name;quantity;unit;fridge;date structure
+                    if item["quantity"] <= 0:                              ##IF NOT WORKING, then set else as break and continue on the next for loop iteration
+                        user["inventory"].pop(each["name"]) ##REMOVE ITEM FROM USER INVENTORY
+                    break
+
+    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+    return {"message": "inventory is updated and enjoy cooking!"}
 
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
