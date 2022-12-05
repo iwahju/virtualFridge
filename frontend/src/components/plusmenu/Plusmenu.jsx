@@ -12,7 +12,6 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 
 function Plusmenu(props) {
-
   const defaultformstate = {
     ingredient: "",
     quantity: 1,
@@ -27,13 +26,12 @@ function Plusmenu(props) {
   console.log(formstate);
   const handleInputChange = (e, closeSelector) => {
     if (closeSelector) {
-      setUnitSelectorOpen(false)
+      setUnitSelectorOpen(false);
     }
     setFormstate({
       ...formstate,
       [e.target.name]: e.target.value,
     });
-    
   };
   //location = fridge, pantry
   const handleFridgeClick = (fridge, e) => {
@@ -55,6 +53,7 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
+        console.log(response)
         props.setProfileLoaded(false)
         props.setPlus(false)
       })
@@ -249,59 +248,58 @@ function Plusmenu(props) {
                 onChange={handleInputChange}
               />
 
-
-            <FormControl variant="standard" 
-                      color= "success" focused
-                      name= "unit"
-                      sx={{ minWidth: 90 }}>
-                    <InputLabel id="demo-simple-select-standard-label">Unit</InputLabel>
-                    <Select
-                      open={unitSelectorOpen}
-                   
-                      labelId="demo-simple-select-standard-label"
-                      id="demo-simple-select-standard"
-                      value={formstate.unit}
-                      name= "unit"
-                      onChange={(e) => {
-                        
-                        handleInputChange(e, true)
-                       
-                      }}
-                      onClick={(e) => {
-                        e.preventDefault()
-                        setUnitSelectorOpen(!unitSelectorOpen)
-                      }}
-                      renderValue={() => {
-                        return <span>{formstate.unit}</span>
-                      }}
-                      label="unit"
-                    >
-                      <MenuItem value="">
-                      </MenuItem>
-                      <input type= "text" 
-                      placeholder="other"
-                      name= "unit"
-                      onChange={handleInputChange}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      onKeyDown={(e) => {
-                        // console.log(e.code)
-                        if (e.keyCode === 13) {
-                          setUnitSelectorOpen(false)
-                        }
-                       
-                      }}
-                      />
-                      <MenuItem value={'lbs'}>lbs</MenuItem>
-                      <MenuItem value={'tsp'}>tsp</MenuItem>
-                      <MenuItem value={'tbsp'}>tbsp</MenuItem>
-                      <MenuItem value={'gallon'}>gallon</MenuItem>
-                      <MenuItem value={'ounce'}>ounce(s)</MenuItem>
-                    </Select>
-                  </FormControl>
-
+              <FormControl
+                variant="standard"
+                color="success"
+                focused
+                name="unit"
+                sx={{ minWidth: 90 }}
+              >
+                <InputLabel id="demo-simple-select-standard-label">
+                  Unit
+                </InputLabel>
+                <Select
+                  open={unitSelectorOpen}
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={formstate.unit}
+                  name="unit"
+                  onChange={(e) => {
+                    handleInputChange(e, true);
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setUnitSelectorOpen(!unitSelectorOpen);
+                  }}
+                  renderValue={() => {
+                    return <span>{formstate.unit}</span>;
+                  }}
+                  label="unit"
+                >
+                  <MenuItem value=""></MenuItem>
+                  <input
+                    type="text"
+                    placeholder="other"
+                    name="unit"
+                    onChange={handleInputChange}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                    onKeyDown={(e) => {
+                      // console.log(e.code)
+                      if (e.keyCode === 13) {
+                        setUnitSelectorOpen(false);
+                      }
+                    }}
+                  />
+                  <MenuItem value={"lbs"}>lbs</MenuItem>
+                  <MenuItem value={"tsp"}>tsp</MenuItem>
+                  <MenuItem value={"tbsp"}>tbsp</MenuItem>
+                  <MenuItem value={"gallon"}>gallon</MenuItem>
+                  <MenuItem value={"ounce"}>ounce(s)</MenuItem>
+                </Select>
+              </FormControl>
 
               <TextField
                 id="standard-number"
@@ -312,7 +310,6 @@ function Plusmenu(props) {
                 name="date"
                 value={formstate.date}
                 type="date"
-              
                 placeholder="mm/dd/yy"
                 onChange={handleInputChange}
               />

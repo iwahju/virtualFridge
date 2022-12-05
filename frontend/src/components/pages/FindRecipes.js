@@ -168,13 +168,13 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
         if (userVegan && !lowercaseTags.includes("vegan")) {
           return false;
         }
-        if (userDairy && !lowercaseTags.includes("dairy free")) {
+        if (userDairy && !lowercaseTags.includes("dairy")) {
           return false;
         }
-        if (userGluten && !lowercaseTags.includes("gluten free")) {
+        if (userGluten && !lowercaseTags.includes("gluten")) {
           return false;
         }
-        if (userNut && !lowercaseTags.includes("nut free")) {
+        if (userNut && !lowercaseTags.includes("nut")) {
           return false;
         }
       }

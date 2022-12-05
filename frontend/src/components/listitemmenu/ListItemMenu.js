@@ -42,6 +42,7 @@ function ListItemMenu(props) {
         }).then((response) => {
             console.log(response)
             props.setPlus(false)
+            props.setProfileLoaded(false)
         }).catch((error) => {
             if (error.response) {
               console.log(error.response);

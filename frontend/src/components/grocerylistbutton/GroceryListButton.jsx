@@ -10,9 +10,9 @@ function GroceryListButton(props) {
           <div className="createbuttoncontainer">
               <div className="createbutton" onClick={showPlus} >
                 Add Item
-          </div>
+                </div> 
           
-          {plus && <ListItemMenu/>}
+          {plus && <ListItemMenu setPlus={setPlus} token={props.token} setProfileLoaded= {props.setProfileLoaded}/>}
           </div>
   
       )
