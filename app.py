@@ -140,13 +140,13 @@ def addRecipes():
 @jwt_required()
 def makeRecipe():
     data = request.json.get("data", None)
-    return {"message":data}
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for each in data:
         for item in user["inventory"]:
-            if each["name"] == item["ingredient"]:      #if item exist in inventory
+            if each["name"].lower() == item["ingredient"].lower():      #if item exist in inventory
+                
                 if each["unit"] == item["unit"]:
                     item["quantity"]-=each["quantity"]
                     if item["quantity"] <= 0:

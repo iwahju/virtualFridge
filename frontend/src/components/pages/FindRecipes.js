@@ -212,7 +212,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     })
   };
   const handleAddToList = (recipe, e) => {
-    console.log(recipe)
+    console.log(recipe.steps)
   };
 
   const handleFormClear = () => {
@@ -507,7 +507,9 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                   <ExpandMoreIcon />
                                   
                                 </ExpandMore>
-                                <Button
+                                
+                              </CardActions>
+                              <Button
                                     variant="contained"
                                     color="success"
                                     type="button"
@@ -523,19 +525,13 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                   >
                                     Add to Cart
                                   </Button>
-                              </CardActions>
                               <Collapse
                                 in={expanded}
                                 timeout="auto"
                                 unmountOnExit
                               >
                                 <CardContent>
-                                  <Typography>
-                                    Steps: {recipeItem.steps}
-                                  </Typography>
-                                  <Typography>
-                                    Ingredients: {recipeItem.inventory}
-                                  </Typography>
+                                  
                                   <Typography>
                                     <span size="small">
                                       {recipeItem.ingredients.map(
@@ -546,6 +542,19 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                               <span>
                                                 Quantity: {ingredient.quantity} {ingredient.unit}
                                               </span>
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                    </span>
+                                  </Typography>
+                                  <Typography>
+                                    <span size="small">
+                                      {recipeItem.steps.map(
+                                        (step) => {
+                                          return (
+                                            <div>
+                                              <span>{step.text}</span>
                                             </div>
                                           );
                                         }
