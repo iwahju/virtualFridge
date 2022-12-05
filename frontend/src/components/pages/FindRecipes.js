@@ -554,7 +554,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                         (step) => {
                                           return (
                                             <div>
-                                              <span>{step.text}</span>
+                                              <span>{step.toString()}</span>
                                             </div>
                                           );
                                         }
