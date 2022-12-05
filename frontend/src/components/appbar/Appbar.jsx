@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as AiIcons from "react-icons/ai";
-import { AccountCircle } from "@mui/icons-material/";
+import { AccountCircle } from "@mui/icons-material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import {
@@ -18,7 +18,7 @@ import {
   Divider,
   Container,
   Stack,
-} from "@mui/material/";
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { SidebarData } from "../sidebar/SidebarData";
 import { IconContext } from "react-icons";
