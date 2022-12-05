@@ -119,6 +119,7 @@ function Plusmenu(props) {
                 </InputLabel>
                 <Select
                   open={unitSelectorOpen}
+                  sx={{color:"white", fontFamily:"Exo"}}
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={formstate.unit}
