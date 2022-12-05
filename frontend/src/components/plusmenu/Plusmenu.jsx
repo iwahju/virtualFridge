@@ -53,7 +53,9 @@ function Plusmenu(props) {
       },
     })
       .then((response) => {
-        window.location.reload();
+        console.log(response)
+        props.setProfileLoaded(false)
+        props.setPlus(false)
       })
       .catch((error) => {
         if (error.response) {
