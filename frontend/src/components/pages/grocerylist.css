@@ -37,3 +37,23 @@
     margin: 1.5rem;
     max-width: 33vw;
 }
+
+.createcheckoutbutton {
+  font-size: 20px;
+  display: center;
+  align-items: center;
+  justify-content: center;
+}
+.createcheckoutbuttoncontainer {
+  background-color: rgb(147, 180, 147);
+  height: 3rem;
+  width: 50%;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  position: relative;
+  top: 1%;
+  left: 0%;
+
+}

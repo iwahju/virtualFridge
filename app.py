@@ -16,7 +16,7 @@ userData = db.users
 cors = CORS(app)
 
 app.config["JWT_SECRET_KEY"] = "ThisIsASecretFridge:P"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
 jwt = JWTManager(app)
 
 @app.after_request
@@ -128,7 +128,31 @@ def planRecipe():
     userData.update_one({"name": get_jwt_identity()}, {"$set": {"shoppingList": user["shoppingList"]}})
     return user["shoppingList"]
 
+@app.route('/Checkout', methods=["POST"])  # index of item
+@jwt_required()
+def Checkout():
+    user=userData.find_one({"name": get_jwt_identity()})
+    isAdded=False
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+    for eachItem in user["shoppingList"]:
+        isAdded=False
+        for ingredient in user["inventory"]:
+            if ingredient["ingredient"] == eachItem["ingredient"]:
+                if ingredient["unit"] == eachItem["unit"]:
+                    ingredient["quantity"] += eachItem["quantity"]
+                elif ingredient["unit"] == None or eachItem["unit"] == None:
+                    user["inventory"].append(eachItem)
+                else:
+                    ingredient["quantity"] += unitConversion(eachItem, ingredient["unit"])
+                isAdded=True
+        if isAdded == False:
+            user["inventory"].append(eachItem)
+    
+    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+    userData.update_one({"name": get_jwt_identity()}, {"$set": {"shoppingList": []}})
 
+    return user["inventory"]
 
 
 @app.route('/addRecipe', methods=["POST"])
@@ -207,21 +231,23 @@ def add_item():
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
-    for ingredient in user["inventory"] :
-        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
-            if ingredient["unit"] == item["unit"]:
-                ingredient["quantity"]+=item["quantity"]
-                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
-                return {"message": "item exists, adding q"}
-            elif ingredient["unit"]=="" or item["unit"]=="":
-                break #add as seperate entity
-            else:
-                if unitConversion(item, ingredient["unit"]) == 0:
-                    break
-                ingredient["quantity"] =  ingredient["quantity"]+ float(unitConversion(item, ingredient["unit"]))
-                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
-                return {"message": "item exists, adding q in converted units"}
-
+    if user["inventory"] is not None:
+        for ingredient in user["inventory"] :
+            if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+                if ingredient["unit"] == item["unit"]:
+                    ingredient["quantity"]+=item["quantity"]
+                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    return {"message": "item exists, adding q"}
+                elif ingredient["unit"]=="" or item["unit"]=="":
+                    break #add as seperate entity
+                else:
+                    if unitConversion(item, ingredient["unit"]) == 0:
+                        break
+                    ingredient["quantity"] =  ingredient["quantity"]+ float(unitConversion(item, ingredient["unit"]))
+                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    return {"message": "item exists, adding q in converted units"}
+    else:
+        user["inventory"]=[]
     user["inventory"].append(item) #add item as seperate entity
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
     return {"message":"item didnt exist, adding new item"}
@@ -234,7 +260,10 @@ def addList():
         "quantity": float(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "fridge": request.json.get("fridge", None),
+        "date":None
     }
+    if "unit" not in item:
+        item["unit"]=""
     if item["fridge"] == "false" or item["fridge"] == "False":
         item["fridge"]=False
     else:
@@ -244,18 +273,21 @@ def addList():
     user=userData.find_one({"name": get_jwt_identity()})
     if user is  None:
         return {"msg": "Account Error: Please Sign In"}, 401
-    for ingredient in user["shoppingList"] :
-        if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
-            if ingredient["unit"] == item["unit"]:
-                ingredient["quantity"]+=item["quantity"]
-                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
-                return {"message": "item exists, adding q"}
-            elif ingredient["unit"] == "" or item["unit"] == "":
-                break #add as seperate entity
-            else:
-                ingredient["quantity"] += unitConversion(item, ingredient["unit"]) 
-                userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
-                return {"message": "item exists, adding q in converted units"}
+    if user["shoppingList"] is not None:
+        for ingredient in user["shoppingList"] :
+            if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+                if ingredient["unit"] == item["unit"]:
+                    ingredient["quantity"]+=item["quantity"]
+                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    return {"message": "item exists, adding q"}
+                elif ingredient["unit"] == "" or item["unit"] == "":
+                    break #add as seperate entity
+                else:
+                    ingredient["quantity"] += unitConversion(item, ingredient["unit"]) 
+                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    return {"message": "item exists, adding q in converted units"}
+    else:
+        user["shoppingList"]=[]
     user["shoppingList"].append(item)
     
     userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})

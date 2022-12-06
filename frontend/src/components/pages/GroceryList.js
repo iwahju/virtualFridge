@@ -1,4 +1,5 @@
 import "./grocerylist.css";
+import { Link, useNavigate, withRouter } from "react-router-dom";
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,10 +9,31 @@ import { List, ListItem, ListItemText, Stack } from "@mui/material";
 
 
 function GroceryList(props) {
+  const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
   const [isProfileLoaded, setProfileLoaded] = useState(false);
 
+  const handleCheckout = (e) => {
+    axios({
+      method: "POST",
+      url: "/Checkout",
+      headers: {
+          Authorization: `Bearer  ${props.token}`,
+      },
+  }).then((response) => {
+      console.log(response)
+      setProfileLoaded(false)
+      navigate("/home");
+  }).catch((error) => {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+    })
+    
+  };
 
   useEffect(() => {
     console.log(isProfileLoaded)
@@ -81,6 +103,12 @@ function GroceryList(props) {
             Grocery List
           </div>
 
+          <div className="createcheckoutbuttoncontainer">
+              <div className="createcheckoutbutton" onClick={handleCheckout} >
+                Checkout
+                </div> 
+            </div>
+
           <div className="grocerylist-content">
             
               {profile !=null &&
@@ -90,6 +118,9 @@ function GroceryList(props) {
 
 
             <GroceryListButton token={props.token}  setProfileLoaded= {setProfileLoaded}/>
+
+
+            
 
           </div>
         </div>
