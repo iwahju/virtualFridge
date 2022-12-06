@@ -1,20 +1,21 @@
 
 
 .createbutton {
-    font-size: 20px;
+    font-size: 18px;
     display: center;
     align-items: center;
     justify-content: center;
 }
 .createbuttoncontainer {
     background-color: rgb(147, 180, 147);
-    height: 3rem;
-    width: 50%;
-    border-radius: 25px;
+    height: 2rem;
+    width: 12%;
+    border-radius: 5px;
     justify-content: center;
     align-items: center;
     display: flex;
     position: relative;
-    top: 85%;
-    left: 25%;
+    top: -10%;
+    left: 44%;
+
 }
