@@ -212,7 +212,25 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     })
   };
   const handleAddToList = (recipe, e) => {
-    console.log(recipe.steps)
+      console.log(recipe.ingredients)
+      axios({
+        method: "POST",
+        url: "/planRecipe",
+        data: {
+          "data":recipe.ingredients
+        },
+        headers: {
+            Authorization: `Bearer  ${props.token}`,
+        },
+    }).then((response) => {
+        console.log(response)
+    }).catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      })
   };
 
   const handleFormClear = () => {
@@ -552,11 +570,21 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                     <span size="small">
                                       {recipeItem.steps.map(
                                         (step) => {
-                                          return (
-                                            <div>
-                                              <span>{step.toString()}</span>
+                                          if(step.toString()=="[object Object]"){
+                                            return (
+                                              <div>
+                                              <span>{step["text"]}</span>
                                             </div>
-                                          );
+                                            );
+                                          }
+                                          else{
+                                            return (
+                                              <div>
+                                                <span>{step.toString()}</span>
+                                              </div>
+                                            );
+                                          }
+                                          
                                         }
                                       )}
                                     </span>

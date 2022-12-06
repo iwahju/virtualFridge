@@ -110,6 +110,25 @@ def get_recipes():
     # print(response)
     return response
 
+@app.route('/planRecipe', methods=["POST"]) #put recipe ingredients to shopping cart
+@jwt_required()
+def planRecipe():
+    data = request.json.get("data", None)
+    user=userData.find_one({"name": get_jwt_identity()})
+    if user is  None:
+        return {"msg": "Account Error: Please Sign In"}, 401
+    for each in data:
+        item=each
+        item["date"] = None   #This should be able to hardcode it as a "null" string
+        item["fridge"] = True   #default as True, as we otherwise don't know and we probably don't want another popup
+        item["ingredient"]=item["name"]
+        item["name"]=None
+        user["shoppingList"].append(item)
+
+    userData.update_one({"name": get_jwt_identity()}, {"$set": {"shoppingList": user["shoppingList"]}})
+    return user["shoppingList"]
+
+
 
 
 @app.route('/addRecipe', methods=["POST"])
