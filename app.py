@@ -101,6 +101,8 @@ def get_recipes():
     response = list(recipeData.find({}, { "_id": 0}))
     for item in response:
         for component in item["ingredients"]:
+            if "unit" not in component:
+                component["unit"]=""
             if component["unit"]!="":
                 component["unit"]=str(component["unit"])+"s"
             if component["unit"]=="Nones":
@@ -126,13 +128,16 @@ def addRecipes():
     recipeBook=recipeData.find({}, { "_id": 0})
     for item in recipeBook:
         for component in item["ingredients"]:
+            if "unit" not in component:
+                component["unit"]=""
+            
             if component["unit"]!="":
                 component["unit"]=str(component["unit"])+"s"
             if component["unit"]=="Nones":
                 component["unit"]=""
-    for item in recipeBook:
-        if newRecipe["author"]==item["author"] and newRecipe["name"]==item["name"]:
-            return {"message": "recipe already added"}
+    check = recipeData.find({"$and": [{"name": newRecipe["name"]}, {"author": newRecipe["author"]}]}, { "_id": 0})
+    if len(list(check)) > 0:
+        return {"message": "recipe already added"}
     recipeData.insert_one(newRecipe)
 
     return {"message":"recipe added"}
