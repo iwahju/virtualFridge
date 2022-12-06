@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import axios from "axios";
+import TextField from "@mui/material/TextField";
 
 function ListItemMenu(props) {
     const defaultformstate = {
@@ -59,29 +60,26 @@ function ListItemMenu(props) {
                     <h3> Add Item</h3>
                 </div>
                 <div>
-                    <form className='form' onSubmit={handleFormSubmit}>
+                    <form className='grocery-form' onSubmit={handleFormSubmit}>
 
                         <div className='itemname-container'>
-                            <div className='text-container'>
-                                Item Name
-                            </div>
-                            <div className='form-itemtitle'>
-                                <input
-                                    type='text'
-                                    placeholder='Item'
-
-                                    name="ingredient"
-
-                                    value={formstate.ingredient}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
+                            <TextField
+                                sx={{ width: 350 }}
+                                color="success"
+                                focused
+                                id="standard-basic"
+                                
+                                variant="standard"
+                                name="ingredient"
+                                value={formstate.ingredient}
+                                type="text"
+                                placeholder="'Eggs'"
+                                onChange={handleInputChange}
+                            />
                         </div>
+                       
 
                         <div className='quantity-container'>
-                            <div className='text-container'>
-                                Quantity
-                            </div>
                             <div className='form-itemtitle'>
                                 <input
                                     type='text'
@@ -95,9 +93,7 @@ function ListItemMenu(props) {
                         </div>
 
                         <div className='unit-container'>
-                            <div className='text-container'>
-                                Unit
-                            </div>
+                            
                             <div className='unit-container'>
                                 <Select
 
@@ -169,7 +165,7 @@ function ListItemMenu(props) {
                                 </div>
 
                             </Box>
-                        <button className="submit-button" type='submit'>Add</button>
+                        <button className="grocerysubmit-button" type='submit'>Add</button>
                     </form>
 
                 </div>

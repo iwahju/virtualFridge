@@ -11,26 +11,27 @@
  
 }
 .welcome {
-  background-image: url(./chefbackground1.png);
+  background-image: url(./Welcome.png);
   background-repeat: no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 44vh;
-  margin-top: -15%;
-  margin-left: 10%;
-  
+  width: 130%;
+  height: 60vh;
+  margin-top: 1%;
+  margin-left: 35%;
  
 }
 
 .text {
-  background-image: url(./text.png);
+  background-image: url(./text2.png);
   display: flex;
   width: 95%;
   height: 10vh;
-  margin-top: 0%;
+  margin-top: -7%;
   margin-left: 10%;
+  border: 2px solid;
+  border-color: black;
 }
 
 .storagebox-container1 {
@@ -40,6 +41,9 @@
   align-items: center;
   margin-top: 5%;
   margin-left: 10%;
+  border: 2px solid;
+  border-color: black;
+  background-color: rgb(22, 19, 19);
   
   
 }
@@ -55,12 +59,13 @@
   font-family: "Exo";
   border-radius: 35px;
   font-size: 25px;
-  color:'black';
+  color: rgb(67, 145, 67);
+  margin-top: 4%;
 }
 .storagebox-content1 {
   border:1px ;
     height: 35rem;
-    background-color: #272c28;
+    background-color: #89928b;
     border-radius: 5px;
     width: 200rem;
     margin: 1.5rem;

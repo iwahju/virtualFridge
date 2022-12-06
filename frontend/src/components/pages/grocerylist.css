@@ -1,6 +1,11 @@
+.grocerylist {
+  background-color: #272c28;
+}
+
 .storagebox-container {
   display: flex;
   width: 100vw;
+  height: 100vh;
   justify-content: center;
 }
 .storagebox {
@@ -10,22 +15,21 @@
 }
 
 .storagebox-title {
-  font-family: "Fira Sans Extra Condensed", sans-serif;
-  background-color: #d9d9d9;
+  font-family: "Exo";
+  background-color: transparent;
   padding: 1rem 7rem;
-  border-radius: 35px;
-  border: 1px solid greenyellow;
-  font-size: 22px;
+  font-size: 30px;
+  margin-top: 2%;
 }
 
 .grocerylist-content {
-  border: greenyellow 1px solid;
+  
   height: 30rem;
   background-color: #d9d9d9;
   border-radius: 15px;
-  width: 50rem;
+  width: 80rem;
   margin: 2.5rem;
-  max-width: 33vw;
+  max-width: 80vw;
   scroll-behavior: auto;
 }
 .storagebox-content1 {

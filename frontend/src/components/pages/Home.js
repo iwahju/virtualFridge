@@ -133,11 +133,11 @@ return (
     <div className="storagebox-container1">
       <div className="storagebox">
       <div className="storagebox-title3">
-            My fridge, items: {fridgeItems.length}
+            My fridge | Items: {fridgeItems.length}
           </div>
         <hr 
           style={{
-            width: '30%',
+            width: '50%',
             marginTop: '2%',
           }}
           />
@@ -148,14 +148,15 @@ return (
       <div className="storagebox">
         <div className="storagebox">
         <div className="storagebox-title3">
-              My Pantry, items: {pantryItems.length}
+              My Pantry | Items: {pantryItems.length}
+              <hr 
+                style={{
+                  width: '100%',
+                  marginTop: '2%',
+                }}
+                />
             </div>
-          <hr 
-          style={{
-            width: '30%',
-            marginTop: '2%',
-          }}
-          />
+          
             <Stack className="storagebox-content1" color={'white'}>
               <List>{pantryItems.map(inventoryItem)}</List>
             </Stack>
