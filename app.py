@@ -110,6 +110,22 @@ def get_recipes():
     # print(response)
     return response
 
+@app.route('/userRecipes', methods=["GET"])
+@jwt_required()
+def user_recipes():
+    # get all docs from mongo collection and remove unserializable ID
+    response = list(recipeData.find({"author":get_jwt_identity()}, { "_id": 0}))
+    for item in response:
+        for component in item["ingredients"]:
+            if "unit" not in component:
+                component["unit"]=""
+            if component["unit"]!="":
+                component["unit"]=str(component["unit"])+"s"
+            if component["unit"]=="Nones":
+                component["unit"]=""
+    # print(response)
+    return response
+
 @app.route('/planRecipe', methods=["POST"]) #put recipe ingredients to shopping cart
 @jwt_required()
 def planRecipe():
