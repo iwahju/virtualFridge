@@ -42,7 +42,7 @@ function MyRecipe(props) {
           MY RECIPES
         </div>
       <div className= "recipe-button">
-        <RecipeButton token={props.token}/>
+        <RecipeButton token={props.token} setRecipesLoaded={setRecipesLoaded}/>
       </div> 
       <hr 
       style={{
