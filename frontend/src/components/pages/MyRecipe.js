@@ -41,7 +41,9 @@ function MyRecipe(props) {
        <div className="storagebox-title">
           MY RECIPES
         </div>
-     
+      <div className= "recipe-button">
+        <RecipeButton token={props.token} setRecipesLoaded={setRecipesLoaded}/>
+      </div> 
       <hr 
       style={{
         width: '90%',

@@ -11,7 +11,7 @@ function RecipeButton(props) {
               <div className="createbutton" onClick={showPlus} >
                 Create Recipe
           </div>
-          {plus && <Recipemenu token={props.token} setPlus={setPlus}/>}
+          {plus && <Recipemenu token={props.token} setPlus={setPlus} setRecipesLoaded={props.setRecipesLoaded}/>}
           </div>
   
       )

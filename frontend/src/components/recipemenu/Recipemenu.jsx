@@ -231,6 +231,7 @@ function Recipemenu(props) {
       },
   }).then((response) => {
       console.log(response)
+      props.setRecipesLoaded(false)
   }).catch((error) => {
       if (error.response) {
         console.log(error.response);
