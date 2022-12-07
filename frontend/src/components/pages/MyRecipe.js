@@ -48,7 +48,7 @@ function MyRecipe(props) {
       style={{
         width: '90%',
         marginLeft: '5%',
-        marginTop: '2%',
+        marginTop: '0%',
       }}
       />
       <div className="storagebox1">

@@ -248,8 +248,12 @@ function Recipemenu(props) {
         <div className='recipemenu-inner-container'>
             Create Your Own Recipe
 
-            <div className='recipename-container'>    
+            <div className='recipename-container'>  
+            <div className='text-container'>
+                    Recipe Name
+                  </div>  
                 <TextField
+               
                 id="recipe-name"
                 name="recipe-name"
                 label="Recipe Name"
@@ -261,6 +265,9 @@ function Recipemenu(props) {
             </div>
             
             <div className='time-container'> 
+            <div className='text-container'>
+                    Time to Cook
+                  </div>  
             <div className='form-time'> 
                 <TextField
                 id="recipe-time"
@@ -355,7 +362,10 @@ function Recipemenu(props) {
                 </div>  
                 </div>  
                
-
+                <div className='text-container'>
+                            Ingredients
+                </div>
+                <div className= "ingredients-container">
                 {ingredients.map((ing, idx) => {
           return (
             <div key={idx}>
@@ -454,7 +464,12 @@ function Recipemenu(props) {
         >
           +
         </Button>
-
+        </div>
+        
+        <div className='text-container'>
+              Steps
+        </div>
+        <div className= "steps-container">
         {instructions.map((instr, idx) => {
           return (
             <div key={idx}>
@@ -490,7 +505,7 @@ function Recipemenu(props) {
           +
         </Button>
               
-            
+      </div>     
             
         <div>
                

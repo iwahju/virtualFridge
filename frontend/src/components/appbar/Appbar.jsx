@@ -58,7 +58,7 @@ export default function MenuAppBar({ removeToken, token }) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
         sx={{
-          backgroundColor: "#D6E7AF",
+          backgroundColor: "#225b48",
           fontSize: "15px",
         }}
         position="sticky"
