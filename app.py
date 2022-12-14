@@ -4,12 +4,13 @@ from flask import Flask, request, jsonify
 from datetime import datetime, timedelta, timezone
 from pymongo import MongoClient
 from flask_cors import CORS
-from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, \
-                               unset_jwt_cookies, jwt_required, JWTManager
+from flask_jwt_extended import create_access_token, get_jwt, get_jwt_identity, \
+    unset_jwt_cookies, jwt_required, JWTManager
 
 
 app = Flask(__name__, static_folder='frontend/build', static_url_path='/')
-client = MongoClient('mongodb+srv://andrewg3:Sshdwrnd1@cluster0.sx6hgc8.mongodb.net/test', tlsCAFile=certifi.where())
+client = MongoClient(
+    'mongodb+srv://andrewg3:Sshdwrnd1@cluster0.sx6hgc8.mongodb.net/test', tlsCAFile=certifi.where())
 db = client.test
 recipeData = db.recipeData
 userData = db.users
@@ -18,6 +19,7 @@ cors = CORS(app)
 app.config["JWT_SECRET_KEY"] = "ThisIsASecretFridge:P"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=12)
 jwt = JWTManager(app)
+
 
 @app.after_request
 def refresh_expiring_jwts(response):
@@ -29,46 +31,52 @@ def refresh_expiring_jwts(response):
             access_token = create_access_token(identity=get_jwt_identity())
             data = response.get_json()
             if type(data) is dict:
-                data["access_token"] = access_token 
+                data["access_token"] = access_token
                 response.data = json.dumps(data)
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original respone
         return response
 
+
 @app.route('/token', methods=["POST"])
 def create_token():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
     print(", "+password)
-    user=userData.find_one({"$and": [{"name": username}, {"password": password}]})
-    
+    user = userData.find_one(
+        {"$and": [{"name": username}, {"password": password}]})
+
     if user is None:
         return {"msg": "Wrong username or password"}, 401
 
     access_token = create_access_token(identity=username)
-    response = {"access_token":access_token}
+    response = {"access_token": access_token}
     return response
+
 
 @app.route('/createAccount', methods=["POST"])
 def create_account():
     username = request.json.get("username", None)
     password = request.json.get("password", None)
-    newAcc= {
-        "name":username,
-        "password":password,
-        "inventory":{},
-        "shoppingList":{}   
+    newAcc = {
+        "name": username,
+        "password": password,
+        "inventory": {},
+        "shoppingList": {},
+        "inventory": [],
+        "shoppingList": []
     }
-    user=userData.find_one({"name": username})
+    user = userData.find_one({"name": username})
     if user is not None:
         return {"msg": "That username is taken"}, 401
 
     userData.insert_one(newAcc)
-    
+
     access_token = create_access_token(identity=username)
-    response = {"access_token":access_token}
+    response = {"access_token": access_token}
     return response
+
 
 @app.route("/logout", methods=["POST"])
 def logout():
@@ -80,79 +88,88 @@ def logout():
 @app.route('/profile')
 @jwt_required()
 def my_profile():
-    
-    user=userData.find_one({"name": get_jwt_identity()})
+
+    user = userData.find_one({"name": get_jwt_identity()})
     response_body = {
         "name": get_jwt_identity(),
-        "items" :user["inventory"],
-        "list":user["shoppingList"]
+        "items": user["inventory"],
+        "list": user["shoppingList"]
     }
-    counter=0
+    counter = 0
     for item in response_body["items"]:
-        item["index"]=counter
-        counter=counter+1
+        item["index"] = counter
+        counter = counter+1
 
     return response_body
+
 
 @app.route('/recipes', methods=["GET"])
 @jwt_required()
 def get_recipes():
     # get all docs from mongo collection and remove unserializable ID
-    response = list(recipeData.find({}, { "_id": 0}))
+    response = list(recipeData.find({}, {"_id": 0}))
     for item in response:
         for component in item["ingredients"]:
             if "unit" not in component:
-                component["unit"]=""
-            if component["unit"]!="":
-                component["unit"]=str(component["unit"])+"s"
-            if component["unit"]=="Nones":
-                component["unit"]=""
+                component["unit"] = ""
+            if component["unit"] != "":
+                component["unit"] = str(component["unit"])+"s"
+            if component["unit"] == "Nones":
+                component["unit"] = ""
     # print(response)
     return response
+
 
 @app.route('/userRecipes', methods=["GET"])
 @jwt_required()
 def user_recipes():
     # get all docs from mongo collection and remove unserializable ID
-    response = list(recipeData.find({"author":get_jwt_identity()}, { "_id": 0}))
+    response = list(recipeData.find(
+        {"author": get_jwt_identity()}, {"_id": 0}))
     for item in response:
         for component in item["ingredients"]:
             if "unit" not in component:
-                component["unit"]=""
-            if component["unit"]!="":
-                component["unit"]=str(component["unit"])+"s"
-            if component["unit"]=="Nones":
-                component["unit"]=""
+                component["unit"] = ""
+            if component["unit"] != "":
+                component["unit"] = str(component["unit"])+"s"
+            if component["unit"] == "Nones":
+                component["unit"] = ""
     # print(response)
     return response
 
-@app.route('/planRecipe', methods=["POST"]) #put recipe ingredients to shopping cart
+
+# put recipe ingredients to shopping cart
+@app.route('/planRecipe', methods=["POST"])
 @jwt_required()
 def planRecipe():
     data = request.json.get("data", None)
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for each in data:
-        item=each
-        item["date"] = None   #This should be able to hardcode it as a "null" string
-        item["fridge"] = True   #default as True, as we otherwise don't know and we probably don't want another popup
-        item["ingredient"]=item["name"]
-        item["name"]=None
+        item = each
+        # This should be able to hardcode it as a "null" string
+        item["date"] = None
+        # default as True, as we otherwise don't know and we probably don't want another popup
+        item["fridge"] = True
+        item["ingredient"] = item["name"]
+        item["name"] = None
         user["shoppingList"].append(item)
 
-    userData.update_one({"name": get_jwt_identity()}, {"$set": {"shoppingList": user["shoppingList"]}})
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"shoppingList": user["shoppingList"]}})
     return user["shoppingList"]
+
 
 @app.route('/Checkout', methods=["POST"])  # index of item
 @jwt_required()
 def Checkout():
-    user=userData.find_one({"name": get_jwt_identity()})
-    isAdded=False
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    isAdded = False
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for eachItem in user["shoppingList"]:
-        isAdded=False
+        isAdded = False
         for ingredient in user["inventory"]:
             if ingredient["ingredient"] == eachItem["ingredient"]:
                 if ingredient["unit"] == eachItem["unit"]:
@@ -160,13 +177,16 @@ def Checkout():
                 elif ingredient["unit"] == None or eachItem["unit"] == None:
                     user["inventory"].append(eachItem)
                 else:
-                    ingredient["quantity"] += unitConversion(eachItem, ingredient["unit"])
-                isAdded=True
+                    ingredient["quantity"] += unitConversion(
+                        eachItem, ingredient["unit"])
+                isAdded = True
         if isAdded == False:
             user["inventory"].append(eachItem)
-    
-    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
-    userData.update_one({"name": get_jwt_identity()}, {"$set": {"shoppingList": []}})
+
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"inventory": user["inventory"]}})
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"shoppingList": []}})
 
     return user["inventory"]
 
@@ -174,59 +194,68 @@ def Checkout():
 @app.route('/addRecipe', methods=["POST"])
 @jwt_required()
 def addRecipes():
-    newRecipe={
+    newRecipe = {
         "author": get_jwt_identity(),
         "name": str(request.json.get("name", None)).lower(),
         "time": int(request.json.get("time", None)),
-        "difficulty":int(request.json.get("difficulty", None)),
+        "difficulty": int(request.json.get("difficulty", None)),
         "spiceLevel": request.json.get("spice", None).lower(),
-        "tags":request.json.get("tags", None),
+        "tags": request.json.get("tags", None),
         "ingredients": request.json.get("ingredients", None),
         "steps": request.json.get("instructions", None)
     }
-    recipeBook=recipeData.find({}, { "_id": 0})
+    recipeBook = recipeData.find({}, {"_id": 0})
     for item in recipeBook:
         for component in item["ingredients"]:
             if "unit" not in component:
-                component["unit"]=""
-            
-            if component["unit"]!="":
-                component["unit"]=str(component["unit"])+"s"
-            if component["unit"]=="Nones":
-                component["unit"]=""
-    check = recipeData.find({"$and": [{"name": newRecipe["name"]}, {"author": newRecipe["author"]}]}, { "_id": 0})
+                component["unit"] = ""
+
+            if component["unit"] != "":
+                component["unit"] = str(component["unit"])+"s"
+            if component["unit"] == "Nones":
+                component["unit"] = ""
+    check = recipeData.find({"$and": [{"name": newRecipe["name"]}, {
+                            "author": newRecipe["author"]}]}, {"_id": 0})
     if len(list(check)) > 0:
         return {"message": "recipe already added"}
     recipeData.insert_one(newRecipe)
 
-    return {"message":"recipe added"}
+    return {"message": "recipe added"}
 
-@app.route('/makeRecipe', methods=["POST"]) #make a recipe and use all ingredients (no matter if it is enough or not) that you have in fridge/pantry
+
+# make a recipe and use all ingredients (no matter if it is enough or not) that you have in fridge/pantry
+@app.route('/makeRecipe', methods=["POST"])
 @jwt_required()
 def makeRecipe():
     data = request.json.get("data", None)
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
     for each in data:
         for item in user["inventory"]:
-            if each["name"].lower() == item["ingredient"].lower():      #if item exist in inventory
-                
+            if each["name"].lower() == item["ingredient"].lower():  # if item exist in inventory
+
                 if each["unit"] == item["unit"]:
-                    item["quantity"]-=each["quantity"]
+                    item["quantity"] -= each["quantity"]
                     if item["quantity"] <= 0:
-                        user["inventory"].pop(each["name"]) ##REMOVE ITEM FROM USER INVENTORY
+                        # REMOVE ITEM FROM USER INVENTORY
+                        user["inventory"].pop(each["name"])
                     break
                 elif each["unit"] == "" or item["unit"] == "":
                     break
                 else:
-                    item["quantity"] -= unitConversion(each, item["unit"]) ##MAY HAVE A GLITCH, as data is a recipeName;quantity;unit structure while item is a name;quantity;unit;fridge;date structure
-                    if item["quantity"] <= 0:                              ##IF NOT WORKING, then set else as break and continue on the next for loop iteration
-                        user["inventory"].pop(each["name"]) ##REMOVE ITEM FROM USER INVENTORY
+                    # MAY HAVE A GLITCH, as data is a recipeName;quantity;unit structure while item is a name;quantity;unit;fridge;date structure
+                    item["quantity"] -= unitConversion(each, item["unit"])
+                    # IF NOT WORKING, then set else as break and continue on the next for loop iteration
+                    if item["quantity"] <= 0:
+                        # REMOVE ITEM FROM USER INVENTORY
+                        user["inventory"].pop(each["name"])
                     break
 
-    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"inventory": user["inventory"]}})
     return {"message": "inventory is updated and enjoy cooking!"}
+
 
 @app.route('/addItem', methods=["POST"])
 @jwt_required()
@@ -239,34 +268,39 @@ def add_item():
         "fridge": request.json.get("fridge", None),
     }
     if item["fridge"] == "false" or item["fridge"] == "False":
-        item["fridge"]=False
+        item["fridge"] = False
     else:
-        item["fridge"]=True
-    if item["ingredient"]=="" or item["quantity"]==0:
+        item["fridge"] = True
+    if item["ingredient"] == "" or item["quantity"] == 0:
         return {"msg": "please fill out all fields"}, 401
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
     if user["inventory"] is not None:
-        for ingredient in user["inventory"] :
-            if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+        for ingredient in user["inventory"]:
+            if ingredient["ingredient"] == item["ingredient"] and ingredient["date"] == item["date"]:
                 if ingredient["unit"] == item["unit"]:
-                    ingredient["quantity"]+=item["quantity"]
-                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    ingredient["quantity"] += item["quantity"]
+                    userData.update_one({"name": get_jwt_identity()}, {
+                                        "$set": {"inventory": user["inventory"]}})
                     return {"message": "item exists, adding q"}
-                elif ingredient["unit"]=="" or item["unit"]=="":
-                    break #add as seperate entity
+                elif ingredient["unit"] == "" or item["unit"] == "":
+                    break  # add as seperate entity
                 else:
                     if unitConversion(item, ingredient["unit"]) == 0:
                         break
-                    ingredient["quantity"] =  ingredient["quantity"]+ float(unitConversion(item, ingredient["unit"]))
-                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    ingredient["quantity"] = ingredient["quantity"] + \
+                        float(unitConversion(item, ingredient["unit"]))
+                    userData.update_one({"name": get_jwt_identity()}, {
+                                        "$set": {"inventory": user["inventory"]}})
                     return {"message": "item exists, adding q in converted units"}
     else:
-        user["inventory"]=[]
-    user["inventory"].append(item) #add item as seperate entity
-    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item didnt exist, adding new item"}
+        user["inventory"] = []
+    user["inventory"].append(item)  # add item as seperate entity
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"inventory": user["inventory"]}})
+    return {"message": "item didnt exist, adding new item"}
+
 
 @app.route('/addList', methods=["POST"])
 @jwt_required()
@@ -276,64 +310,73 @@ def addList():
         "quantity": float(request.json.get("quantity", None)),
         "unit": request.json.get("unit", None),
         "fridge": request.json.get("fridge", None),
-        "date":None
+        "date": None
     }
     if "unit" not in item:
-        item["unit"]=""
+        item["unit"] = ""
     if item["fridge"] == "false" or item["fridge"] == "False":
-        item["fridge"]=False
+        item["fridge"] = False
     else:
-        item["fridge"]=True
-    if item["ingredient"]=="" or item["quantity"]==0:
+        item["fridge"] = True
+    if item["ingredient"] == "" or item["quantity"] == 0:
         return {"msg": "please fill out all fields"}, 401
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
     if user["shoppingList"] is not None:
-        for ingredient in user["shoppingList"] :
-            if ingredient["ingredient"]==item["ingredient"] and ingredient["date"]==item["date"]:
+        for ingredient in user["shoppingList"]:
+            if ingredient["ingredient"] == item["ingredient"] and ingredient["date"] == item["date"]:
                 if ingredient["unit"] == item["unit"]:
-                    ingredient["quantity"]+=item["quantity"]
-                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    ingredient["quantity"] += item["quantity"]
+                    userData.update_one({"name": get_jwt_identity()}, {
+                                        "$set": {"inventory": user["inventory"]}})
                     return {"message": "item exists, adding q"}
                 elif ingredient["unit"] == "" or item["unit"] == "":
-                    break #add as seperate entity
+                    break  # add as seperate entity
                 else:
-                    ingredient["quantity"] += unitConversion(item, ingredient["unit"]) 
-                    userData.update_one({"name": get_jwt_identity()}, {"$set": {"inventory": user["inventory"]}})
+                    ingredient["quantity"] += unitConversion(
+                        item, ingredient["unit"])
+                    userData.update_one({"name": get_jwt_identity()}, {
+                                        "$set": {"inventory": user["inventory"]}})
                     return {"message": "item exists, adding q in converted units"}
     else:
-        user["shoppingList"]=[]
+        user["shoppingList"] = []
     user["shoppingList"].append(item)
-    
-    userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
-    return {"message":"item didnt exist, adding new item"}
 
-@app.route('/deleteItem', methods=["POST"]) #index of item
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"shoppingList": user["shoppingList"]}})
+    return {"message": "item didnt exist, adding new item"}
+
+
+@app.route('/deleteItem', methods=["POST"])  # index of item
 @jwt_required()
 def deleteItem():
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
 
     user["inventory"].pop(int(request.json.get("index", None)))
-    
-    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item successfully deleted"}
 
-@app.route('/deleteList', methods=["POST"]) #index of item
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"inventory": user["inventory"]}})
+    return {"message": "item successfully deleted"}
+
+
+@app.route('/deleteList', methods=["POST"])  # index of item
 @jwt_required()
 def deleteList():
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please Sign In"}, 401
 
     user["shoppingList"].pop(int(request.json.get("index", None)))
-    
-    userData.update_one({"name": get_jwt_identity()},{ "$set": { "shoppingList": user["shoppingList"]}})
-    return {"message":"item successfully deleted" }
 
-@app.route('/editItem', methods=["POST"] ) #values of item, index of item
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"shoppingList": user["shoppingList"]}})
+    return {"message": "item successfully deleted"}
+
+
+@app.route('/editItem', methods=["POST"])  # values of item, index of item
 @jwt_required()
 def editItem():
     item = {
@@ -343,28 +386,31 @@ def editItem():
         "date": request.json.get("date", None),
         "fridge": request.json.get("fridge", None),
     }
-    if item["fridge"] == "false" or item["fridge"] == "False" :
-        item["fridge"]=False
+    if item["fridge"] == "false" or item["fridge"] == "False":
+        item["fridge"] = False
     else:
-        item["fridge"]=True
-    user=userData.find_one({"name": get_jwt_identity()})
-    if user is  None:
+        item["fridge"] = True
+    user = userData.find_one({"name": get_jwt_identity()})
+    if user is None:
         return {"msg": "Account Error: Please `Sign In"}, 401
-    oldItem=user["inventory"][int(request.json.get("index", None))]
-    user["inventory"][int(request.json.get("index", None))]=item
+    oldItem = user["inventory"][int(request.json.get("index", None))]
+    user["inventory"][int(request.json.get("index", None))] = item
 
-    userData.update_one({"name": get_jwt_identity()},{ "$set": { "inventory": user["inventory"]}})
-    return {"message":"item edited successfully"}
+    userData.update_one({"name": get_jwt_identity()}, {
+                        "$set": {"inventory": user["inventory"]}})
+    return {"message": "item edited successfully"}
+
 
 @app.route('/addShoppingCart')
 @jwt_required()
 def addShoppingCart():
-    user=userData.find_one({"name": get_jwt_identity()})
-    items=user["shoppingList"]
+    user = userData.find_one({"name": get_jwt_identity()})
+    items = user["shoppingList"]
     for ingredient in items:
-        i=0
+        i = 0
 
     return 0
+
 
 @app.route('/')
 @app.route('/home')
@@ -376,12 +422,15 @@ def serve_static():
     return app.send_static_file('index.html')
 
 # takes an ingredient and the unit that we want to convert to. this unit must be passed as a string
+
+
 def unitConversion(ingredient, unit):
     if ingredient['unit'] == "" or ingredient['unit'] == unit:
         return 0
     quantity = ingredient['quantity']
     dryWeights = ['grams', 'kilograms', 'pounds', 'ounces']
-    wetWeights = ['gallons', 'quarts', 'pints', 'cups', 'fluid ounces', 'tablespoons', 'teaspoons', 'liters', 'milliliters']
+    wetWeights = ['gallons', 'quarts', 'pints', 'cups', 'fluid ounces',
+                  'tablespoons', 'teaspoons', 'liters', 'milliliters']
 
     if ingredient['unit'] in dryWeights and unit in dryWeights:
         if ingredient['unit'] == 'kilograms':
