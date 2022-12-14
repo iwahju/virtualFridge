@@ -57,8 +57,8 @@ def create_account():
     newAcc= {
         "name":username,
         "password":password,
-        "inventory":{},
-        "shoppingList":{}   
+        "inventory":[],
+        "shoppingList":[]   
     }
     user=userData.find_one({"name": username})
     if user is not None:
