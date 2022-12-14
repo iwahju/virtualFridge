@@ -1,6 +1,8 @@
 import "./home.css";
 import React, { useEffect, useState } from "react";
 import PlusButton from "../plusbutton/Plusbutton";
+
+import EditMenu from "../editmenu/Editmenu";
 import { Box } from "@mui/system";
 import axios from "axios";
 import {GoAlert} from 'react-icons/go'
@@ -16,15 +18,19 @@ import { List, ListItem, ListItemText, Stack } from "@mui/material";
 
 function Home(/** @type {/** @type {{setToken,}}*/ props) {
 
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfile] = useState({});
   const [pantryItems, setPantryItems] = useState([]);
   const [fridgeItems, setFridgeItems] = useState([]);
+  const [editedIndex,setEditedIndex] = useState(-1);
+  const [editedComponent,setEditedComponent] = useState(null);
   const [isProfileLoaded,setProfileLoaded] = useState(false);
+
 
 
   useEffect(() => {
     console.log(isProfileLoaded)
     if (isProfileLoaded === false) {
+      
       axios({
         method: "GET",
         url: "/profile",
@@ -32,8 +38,12 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
           Authorization: `Bearer  ${props.token}`,
         },
       }).then((response) => {
-      setProfile(response.data);
-    }).then(() => { setProfileLoaded (true)})
+        console.log(response.data)
+        setProfile(response.data);
+        
+    }).then(() => { 
+      setProfileLoaded (true)
+    })
     // console.log(profile);
     try {
       setPantryItems(
@@ -46,10 +56,38 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
       catch(e){
         console.log("empty fridge")
       }
-    } 
-    }, [profile]);
+    }  
+    }, [isProfileLoaded,profile]);
 
-  console.log({ fridgeItems, pantryItems });
+    const DeleteItem = (index, e) => {
+      console.log(index)
+
+      axios({
+        method: "POST",
+        url: "/deleteItem",
+        data: {"index":index},
+        headers: {
+          Authorization: `Bearer  ${props.token}`,
+        },
+      }).then((response) => {
+        console.log(response)
+        setProfileLoaded(false)
+      }).catch((error) => {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      )
+    }
+
+    const EditItem = (item, e) => {
+      console.log(item)
+      setEditedIndex(item["index"]);
+      setEditedComponent(item);
+      console.log(editedIndex)
+      
+    }
+
   const renderComingSoon = (date) => {
     const currentDate = new Date();
     const dateObject = new Date(date);
@@ -66,44 +104,30 @@ function Home(/** @type {/** @type {{setToken,}}*/ props) {
   const inventoryItem = (item, index) => (
     <ListItem key={item.ingredient + "__" + index}>
       <ListItemText>{item.ingredient}{renderComingSoon(item.date)}</ListItemText>
+      <ListItemText>{item.quantity} {item.unit}</ListItemText>
       <ListItemText>{item.date}</ListItemText>
+      <button
+                      onClick={() => DeleteItem(item["index"])}
+                      className="btn btn-info"
+                    >
+                      delete{" "}
+                    </button>
+                    <button
+                      onClick={() => EditItem(item)}
+                      className="btn btn-info"
+                    >
+                      edit{" "}
+                    </button>
     </ListItem>
   );
-
-//   return (
-//     <div className="home">
-//       <div className="storagebox-container">
-//         <div className="storagebox">
-//           <div className="storagebox-title">
-//             My fridge, items: {fridgeItems.length}
-//           </div>
-//           <Stack className="storagebox-content">
-//             <List>{fridgeItems.map(inventoryItem)}</List>
-//           </Stack>
-//         </div>
-//         <div className="storagebox">
-//           <div className="storagebox">
-//             <div className="storagebox-title">
-//               My Pantry, items: {pantryItems.length}
-//             </div>
-//             <Stack className="storagebox-content">
-//               <List>{pantryItems.map(inventoryItem)}</List>
-//             </Stack>
-//           </div>
-//         </div>
-//         <PlusButton />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Home;
 
 return (
   <div className="home">
     <div className= "welcome"></div>
     <div className= "text">
-    <PlusButton token={props.token}/>
+      <div className= "plusButton">
+      <PlusButton token={props.token} setProfileLoaded={setProfileLoaded}/>
+      </div>
     </div>
     
     <div className="storagebox-container1">
@@ -137,7 +161,9 @@ return (
             </Stack>
         </div>
       </div>
-     
+      {editedIndex!=-1 && <EditMenu token={props.token} data={editedComponent} setEditedIndex={setEditedIndex} setProfileLoaded={setProfileLoaded}/>}
+      
+      
     </div>
   </div>
 );

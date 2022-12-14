@@ -168,13 +168,13 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
         if (userVegan && !lowercaseTags.includes("vegan")) {
           return false;
         }
-        if (userDairy && !lowercaseTags.includes("dairy free")) {
+        if (userDairy && !lowercaseTags.includes("dairy")) {
           return false;
         }
-        if (userGluten && !lowercaseTags.includes("gluten free")) {
+        if (userGluten && !lowercaseTags.includes("gluten")) {
           return false;
         }
-        if (userNut && !lowercaseTags.includes("nut free")) {
+        if (userNut && !lowercaseTags.includes("nut")) {
           return false;
         }
       }
@@ -190,6 +190,49 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
   };
 
   // set search form and recipes to default
+  const handleCook = (recipe, e) => {
+    console.log(recipe.ingredients)
+    axios({
+      method: "POST",
+      url: "/makeRecipe",
+      data: {
+        "data":recipe.ingredients
+      },
+      headers: {
+          Authorization: `Bearer  ${props.token}`,
+      },
+  }).then((response) => {
+      console.log(response)
+  }).catch((error) => {
+      if (error.response) {
+        console.log(error.response);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+    })
+  };
+  const handleAddToList = (recipe, e) => {
+      console.log(recipe.ingredients)
+      axios({
+        method: "POST",
+        url: "/planRecipe",
+        data: {
+          "data":recipe.ingredients
+        },
+        headers: {
+            Authorization: `Bearer  ${props.token}`,
+        },
+    }).then((response) => {
+        console.log(response)
+    }).catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      })
+  };
+
   const handleFormClear = () => {
     setSearchFormState(defaultSearchFormState);
     setFilteredRecipes(allRecipes);
@@ -202,6 +245,8 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
     return (
       <Link to={`/findrecipe/${route}`}>
         <ListItem key={item.data + "__" + index}>
+
+          <ListItemText>{item.author}</ListItemText>
           <ListItemText>{item.name}</ListItemText>
           <ListItemText>{item.difficulty}</ListItemText>
           <ListItemText>{item.time + "min "}</ListItemText>
@@ -478,20 +523,33 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                   aria-label="show more"
                                 >
                                   <ExpandMoreIcon />
+                                  
                                 </ExpandMore>
+                                
                               </CardActions>
+                              <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={() => {handleCook(recipeItem)}}
+                                  >
+                                    Cook
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    color="success"
+                                    type="button"
+                                    onClick={() => {handleAddToList(recipeItem)}}
+                                  >
+                                    Add to Cart
+                                  </Button>
                               <Collapse
                                 in={expanded}
                                 timeout="auto"
                                 unmountOnExit
                               >
                                 <CardContent>
-                                  <Typography>
-                                    Steps: {recipeItem.steps}
-                                  </Typography>
-                                  <Typography>
-                                    Ingredients: {recipeItem.inventory}
-                                  </Typography>
+                                  
                                   <Typography>
                                     <span size="small">
                                       {recipeItem.ingredients.map(
@@ -500,7 +558,7 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                             <div>
                                               <span>{ingredient.name}</span>
                                               <span>
-                                                Quantity: {ingredient.quantity}
+                                                Quantity: {ingredient.quantity} {ingredient.unit}
                                               </span>
                                             </div>
                                           );
@@ -508,6 +566,31 @@ function FindRecipe(/** @type {{setToken,}}*/ props) {
                                       )}
                                     </span>
                                   </Typography>
+                                  <Typography>
+                                    <span size="small">
+                                      {recipeItem.steps.map(
+                                        (step) => {
+                                          if(step.toString()=="[object Object]"){
+                                            return (
+                                              <div>
+                                              <span>{step["text"]}</span>
+                                            </div>
+                                            );
+                                          }
+                                          else{
+                                            return (
+                                              <div>
+                                                <span>{step.toString()}</span>
+                                              </div>
+                                            );
+                                          }
+                                          
+                                        }
+                                      )}
+                                    </span>
+                                  </Typography>
+                                  
+                                  
                                 </CardContent>
                               </Collapse>
                             </div>
